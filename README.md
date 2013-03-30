@@ -1,4 +1,8 @@
 ##How to use
+**Include `class.SidebarGenerator.php` in `functions.php`**
+```php
+require_once (get_template_directory_uri().'/class.SidebarGenerator.php');
+```
 
 **Get all sidebars in an array**
 ```php
