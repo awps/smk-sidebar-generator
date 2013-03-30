@@ -5,7 +5,8 @@
   * Version     : 1.0
   * Last edit   : March 7, 2013 2:55PM
   * Author      : Smartik - http://smartik.ws/
-  * Credits     : This plugin was originally created by Kyle Getson - http://www.kylegetson.com/ 
+  * Credits     : This plugin was originally created by Kyle Getson - http://www.kylegetson.com/
+  * License     : GPLv2
   */
 
 
