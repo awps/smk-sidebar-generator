@@ -345,10 +345,14 @@ class SidebarGenerator {
 			}
 			
 			$generated_sidebars = SidebarGenerator::get_sidebars();
-			$all_sidebars 		= array_merge( 
-										array_combine($sidebars_name, $sidebars_name), 
-										array_combine($generated_sidebars, $generated_sidebars)
-								  );
+			if($sidebars_name || $generated_sidebars){
+				$all_sidebars 		= array_merge( 
+											array_combine($sidebars_name, $sidebars_name), 
+											array_combine($generated_sidebars, $generated_sidebars)
+									  );
+			} else {
+				$all_sidebars = array('No sidebars');
+			}
 			//$all_sidebars 		= array_combine($sidebars_name, $sidebars_name);
 			
 		endif;
