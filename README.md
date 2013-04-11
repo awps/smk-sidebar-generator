@@ -34,7 +34,7 @@ echo '</select>';
 smk_custom_dynamic_sidebar('Sidebar Name');
 ```
 
-**Disaply a sidebar using shortcodes**
+**Display a sidebar using shortcodes**
 ```php
 [smk_sidebar name="Sidebar Name"]
 ```
