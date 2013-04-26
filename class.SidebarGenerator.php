@@ -1,12 +1,11 @@
 <?php
 /**
-  * Name        : Custom Sidebars Generator
-  * Description : This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish. This is a modified version of "Sidebars Generator" plugin by Kyle Getson. http://wordpress.org/extend/plugins/sidebar-generator/
-  * Version     : 1.0
-  * Last edit   : March 7, 2013 2:55PM
-  * Author      : Smartik - http://smartik.ws/
-  * Credits     : This plugin was originally created by Kyle Getson - http://www.kylegetson.com/
-  * License     : GPLv2
+  * Name 			: Custom Sidebars Generator
+  * Description 	: This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish. This is a modified version of "Sidebars Generator" plugin by Kyle Getson. http://wordpress.org/extend/plugins/sidebar-generator/
+  * Version 		: 1.0.1
+  * Last edit 		: April 26, 2013 12:01
+  * Author 			: Smartik - http://smartik.ws/
+  * Credits 		: This plugin was originally created by Kyle Getson - http://www.kylegetson.com/ 
   */
 
 
@@ -338,18 +337,36 @@ class SidebarGenerator {
 		
 		if ( $wp_registered_sidebars && ! is_wp_error( $wp_registered_sidebars ) ) : 
 			
-			$sidebars_name 	= array();
+			$sidebars_name = $generated_sidebars = array();
 			
 			foreach ( $wp_registered_sidebars as $sidebar ) {
 				$sidebars_name[] 	= $sidebar['name']; 	//get sidebar name
 			}
 			
 			$generated_sidebars = SidebarGenerator::get_sidebars();
+
 			if($sidebars_name || $generated_sidebars){
-				$all_sidebars 		= array_merge( 
+
+				if($sidebars_name && $generated_sidebars)
+				{
+					$all_sidebars 	= array_merge( 
 											array_combine($sidebars_name, $sidebars_name), 
 											array_combine($generated_sidebars, $generated_sidebars)
 									  );
+				}
+				else if($sidebars_name && ! $generated_sidebars)
+				{
+					$all_sidebars 	= array_combine($sidebars_name, $sidebars_name);
+				}
+				else if($generated_sidebars && ! $sidebars_name)
+				{
+					$all_sidebars 	= array_combine($generated_sidebars, $generated_sidebars);
+				}
+				else
+				{
+					$all_sidebars = array('No sidebars');
+				}
+
 			} else {
 				$all_sidebars = array('No sidebars');
 			}
