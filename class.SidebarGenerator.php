@@ -2,8 +2,8 @@
 /**
   * Name 			: Custom Sidebars Generator
   * Description 	: This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish. This is a modified version of "Sidebars Generator" plugin by Kyle Getson. http://wordpress.org/extend/plugins/sidebar-generator/
-  * Version 		: 1.0.1
-  * Last edit 		: April 26, 2013 12:01
+  * Version 		: 1.0.2
+  * Last edit 		: May 08, 2013 18:08
   * Author 			: Smartik - http://smartik.ws/
   * Credits 		: This plugin was originally created by Kyle Getson - http://www.kylegetson.com/ 
   */
@@ -89,7 +89,7 @@ class SidebarGenerator {
 				  	mysack.setVar( "sidebar_name", sidebar_name );
 				  	mysack.setVar( "row_number", num );
 				  	mysack.encVar( "cookie", document.cookie, false );
-				  	mysack.onError = function() { alert('Ajax error. Cannot add sidebar' )};
+				  	mysack.onError = function() { alert('Ajax error. Cannot remove sidebar. Try to remove it after page reload.' )};
 				  	mysack.runAJAX();
 					//alert('hi!:::'+sidebar_name);
 					return true;
@@ -107,10 +107,17 @@ class SidebarGenerator {
 	 */
 	function add_sidebar(){
 		$sidebars = SidebarGenerator::get_sidebars();
-		$name = str_replace(array("\n","\r","\t"),'',$_POST['sidebar_name']);
+		$name = trim( str_replace(array("\n","\r","\t"),'',$_POST['sidebar_name']) );
 		$id = SidebarGenerator::name_to_class($name);
+		
 		if(isset($sidebars[$id])){
 			die("alert('Sidebar already exists, please use a different name.')");
+		}
+		if($name == 'null'){
+			die();
+		}
+		elseif($name == ''){
+			die("alert('Please specify a name for this sidebar.')");
 		}
 		
 		$sidebars[$id] = $name;
@@ -150,14 +157,10 @@ class SidebarGenerator {
       		cellLeft.setAttribute('style', 'padding-top: 10px; padding-bottom: 10px;background:#FFE4E8;');
 			
 			//last cell
-			//var cellLeft = row.insertCell(3);
-			//var textNode = document.createTextNode('[<a href=\'javascript:void(0);\' onclick=\'return remove_sidebar_link($name);\'>Remove</a>]');
-			//cellLeft.appendChild(textNode)
-			
 			var cellLeft = row.insertCell(3);
 			removeLink = document.createElement('a');
       		linkText = document.createTextNode('remove');
-			removeLink.setAttribute('onclick', 'remove_sidebar_link(\'$name\')');
+			removeLink.setAttribute('onclick', 'return remove_sidebar_link(\'$name\')');
 			removeLink.setAttribute('href', 'javacript:void(0)');
 			removeLink.setAttribute('style', 'font-weight: 700; color: #D50020');
         
