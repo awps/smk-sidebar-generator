@@ -2,8 +2,8 @@
 /**
   * Name 			: Custom Sidebars Generator
   * Description 	: This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish. This is a modified version of "Sidebars Generator" plugin by Kyle Getson. http://wordpress.org/extend/plugins/sidebar-generator/
-  * Version 		: 1.0.2
-  * Last edit 		: May 08, 2013 18:08
+  * Version 		: 1.0.3
+  * Last edit 		: May 08, 2013 18:49
   * Author 			: Smartik - http://smartik.ws/
   * Credits 		: This plugin was originally created by Kyle Getson - http://www.kylegetson.com/ 
   */
@@ -157,11 +157,15 @@ class SidebarGenerator {
       		cellLeft.setAttribute('style', 'padding-top: 10px; padding-bottom: 10px;background:#FFE4E8;');
 			
 			//last cell
+
+			var rowc = document.getElementById('sbg_table').rows.length;
+			rowc = parseInt(rowc-1);
+			
 			var cellLeft = row.insertCell(3);
 			removeLink = document.createElement('a');
       		linkText = document.createTextNode('remove');
-			removeLink.setAttribute('onclick', 'return remove_sidebar_link(\'$name\')');
-			removeLink.setAttribute('href', 'javacript:void(0)');
+			removeLink.setAttribute('onclick', 'return remove_sidebar_link(\'$name\','+rowc+');return false;');
+			removeLink.setAttribute('href', 'javascript:void(0)');
 			removeLink.setAttribute('style', 'font-weight: 700; color: #D50020');
         
       		removeLink.appendChild(linkText);
