@@ -168,8 +168,6 @@ class SidebarGenerator {
       		cellLeft.appendChild(removeLink);
 			
       		cellLeft.setAttribute('style', 'padding-top: 10px; padding-bottom: 10px;background:#FFE4E8;');
-
-			
 		";
 		
 		
