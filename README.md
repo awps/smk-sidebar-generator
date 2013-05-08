@@ -46,7 +46,7 @@ smk_custom_dynamic_sidebar('Sidebar Name');
 [smk_sidebar name="Sidebar Name"]
 ```
 ##Known bugs
-* User cannot delete a just created sidebar. To do thsi it should reload the page.(Hope to fix this soon)
+* User cannot delete a just created sidebar. To do this, it should reload the page.(Hope to fix this soon)
 
 ##Changelog 
 **v1.0.2 - May 08, 2013**
