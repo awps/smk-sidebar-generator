@@ -49,10 +49,10 @@ smk_custom_dynamic_sidebar('Sidebar Name');
 ```
 
 ##TO DO:
-*Add an option on page/post edit screen.
-*Sortable sidebars - select the position for any sidebar by drag-n-drop
-*Add default sidebars in list, without "remove" button
-*Layout/column manager(not sure how this should be :P )
+* Add an option on page/post edit screen.
+* Sortable sidebars - select the position for any sidebar by drag-n-drop
+* Add default sidebars in list, without "remove" button
+* Layout/column manager(not sure how this should be :P )
 
 ##Changelog 
 **v1.0.3 - May 08, 2013**
