@@ -1,9 +1,11 @@
 ##Custom Sidebars Generator
-This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish. This is a modified version of "Sidebars Generator" plugin by Kyle Getson. http://wordpress.org/extend/plugins/sidebar-generator/
+This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish. This is a modified version of "Sidebar Generator" plugin by Kyle Getson. http://wordpress.org/extend/plugins/sidebar-generator/
 * Current version : **1.0.3**
 * Last edit : May 08, 2013 18:49
 * Author : Smartik - http://smartik.ws/
-* Credits : This plugin was originally created by Kyle Getson - http://www.kylegetson.com/ 
+* Credits : This is a modified version of "Sidebar Generator" plugin by Kyle Getson. - http://www.kylegetson.com/
+ 
+**Note:** This is not a plugin, it's a piece of code for theme developers.
 
 ##How to use
 **Include `class.SidebarGenerator.php` in `functions.php`**
