@@ -5,7 +5,7 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 * Author : Smartik - http://smartik.ws/
 * Credits : This is a modified version of "Sidebar Generator" plugin by Kyle Getson. - http://www.kylegetson.com/
  
-**Note:** This is not a plugin, it's a piece of code for theme developers.
+**Note:** This is not a plugin, it's a piece of code for theme developers!
 
 ##How to use
 **Include `class.SidebarGenerator.php` in `functions.php`**
