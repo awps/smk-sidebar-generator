@@ -54,16 +54,5 @@ smk_custom_dynamic_sidebar('Sidebar Name');
 * Add default sidebars in list, without "remove" button
 * Layout/column manager(not sure how this should be :P )
 
-##Changelog 
-**v1.0.3 - May 08, 2013**
-* Bug Fix: User can now delete a just created sidebar.
-
-**v1.0.2 - May 08, 2013**
-* Fix: Do some checks before adding a new sidebar.
-* Display the right message when the user can not delete a sidebar.
-
-**v1.0.1 - Apr 26, 2013**
-* Fix: User get warnings if sidebars were not created yet.
-
-**v1.0 - Mar 30, 2013**
-* First release
+##Releases and Changelog 
+https://github.com/Smartik89/Wordpress-Sidebar-Generator/releases
