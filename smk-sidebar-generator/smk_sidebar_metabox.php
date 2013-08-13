@@ -136,7 +136,7 @@ class SMK_Sidebar_Metabox {
 		----------------------------------------------*/
 		$the_sidebars = SMK_Sidebar_Generator::get_all_sidebars();
 		if( is_array($the_sidebars) ){
-			$select_str = __('-- Select a sidebar --');
+			$select_str = __('-- Select a sidebar --', 'smk_sbg');
 			$the_sidebars = array_merge( array( '' => $select_str ), $the_sidebars );
 		}
 
