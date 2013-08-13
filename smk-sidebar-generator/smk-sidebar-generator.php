@@ -302,7 +302,7 @@ new SMK_Sidebar_Generator();
 Function
 ----------------------------------------------------------------------
 */
-function smk_custom_dynamic_sidebar($id){
+function smk_sidebar($id){
 	if(function_exists('dynamic_sidebar') && dynamic_sidebar($id)) : 
 	endif;
 	return true;
@@ -320,7 +320,7 @@ function smk_sidebar_shortcode( $atts ) {
 		'id' => null,
 	), $atts ) );
 
-	smk_custom_dynamic_sidebar('smk_sbg_' . $id);
+	smk_sidebar('smk_sbg_' . $id);
 
 }
 add_shortcode( 'smk_sidebar', 'smk_sidebar_shortcode' );

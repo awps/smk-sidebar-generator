@@ -1,7 +1,7 @@
 jQuery.noConflict();
 jQuery(document).ready(function($){
 
-	var popups = $('.smk_sbg_message');;
+	var popups = $('.smk_sbg_message');
 
 	/*
 	------------------------------------------------------
