@@ -1,58 +1,14 @@
 ##Custom Sidebars Generator
-This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish. This is a modified version of "Sidebar Generator" plugin by Kyle Getson. http://wordpress.org/extend/plugins/sidebar-generator/
-* Current version : **1.0.3**
-* Last edit : May 08, 2013 18:49
+This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
+* Current version : **2.0 beta**
+* Last edit : August 13, 2013 20:14
 * Author : Smartik - http://smartik.ws/
-* Credits : This is a modified version of "Sidebar Generator" plugin by Kyle Getson. - http://www.kylegetson.com/
  
-**Note:** This is not a plugin, it's a piece of code for theme developers!
-
-##How to use
-**Include `class.SidebarGenerator.php` in `functions.php`**
-```php
-require_once (get_template_directory().'/class.SidebarGenerator.php');
-```
-
-**Get all sidebars in an array**
-```php
-$all_sidebars = SidebarGenerator::get_all_sidebars();
-```
-
-this will return all sidebars in an array. Example:
-```php
-array(
-  "Default Sidebar" => "Default Sidebar",
-  "Sidebar Name" => "Sidebar Name",
-  "Sidebar Name 1" => "Sidebar Name 1",
-  "Sidebar Name 2" => "Sidebar Name 2"
-)
-```
-Now you can output this anywhere in page/post metaboxes, theme options, etc.
-
-*Example with php `foreach`:*
-```php
-echo '<select>';
-  foreach($all_sidebars as $key => $value){
-    echo '<option value="'. $key .'">'. $value .'</option>';
-  }
-echo '</select>';
-```
-
-**Display a sidebar**
-```php
-smk_custom_dynamic_sidebar('Sidebar Name');
-```
-
-**Display a sidebar using shortcodes**
-```php
-[smk_sidebar name="Sidebar Name"]
-```
+**Note:** This is not a ready-to-use plugin. To use this plugin you need a theme that supports it or if you are a theme developer you must add the necesarry code in order to be compatible with your theme.
 
 ##TO DO:
-* Add an option on page/post edit screen.
-* Sortable sidebars - select the position for any sidebar by drag-n-drop
-* Add default sidebars in list, without "remove" button
-* Layout/column manager(not sure how this should be :P )
+* Multilanguage support
+* Create demo theme
 
 ##Releases and Changelog 
 https://github.com/Smartik89/Wordpress-Sidebar-Generator/releases
