@@ -8,7 +8,9 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 Beta is there only because I want to include other features before it goes final, because right now it requires theme modifications to add support for this plugin.
 
 ####How to install this plugin?
-Like any other Wordpress plugin. More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
+Like any other Wordpress plugin. <br />
+Drop `smk-sidebar-generator` to `wp-content/plugins/`.<br />
+More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
  
 <img src="http://i.imgur.com/hSOdoGc.jpg" />
 
