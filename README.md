@@ -36,7 +36,14 @@ echo '</select>';
 
 **Display a sidebar using `smk_sidebar` function:**
 ```php
-smk_sidebar('sidebarID');
+if(function_exists('dynamic_sidebar'){
+ smk_sidebar('sidebarID');
+}
+```
+**Display a sidebar using wp native function:**
+```php
+if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) : 
+				endif;
 ```
 
 **Display a sidebar using built-in shortcode:**
