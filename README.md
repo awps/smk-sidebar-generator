@@ -4,12 +4,12 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 * Last edit : August 13, 2013 20:14
 * Author : Smartik - http://smartik.ws/
  
-##How to install this plugin?
-Like any other Wordpress plugin. More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
- 
 **Note:** Right now this is not a ready-to-use plugin. To use this plugin you need a theme that supports it or if you are a theme developer you must add the necesarry code in order to be compatible with your theme.
 Beta is there only because I want to include other features before it goes final, because right now it requires theme modifications to add support for this plugin.
 
+####How to install this plugin?
+Like any other Wordpress plugin. More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
+ 
 <img src="http://i.imgur.com/hSOdoGc.jpg" />
 
 **Get all sidebars in an array**
