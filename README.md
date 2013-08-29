@@ -43,7 +43,7 @@ echo '</select>';
 
 **Display a sidebar using `smk_sidebar` function:**
 ```php
-if(function_exists('dynamic_sidebar'){
+if(function_exists('smk_sidebar'){
  smk_sidebar('sidebarID');
 }
 ```
