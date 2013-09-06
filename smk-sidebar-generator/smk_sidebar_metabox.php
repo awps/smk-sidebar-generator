@@ -45,10 +45,48 @@ class SMK_Sidebar_Metabox {
 	*/
 	function add_box() {
 		foreach ( $this->page as $page ) {
-			add_meta_box( 'smk_sbg_metabox', __('Select sidebar', 'smk_sbg'), array( $this, 'meta_box_callback' ), $page, 'side', 'default' );
+			if ( $this->are_meta_boxes_visible( $page ) )  {
+				add_meta_box( 'smk_sbg_metabox', __('Select sidebar', 'smk_sbg'), array( $this, 'meta_box_callback' ), $page, 'side', 'default' );
+			}
 		}
 	}
-	
+    
+    /**
+     * Should we display metaboxes for page
+     */   
+	function are_meta_boxes_visible( $page ) {
+		if ( 'page' == $page ) {
+			if ( 'post.php' == $GLOBALS['pagenow'] ) {  //admin edit post page            
+				$edited_page_id = ( isset( $_GET['post'] ) ) ? $_GET['post'] : 0;
+				if ( ! $this->has_page_template_meta_boxes( get_post_meta( $edited_page_id, '_wp_page_template', TRUE ) )
+					|| get_option( 'page_for_posts' ) == $edited_page_id ) {  //don't display metabox for posts page
+					return false;
+				}
+			}
+		}
+		return true;                
+    }
+                
+    /**
+     * Check if to display elements for selecting sidebar for post
+     */             
+	function has_page_template_meta_boxes($page_template_name) {
+		$result = false;
+		foreach ($this->align as $key => $value) {
+			if (! is_array($value) ) {
+				continue;
+			}
+			
+			if ( ! in_array( $page_template_name, $value ) ) {
+				continue;
+			}
+			
+			if ($key != 'no') {
+				$result = true;
+			}
+		}
+		return $result;
+	}        	    			
 
 	/*
 	----------------------------------------------------------------------
