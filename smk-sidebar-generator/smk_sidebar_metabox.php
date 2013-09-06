@@ -58,7 +58,7 @@ class SMK_Sidebar_Metabox {
 		if ( 'page' == $page ) {
 			if ( 'post.php' == $GLOBALS['pagenow'] ) {  //admin edit post page            
 				$edited_page_id = ( isset( $_GET['post'] ) ) ? $_GET['post'] : 0;
-				if ( ! $this->has_page_template_meta_boxes( get_post_meta( $edited_page_id, '_wp_page_template', TRUE ) ) )
+				if ( ! $this->has_page_template_meta_boxes( get_post_meta( $edited_page_id, '_wp_page_template', TRUE ) ) ) {
 					return false;
 				}
 			}
