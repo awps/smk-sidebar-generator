@@ -4,8 +4,7 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 * Last edit : August 13, 2013 20:14
 * Author : Smartik - http://smartik.ws/
  
-**Note:** Right now this is not a ready-to-use plugin. To use this plugin you need a theme that supports it or if you are a theme developer you must add the necesarry code in order to be compatible with your theme.
-Beta is there only because I want to include other features before it goes final, because right now it requires theme modifications to add support for this plugin.
+**Note:** To use this plugin you'll need to modify the source code of your theme or paste the generated shortcode where you want to show a specific sidebar. Read below for instructions.
 
 ####How to install this plugin?
 Like any other Wordpress plugin. <br />
