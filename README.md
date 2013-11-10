@@ -3,6 +3,7 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 * Current version : **2.0 beta**
 * Last edit : August 13, 2013 20:14
 * Author : Smartik - http://smartik.ws/
+* License : GPLv2
  
 **Note:** To use this plugin you'll need to modify the source code of your theme or paste the generated shortcode where you want to show a specific sidebar. Read below for instructions.
 
