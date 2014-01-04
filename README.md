@@ -11,6 +11,10 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 Like any other Wordpress plugin. <br />
 Drop `smk-sidebar-generator` to `wp-content/plugins/`.<br />
 More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
+
+###Install it from Wordpress.org:
+* Search from WP Dashboard->Plugins(Add New) for: `SMK Sidebar Generator` and install it.
+* ... or download it from here: http://wordpress.org/plugins/smk-sidebar-generator/
  
 <img src="http://i.imgur.com/hSOdoGc.jpg" />
 
