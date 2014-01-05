@@ -7,6 +7,13 @@ This plugin generates as many sidebars as you need. Then allows you to place the
  
 **Note:** To use this plugin you'll need to modify the source code of your theme or paste the generated shortcode where you want to show a specific sidebar. Read below for instructions.
 
+####Features:
+* Full AJAX (add, remove, save, validation, etc.)
+* Drag to sort sidebar position.
+* Name validation(characters and duplicate).
+* Display sidebars using WP built-in function, a custom function or a shortcode.
+* Get registered sidebars anywhere you need them.(theme options, metaboxes, widgets, etc.)
+
 ####How to install this plugin?
 Like any other Wordpress plugin. <br />
 Drop `smk-sidebar-generator` to `wp-content/plugins/`.<br />
@@ -18,11 +25,28 @@ More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
  
 <img src="http://i.imgur.com/hSOdoGc.jpg" />
 
-**Get all sidebars in an array**
+
+**Get all sidebars in an array:**
+Add this function in your theme `functions.php`:
 ```php
-if( class_exists('SMK_Sidebar_Generator') ) {
-    $the_sidebars = SMK_Sidebar_Generator::get_all_sidebars();
+if(! function_exists('smk_get_all_sidebars') ) {
+	function smk_get_all_sidebars(){
+		global $wp_registered_sidebars;
+		$all_sidebars = array();
+		if ( $wp_registered_sidebars && ! is_wp_error( $wp_registered_sidebars ) ) {
+			
+			foreach ( $wp_registered_sidebars as $sidebar ) {
+				$all_sidebars[ $sidebar['id'] ] = $sidebar['name'];
+			}
+			
+		}
+		return $all_sidebars;
+	}
 }
+```
+Now using this function you can get all sidebars in an array(`[id] => [name]`):
+```php 
+print_r( smk_get_all_sidebars() )
 ```
 *result of the above code(example)*
 ```php
@@ -33,8 +57,7 @@ array(
   "smk_sbg_7" => "Sidebar Name Something"
 )
 ```
-*Now you can output this anywhere in page/post metaboxes, theme options, etc.*
-
+*You can output this anywhere in page/post metaboxes, theme options, etc.*
 *Example with php `foreach`:*
 ```php
 echo '<select>';
