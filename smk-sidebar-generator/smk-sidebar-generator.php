@@ -4,7 +4,7 @@ Plugin Name: SMK Sidebar Generator
 Plugin URI: https://github.com/Smartik89/Wordpress-Sidebar-Generator
 Description: This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 Author: Smartik
-Version: 2.0
+Version: 2.1.1
 Author URI: http://smartik.ws/
 */
 
@@ -12,7 +12,7 @@ Author URI: http://smartik.ws/
 if( ! function_exists('add_action') ) die('Not funny!');
 
 //Some usefull constants
-if(!defined('SMK_SBG_VERSION')) define( 'SMK_SBG_VERSION', '2.0' );
+if(!defined('SMK_SBG_VERSION')) define( 'SMK_SBG_VERSION', '2.1.1' );
 if(!defined('SMK_SBG_PATH')) define( 'SMK_SBG_PATH', plugin_dir_path(__FILE__) );
 if(!defined('SMK_SBG_URI')) define( 'SMK_SBG_URI', plugin_dir_url(__FILE__) );
 
@@ -149,17 +149,17 @@ class SMK_Sidebar_Generator {
 
 		global $pagenow;
 
-	 	wp_enqueue_style( 'smk_sbg_styles', plugins_url('assets/styles.css', __FILE__) );
-	 	
-		if( 'themes.php' == $pagenow ){
+		if( 'themes.php' == $pagenow && isset( $_GET['page'] ) && $_GET['page'] == strtolower( __CLASS__ ) ){
 
+	 		wp_enqueue_style( 'smk_sbg_styles', SMK_SBG_URI . 'assets/styles.css' );
+	 	
 			//Enqueue scripts
 			wp_enqueue_script('jquery');
 			wp_enqueue_script('jquery-ui-core');
 			wp_enqueue_script('jquery-ui-sortable');
 			wp_enqueue_script('jquery-ui-slider');
 
-	 		wp_enqueue_script( 'smk_sbg_scripts', plugins_url('assets/scripts.js', __FILE__) );
+	 		wp_enqueue_script( 'smk_sbg_scripts', SMK_SBG_URI . 'assets/scripts.js' );
 	 		wp_localize_script('smk_sbg_scripts', 'smk_sbg_lang', array(
 					'remove'        => __('Remove', 'smk_sbg'),
 					'not_saved_msg' => __("You've made changes, don't forget to save.", 'smk_sbg'),
@@ -184,7 +184,7 @@ class SMK_Sidebar_Generator {
 	----------------------------------------------------------------------
 	*/
 	public function admin_page(){
-
+	
 	$text = array(
 			__('Add new', 'smk_sbg'),
 			__('Save Changes', 'smk_sbg'),
@@ -212,14 +212,14 @@ class SMK_Sidebar_Generator {
 		settings_fields( $this->settings_reg );
 
 		//Create the sidebar/Save changes
-		echo '<div class="smk_sbg_hf_block clearfix">';
+		echo '<div class="smk_sbg_hf_block sbg_clearfix">';
 			echo '<input type="text" class="smk_sbg_name" />';
 			echo '<span class="smk_sbg_button smk_sbg_add_new" data-option="'. $this->plugin_option .'">'. $text[0] .'</span>';
 			echo '<input type="submit" name="submit" id="submit" class="smk_sbg_button smk_sbg_save_button" value="'. $text[1] .'">';
 		echo '</div>';
 
 		//Columns labels
-		echo '<div class="smk_sbg_hf_block smk_hf_top0 clearfix">';
+		echo '<div class="smk_sbg_hf_block smk_hf_top0 sbg_clearfix">';
 			echo '<span class="smk_sbg_col_title sbg_name">'. $text[2] .'</span>';
 			echo '<span class="smk_sbg_col_title sbg_function">'. $text[3] .'</span>';
 			echo '<span class="smk_sbg_col_title sbg_shortcode">'. $text[4] .'</span>';
@@ -282,8 +282,7 @@ class SMK_Sidebar_Generator {
 		return $all_sidebars;
 	}
 	
-
-
+	
 	}//Class end
 }//class_exists check end
 
@@ -306,6 +305,21 @@ function smk_sidebar($id){
 	if(function_exists('dynamic_sidebar') && dynamic_sidebar($id)) : 
 	endif;
 	return true;
+}
+
+if(! function_exists('smk_get_all_sidebars') ) {
+    function smk_get_all_sidebars(){
+        global $wp_registered_sidebars;
+        $all_sidebars = array();
+        if ( $wp_registered_sidebars && ! is_wp_error( $wp_registered_sidebars ) ) {
+            
+            foreach ( $wp_registered_sidebars as $sidebar ) {
+                $all_sidebars[ $sidebar['id'] ] = $sidebar['name'];
+            }
+            
+        }
+        return $all_sidebars;
+    }
 }
 
 /*
