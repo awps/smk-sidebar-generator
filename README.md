@@ -1,5 +1,8 @@
-##Custom Sidebars Generator
+##SMK Sidebars Generator
 This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
+
+**Demo video:** http://youtu.be/fluNdMnSCKA
+
 * Current version : **2.1.1**
 * Author : Smartik - http://smartik.ws/
 * License : GPLv2
@@ -17,6 +20,12 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 Like any other Wordpress plugin. <br />
 Drop `smk-sidebar-generator` to `wp-content/plugins/`.<br />
 More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
+
+####Quick Installation
+1. Upload the `smk-sidebar-generator` folder to the `/wp-content/plugins/` directory
+2. Activate the SMK Sidebar Generator plugin through the 'Plugins' menu in WordPress
+3. Configure the plugin by going to the SMK Sidebars menu that appears in your admin menu
+
 
 ###Install it from Wordpress.org:
 * Search from WP Dashboard->Plugins(Add New) for: `SMK Sidebar Generator` and install it.
