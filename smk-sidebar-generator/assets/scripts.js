@@ -160,7 +160,7 @@ jQuery(document).ready(function($){
 	*/
 	function smk_sbg_remove_sidebar(){
 		$('.smk_sbg_remove_sidebar').click(function(){
-			$(this).parents('.smk_sbg_one_sidebar').slideUp('medium', function() { 
+			if(window.confirm(smk_sbg_lang.s_remove)) $(this).parents('.smk_sbg_one_sidebar').slideUp('medium', function() { 
 								$(this).remove(); 
 							});
 			
