@@ -1,3 +1,15 @@
+=== SMK Sidebar Generator ===
+Contributors: _smartik_
+Tags: sidebar, widget, generator, custom, unlimited
+Requires at least: 3.2
+Tested up to: 3.8
+Stable tag: 2.2
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
+
+== Description ==
 This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 
 **Demo video:** http://youtu.be/fluNdMnSCKA
@@ -84,7 +96,27 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 ##Releases and Changelog 
 https://github.com/Smartik89/Wordpress-Sidebar-Generator/releases
 
-##Installation
+== Installation ==
 1. Upload the `smk-sidebar-generator` folder to the `/wp-content/plugins/` directory
 2. Activate the SMK Sidebar Generator plugin through the 'Plugins' menu in WordPress
 3. Configure the plugin by going to the SMK Sidebars menu that appears in your admin menu
+
+== Screenshots ==
+1. Admin panel
+
+
+== Changelog ==
+= 2.2 =
+* Confirm sidebar remove.
+* Bug fix: Sidebars could not be added when all previous sidebars were removed.
+* Bug fix: Fixed ajax name validation.
+
+= 2.1.1 =
+* enqueue styles and scripts only on plugin page, not on all WP dashboard pages.
+* `admin_enqueue_scripts` make use of `SMK_SBG_URI` constant.
+
+= 2.1 =
+* `smk_get_all_sidebars()` function is included in plugin. Anyways, you must include it in your theme `functions.php`, because if you'll deactivate the plugin it will return a fatal error.
+
+= 2.0 = 
+* Initial release

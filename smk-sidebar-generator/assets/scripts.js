@@ -28,7 +28,7 @@ jQuery(document).ready(function($){
 				},
 				success: function(data){
 
-					if( 0 == parseInt( data ) ){
+					if( 'ok' == data ){
 						
 						$(document).find('.smk_sbg_count').val( parseInt( $('.smk_sbg_count').val() )+1 ).change();
 
@@ -75,9 +75,12 @@ jQuery(document).ready(function($){
 						smk_sbg_on_change();
 
 					}
-					else{
+					else if( 'fail' == data ){
 						popups.addClass('show').html(smk_sbg_lang.s_exists);
 						smk_sbg_msg_timeout();
+					}
+					else{
+						popups.addClass('show').html(data);
 					}
 
 				}
@@ -160,9 +163,11 @@ jQuery(document).ready(function($){
 	*/
 	function smk_sbg_remove_sidebar(){
 		$('.smk_sbg_remove_sidebar').click(function(){
-			if(window.confirm(smk_sbg_lang.s_remove)) $(this).parents('.smk_sbg_one_sidebar').slideUp('medium', function() { 
-								$(this).remove(); 
-							});
+			if(confirm(smk_sbg_lang.s_remove)) {
+				$(this).parents('.smk_sbg_one_sidebar').slideUp('medium', function() { 
+					$(this).remove(); 
+				});
+			}
 			
 			popups.addClass('show').html(smk_sbg_lang.s_removed);
 			setTimeout(function(){

@@ -4,7 +4,7 @@ Plugin Name: SMK Sidebar Generator
 Plugin URI: https://github.com/Smartik89/Wordpress-Sidebar-Generator
 Description: This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 Author: Smartik
-Version: 2.1.1
+Version: 2.2
 Author URI: http://smartik.ws/
 */
 
@@ -12,7 +12,7 @@ Author URI: http://smartik.ws/
 if( ! function_exists('add_action') ) die('Not funny!');
 
 //Some usefull constants
-if(!defined('SMK_SBG_VERSION')) define( 'SMK_SBG_VERSION', '2.1.1' );
+if(!defined('SMK_SBG_VERSION')) define( 'SMK_SBG_VERSION', '2.2' );
 if(!defined('SMK_SBG_PATH')) define( 'SMK_SBG_PATH', plugin_dir_path(__FILE__) );
 if(!defined('SMK_SBG_URI')) define( 'SMK_SBG_URI', plugin_dir_url(__FILE__) );
 
@@ -122,13 +122,13 @@ class SMK_Sidebar_Generator {
 		$sidebars = get_option( $this->plugin_option );
 
 		$new_name = trim( $_POST['new_name'] );
-		$exists   = 0;//Do not exist
+		$exists   = 'ok';//Do not exist
 
-		if( is_array($sidebars) ){
-			if( is_array($sidebars['sidebars']) ){
+		if( isset($sidebars) && is_array($sidebars) ){
+			if( isset($sidebars['sidebars']) && is_array($sidebars['sidebars']) ){
 				foreach ($sidebars['sidebars'] as $key => $v) {
 					if( in_array(strtolower( $new_name ), array_map('strtolower', $v) ) ){
-						$exists = 1;//Exist
+						$exists = 'fail';//Exist
 					}
 				}
 			}
