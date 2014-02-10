@@ -209,6 +209,9 @@
 	display: inline-block;
 	width: 200px;
 }
+.smk_sbg_main_block .smk_sbg_code code{
+	font-size: 11px;
+}
 
 .smk_sbg_main_block h2 span.smk_sbg_version{
 	position: relative;
