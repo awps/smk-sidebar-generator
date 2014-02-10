@@ -90,13 +90,8 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 
 **Display a sidebar using built-in shortcode:**
 ```php
-[smk_sidebar id="18"]
+[smk_sidebar id="sidebarID"]
 ```
-*18 is an example, this is the sidebar number, it is created automatically when a new sidebar is generated*
-
-##TO DO:
-* Multilanguage support
-* Create demo theme
 
 ##Releases and Changelog 
 https://github.com/Smartik89/Wordpress-Sidebar-Generator/releases

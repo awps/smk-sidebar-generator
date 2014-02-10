@@ -4,7 +4,7 @@ Plugin Name: SMK Sidebar Generator
 Plugin URI: https://github.com/Smartik89/Wordpress-Sidebar-Generator
 Description: This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 Author: Smartik
-Version: 2.2
+Version: 2.3
 Author URI: http://smartik.ws/
 */
 
@@ -12,7 +12,7 @@ Author URI: http://smartik.ws/
 if( ! function_exists('add_action') ) die('Not funny!');
 
 //Some usefull constants
-if(!defined('SMK_SBG_VERSION')) define( 'SMK_SBG_VERSION', '2.2' );
+if(!defined('SMK_SBG_VERSION')) define( 'SMK_SBG_VERSION', '2.3' );
 if(!defined('SMK_SBG_PATH')) define( 'SMK_SBG_PATH', plugin_dir_path(__FILE__) );
 if(!defined('SMK_SBG_URI')) define( 'SMK_SBG_URI', plugin_dir_url(__FILE__) );
 
@@ -52,6 +52,7 @@ class SMK_Sidebar_Generator {
 		add_action( 'admin_enqueue_scripts', array(&$this,'admin_scripts' ) );	//Admin scritps
 		add_action( 'widgets_init', array(&$this, 'register_sidebars') );		//Register all sidebars
 		add_action( 'wp_ajax_validate_name', array(&$this, 'validate_name') );	//Validate name
+		add_action( 'wp_ajax_import_all_sidebars', array(&$this, 'import_all_sidebars') );     //Export all sidebars
 
 	}
 
@@ -151,25 +152,31 @@ class SMK_Sidebar_Generator {
 
 		if( 'themes.php' == $pagenow && isset( $_GET['page'] ) && $_GET['page'] == strtolower( __CLASS__ ) ){
 
-	 		wp_enqueue_style( 'smk_sbg_styles', SMK_SBG_URI . 'assets/styles.css' );
-	 	
+			//Styles
+	 		wp_register_style( 'smk_sbg_styles', SMK_SBG_URI . 'assets/styles.css', '', SMK_SBG_VERSION );
+	 		wp_enqueue_style( 'smk_sbg_styles' );
+
+	 		//Scripts
+	 		wp_register_script( 'smk_sbg_scripts', SMK_SBG_URI . 'assets/scripts.js', array('jquery', 'jquery-ui-core'), SMK_SBG_VERSION );
+
 			//Enqueue scripts
 			wp_enqueue_script('jquery');
 			wp_enqueue_script('jquery-ui-core');
 			wp_enqueue_script('jquery-ui-sortable');
 			wp_enqueue_script('jquery-ui-slider');
 
-	 		wp_enqueue_script( 'smk_sbg_scripts', SMK_SBG_URI . 'assets/scripts.js' );
+	 		wp_enqueue_script( 'smk_sbg_scripts' );
 	 		wp_localize_script('smk_sbg_scripts', 'smk_sbg_lang', array(
 					'remove'        => __('Remove', 'smk_sbg'),
 					'not_saved_msg' => __("You've made changes, don't forget to save.", 'smk_sbg'),
-					'ok'            => __("Changes were saved succefully.", 'smk_sbg'),
+					'ok'            => __("Changes were saved successfully.", 'smk_sbg'),
 					'fail'          => __("An unexpected error ocurred.", 'smk_sbg'),
-					'created'       => __("The sidebar was succefully created.", 'smk_sbg'),
+					'created'       => __("The sidebar was successfully created.", 'smk_sbg'),
 					's_exists'      => __("The sidebar already exists. Please change the name.", 'smk_sbg'),
 					'empty'         => __("Please enter a name for this sidebar.", 'smk_sbg'),
 					's_remove'      => __("Are you sure? If you remove this sidebar it can't be restored.", 'smk_sbg'),
 					's_removed'     => __("Sidebar Removed", 'smk_sbg'),
+					'data_imported' => __("Data imported successfully.", 'smk_sbg'),
 					'spin'          => '<span class="smk_sbg_spin"></span>',
 				)
 			);
@@ -186,81 +193,118 @@ class SMK_Sidebar_Generator {
 	public function admin_page(){
 	
 	$text = array(
-			__('Add new', 'smk_sbg'),
-			__('Save Changes', 'smk_sbg'),
-			__('Sidebar Name:', 'smk_sbg'),
-			__('Function:', 'smk_sbg'),
-			__('Shortcode:', 'smk_sbg'),
-			__('Remove', 'smk_sbg'),
+			__('Add new', 'smk_sbg'),//0
+			__('Save Changes', 'smk_sbg'),//1
+			__('Sidebar Name:', 'smk_sbg'),//2
+			__('Function:', 'smk_sbg'),//3
+			__('Shortcode:', 'smk_sbg'),//4
+			__('Remove', 'smk_sbg'),//5
+			__('Import', 'smk_sbg'),//6
 		);
 
 	echo '<div class="wrap smk_sbg_main_block">';
 
 		//delete_option($this->plugin_option);//DO NOT UNCOMMENT THIS OR ALL SIDEBARS WILL BE DELETED
 
-		//Page UI
-		screen_icon();
-		echo '<h2>'. $this->sbg_name .' <span class="smk_sbg_version">v.' . SMK_SBG_VERSION .'</span></h2>';
-
 		//Messages
 		echo '<div class="smk_sbg_message"></div>';
 
-		//Form to update/save options
-		echo '<form method="post" action="options.php" class="smk_sbg_main_form">';
-
-		//Add settings fields(ex: nonce)
-		settings_fields( $this->settings_reg );
-
-		//Create the sidebar/Save changes
-		echo '<div class="smk_sbg_hf_block sbg_clearfix">';
-			echo '<input type="text" class="smk_sbg_name" />';
-			echo '<span class="smk_sbg_button smk_sbg_add_new" data-option="'. $this->plugin_option .'">'. $text[0] .'</span>';
-			echo '<input type="submit" name="submit" id="submit" class="smk_sbg_button smk_sbg_save_button" value="'. $text[1] .'">';
+		//Page UI
+		echo '<div class="sbg_clearfix">';
+			echo '<div class="sbg_grid_50">';
+				screen_icon();
+				echo '<h2>'. $this->sbg_name .' <span class="smk_sbg_version">v.' . SMK_SBG_VERSION .'</span></h2>';
+			echo '</div>';
+			echo '<div class="sbg_grid_50">';
+				//Main menu
+				echo '<div class="smk_sbg_main_menu">
+						<span data-id="tab_main_form" class="active">'. __('Sidebars', 'smk_sbg') .'</span>
+						<span data-id="tab_export">'. __('Export', 'smk_sbg') .'</span>
+						<span data-id="tab_import">'. __('Import', 'smk_sbg') .'</span>
+				</div>';
+			echo '</div>';
 		echo '</div>';
 
-		//Columns labels
-		echo '<div class="smk_sbg_hf_block smk_hf_top0 sbg_clearfix">';
-			echo '<span class="smk_sbg_col_title sbg_name">'. $text[2] .'</span>';
-			echo '<span class="smk_sbg_col_title sbg_function">'. $text[3] .'</span>';
-			echo '<span class="smk_sbg_col_title sbg_shortcode">'. $text[4] .'</span>';
-		echo '</div>';
+		
+		
+		// TAB main form
+		echo '<div id="tab_main_form" class="smk_sbg_tab active">';
+			//Form to update/save options
+			echo '<form method="post" action="options.php" class="smk_sbg_main_form">';
 
-			//Catch saved options
-			$sidebars = get_option( $this->plugin_option );
+			//Add settings fields(ex: nonce)
+			settings_fields( $this->settings_reg );
 
-			//Set the counter. We need it to set the sidebar ID
-			$count = isset($sidebars['count']) ? $sidebars['count'] : 1;
-			echo '<input type="hidden" class="smk_sbg_count" name="'. $this->plugin_option .'[count]" value="'. $count .'" />';
-
-			//All created sidebars will be included in this block
-			echo '<div class="smk_sbg_all_sidebars">';
-
-				//Make sure we have valid sidebars
-				if( isset($sidebars['sidebars']) && is_array($sidebars['sidebars']) && !empty($sidebars['sidebars']) ){
-
-					//Display each sidebar
-					foreach ($sidebars['sidebars'] as $sidebar) {
-						if( isset($sidebar) && !empty($sidebar) ){
-
-							echo '<div class="smk_sbg_one_sidebar">
-								<span class="smk_sbg_handle"></span>
-								<input class="smk_sbg_form_created_id" type="hidden" value="'. $sidebar['id'] .'" name="'. $this->plugin_option .'[sidebars]['. $sidebar['id'] .'][id]" />
-								<input class="smk_sbg_form_created" type="text" value="'. $sidebar['name'] .'" name="'. $this->plugin_option .'[sidebars]['. $sidebar['id'] .'][name]" />
-								<span class="smk_sbg_code"><code>smk_sidebar("smk_sbg_' . $sidebar['id'] . '");</code></span>
-								<span class="smk_sbg_code"><code>[smk_sidebar id="' . $sidebar['id'] . '"]</code></span>
-							<span class="smk_sbg_remove_sidebar">'. $text[5] .'</span></div>';
-
-						}
-					}
-
-				}
-
+			//Create the sidebar/Save changes
+			echo '<div class="smk_sbg_hf_block sbg_clearfix">';
+				echo '<input type="text" class="smk_sbg_name" />';
+				echo '<span class="smk_sbg_button smk_sbg_add_new" data-option="'. $this->plugin_option .'">'. $text[0] .'</span>';
+				echo '<input type="submit" name="submit" id="submit" class="smk_sbg_button smk_sbg_save_button" value="'. $text[1] .'">';
 			echo '</div>';
 
+			//Columns labels
+			echo '<div class="smk_sbg_hf_block smk_hf_top0 sbg_clearfix">';
+				echo '<span class="smk_sbg_col_title sbg_name">'. $text[2] .'</span>';
+				echo '<span class="smk_sbg_col_title sbg_function">'. $text[3] .'</span>';
+				echo '<span class="smk_sbg_col_title sbg_shortcode">'. $text[4] .'</span>';
+			echo '</div>';
 
-		echo '</form>';
-		
-		//smk_ppprint( get_option($this->plugin_option) );
+				//Catch saved options
+				$sidebars = get_option( $this->plugin_option );
+
+				//Set the counter. We need it to set the sidebar ID
+				$count = isset($sidebars['count']) ? $sidebars['count'] : 1;
+				echo '<input type="hidden" class="smk_sbg_count" name="'. $this->plugin_option .'[count]" value="'. $count .'" />';
+
+				//All created sidebars will be included in this block
+				echo '<div class="smk_sbg_all_sidebars">';
+
+					//Make sure we have valid sidebars
+					if( isset($sidebars['sidebars']) && is_array($sidebars['sidebars']) && !empty($sidebars['sidebars']) ){
+
+						//Display each sidebar
+						foreach ($sidebars['sidebars'] as $sidebar) {
+							if( isset($sidebar) && !empty($sidebar) ){
+
+								echo '<div class="smk_sbg_one_sidebar">
+									<span class="smk_sbg_handle"></span>
+									<input class="smk_sbg_form_created_id" type="hidden" value="'. $sidebar['id'] .'" name="'. $this->plugin_option .'[sidebars]['. $sidebar['id'] .'][id]" />
+									<input class="smk_sbg_form_created" type="text" value="'. $sidebar['name'] .'" name="'. $this->plugin_option .'[sidebars]['. $sidebar['id'] .'][name]" />
+									<span class="smk_sbg_code"><code>smk_sidebar("smk_sbg_' . $sidebar['id'] . '");</code></span>
+									<span class="smk_sbg_code"><code>[smk_sidebar id="smk_sbg_' . $sidebar['id'] . '"]</code></span>
+								<span class="smk_sbg_remove_sidebar">'. $text[5] .'</span></div>';
+
+							}
+						}
+
+					}
+
+				echo '</div>';
+
+
+			echo '</form>';
+		echo '</div>';	
+
+		//TAB Export
+		echo '<div id="tab_export" class="smk_sbg_tab additional">';
+			//Export form
+			echo '<div class="smk_sbg_label">' . __('Copy text from textarea:','smk_sbg') .'</div>';
+			echo '<form method="post" action="" class="smk_sbg_export_form">';
+				echo '<textarea name="exp_data" class="sbg_textarea sbg_textarea_export" onclick="this.focus();this.select()">'. base64_encode( serialize(get_option($this->plugin_option)) ) .'</textarea>';
+			echo '</form>';
+		echo '</div>';	
+
+		//TAB Import
+		echo '<div id="tab_import" class="smk_sbg_tab additional">';
+			//Import form
+			echo '<div class="smk_sbg_label">' . __('Paste exported data in textarea:','smk_sbg') .'</div>';
+			echo '<form method="post" action="" class="smk_sbg_import_form">';
+				echo '<textarea name="exp_data" class="sbg_textarea sbg_textarea_import"></textarea>';
+				echo '<input type="submit" name="submit" id="export_submit" class="button button-primary smk_sbg_import_button" value="'. $text[6] .'">';
+			echo '</form>';
+		echo '</div>';	
+
+		// smk_ppprint( get_option($this->plugin_option) );
 
 	echo '</div>';
 
@@ -280,6 +324,47 @@ class SMK_Sidebar_Generator {
 		}
 		
 		return $all_sidebars;
+	}
+
+	public static function import_all_sidebars(){
+		if(isset( $_POST )){
+			//delete_option('smk_sidebar_generator_option');
+			$exported_data = (isset($_POST['content'])) ? trim($_POST['content']) : false;
+
+			if( isset($exported_data) && !empty($exported_data) ){
+				if(is_serialized(base64_decode($exported_data))){
+					$exported_data = unserialize( base64_decode($exported_data) );
+
+					$saved = get_option('smk_sidebar_generator_option');
+					if( is_array($exported_data) ){
+						if(is_array($saved) && isset($saved['sidebars'])){
+							$sidebars['sidebars'] = wp_parse_args($exported_data['sidebars'], $saved['sidebars']);
+							$new = wp_parse_args($sidebars, $saved);
+						}
+						else{
+							$new = $exported_data;
+						}
+						update_option('smk_sidebar_generator_option', $new);
+						echo 'imported';
+
+					}
+					else{
+						echo __('Data is not valid.','smk_sbg');
+					}
+				}
+				else{
+					echo __('Data is not valid.','smk_sbg');
+				}
+				
+
+			}
+			else{
+				echo __('Please enter data.','smk_sbg');
+			}
+
+			// print_r($saved);
+		}
+		die();
 	}
 	
 	
@@ -327,14 +412,14 @@ if(! function_exists('smk_get_all_sidebars') ) {
 Shortcode
 ----------------------------------------------------------------------
 */
-// [smk_sidebar id="X"] //X is the sidebar number
+// [smk_sidebar id="X"] //X is the sidebar ID
 function smk_sidebar_shortcode( $atts ) {
 	
 	extract( shortcode_atts( array(
 		'id' => null,
 	), $atts ) );
 
-	smk_sidebar('smk_sbg_' . $id);
+	smk_sidebar($id);
 
 }
 add_shortcode( 'smk_sidebar', 'smk_sidebar_shortcode' );

@@ -5,6 +5,22 @@ jQuery(document).ready(function($){
 
 	/*
 	------------------------------------------------------
+	Generate random string
+	------------------------------------------------------
+	*/
+	smk_sbg_generate_string = function(_nr){
+		var text = "",
+			possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+		for( var i=0; i < _nr; i++ ){
+		    text += possible.charAt(Math.floor(Math.random() * possible.length));
+		}
+
+		return text;
+	}
+
+	/*
+	------------------------------------------------------
 	Create a new sidebar
 	------------------------------------------------------
 	*/
@@ -32,13 +48,14 @@ jQuery(document).ready(function($){
 						
 						$(document).find('.smk_sbg_count').val( parseInt( $('.smk_sbg_count').val() )+1 ).change();
 
-						var the_id = $(document).find('.smk_sbg_count').val(), 
+						var count  = $(document).find('.smk_sbg_count').val(), 
+							the_id = count + smk_sbg_generate_string(3), 
 							str    = '<div class="smk_sbg_one_sidebar smk_sbg_just_created" style="display: none">' + 
 								     '	<span class="smk_sbg_handle"></span>' +
 								     '	<input class="smk_sbg_form_created_id" type="hidden" value="'+ the_id +'" name="'+ option +'[sidebars]['+ the_id +'][id]" />' + 
 								     '	<input class="smk_sbg_form_created" type="text" value="'+ new_s +'" name="'+ option +'[sidebars]['+ the_id +'][name]" />' + 
 								     '	<span class="smk_sbg_code"><code>smk_sidebar("smk_sbg_' + the_id + '");</code></span>' +
-									 '	<span class="smk_sbg_code"><code>[smk_sidebar id="' + the_id + '"]</code></span>' +
+									 '	<span class="smk_sbg_code"><code>[smk_sidebar id="smk_sbg_' + the_id + '"]</code></span>' +
 								     '	<span class="smk_sbg_remove_sidebar">'+ smk_sbg_lang.remove +'</span>' + 
 								     '</div>';
 
@@ -182,10 +199,11 @@ jQuery(document).ready(function($){
 	Message setTimeuot
 	------------------------------------------------------
 	*/
-	function smk_sbg_msg_timeout(){
+	function smk_sbg_msg_timeout($time){
+		if(!$time) $time = 2000;
 		setTimeout(function(){
 			popups.removeClass('show');
-		},2000);
+		},$time);
 	}
 
 	/*
@@ -198,6 +216,59 @@ jQuery(document).ready(function($){
 			popups.addClass('show').html(smk_sbg_lang.not_saved_msg);
 		});
 	}
-	smk_sbg_on_change();		
+	smk_sbg_on_change();	
+
+
+	/*
+	------------------------------------------------------
+	Tabs
+	------------------------------------------------------
+	*/
+	smk_sbg_tabs = function(){
+			
+		$('.smk_sbg_main_menu span').click(function(){
+			var _id = $(this).data('id').toString();
+			$('.smk_sbg_main_menu span').removeClass('active');
+			$(this).addClass('active');
+			$('.smk_sbg_tab').removeClass('active');
+			$('#' + _id).addClass('active');
+		});
+	}
+	smk_sbg_tabs();
+
+	/*
+	------------------------------------------------------
+	Import all sidebars
+	------------------------------------------------------
+	*/
+	smk_sbg_import_all_sidebars = function(){
+		$('.smk_sbg_import_button').click(function(event){
+			event.preventDefault();
+			popups.addClass('show').html(smk_sbg_lang.spin);
+
+			$.ajax({
+				type: "POST",
+				url: ajaxurl,
+				data: {
+					"action": "import_all_sidebars",
+					"content": $('.sbg_textarea_import').val()
+				},
+				success: function(data){
+					
+					if(data == 'imported'){
+						popups.addClass('show').html(smk_sbg_lang.data_imported);
+						smk_sbg_msg_timeout(2000);
+						location.reload();
+					}
+					else{
+						popups.addClass('show').html(data);
+						smk_sbg_msg_timeout(5000);
+					}
+					
+				}
+			});
+		});
+	}//smk_sbg_import_all_sidebars
+	smk_sbg_import_all_sidebars();
 
 });

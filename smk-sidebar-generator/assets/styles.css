@@ -223,6 +223,98 @@
 	border-radius: 4px;
 }
 
+/* Top grid
+----------------------------------------*/
+.smk_sbg_main_block .sbg_grid_50{
+	display: inline-block;
+	float: left;
+	width: 50%;
+}
+
+/* Tabs
+----------------------------------------*/
+.smk_sbg_main_block .smk_sbg_main_menu{
+	padding: 9px 0 7px 10px;
+	text-align: right;
+}
+.smk_sbg_main_block .smk_sbg_main_menu span{
+	position: relative;
+	display: inline-block;
+	background: #6EBB1F;
+	color: #fff;
+	padding: 5px 10px;
+	border-radius: 2px;
+	font-weight: 700;
+	margin-left: 7px;
+	cursor: pointer;
+	-webkit-transition: all 0.15s;
+	-moz-transition: all 0.15s;
+	-ms-transition: all 0.15s;
+	-o-transition: all 0.15s;
+	transition: all 0.15s;
+}
+.smk_sbg_main_block .smk_sbg_main_menu span:before{
+	content: "";
+	position: absolute;
+	display: block;
+	background: transparent;
+	width: 0;
+	height: 0;
+	z-index: 10;
+	bottom: 0;
+	left: 50%;
+	margin-left: -3px;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+	-webkit-transition: all 0.2s;
+	-moz-transition: all 0.2s;
+	-ms-transition: all 0.2s;
+	-o-transition: all 0.2s;
+	transition: all 0.2s;
+
+}
+.smk_sbg_main_block .smk_sbg_main_menu span:hover{
+	background: #5DA01A;
+}
+.smk_sbg_main_block .smk_sbg_main_menu span.active,
+.smk_sbg_main_block .smk_sbg_main_menu span.active:before{
+	background: #EB496A;
+}
+.smk_sbg_main_block .smk_sbg_main_menu span.active:before{
+	width: 6px;
+	height: 6px;
+	z-index: 10;
+	bottom: -3px;
+}
+
+.smk_sbg_main_block .smk_sbg_label{
+	font-weight: 700;
+	margin: 5px 0 5px 2px;
+}
+
+/* Tabs */
+.smk_sbg_main_block .smk_sbg_tab{
+	display: none;
+}
+.smk_sbg_main_block .smk_sbg_tab.additional{
+	margin-top: 8px;
+	padding-top: 8px;
+	border-top: 1px solid #eee;
+}
+.smk_sbg_main_block .smk_sbg_tab.active{
+	display: block;
+}
+
+/* Textarea import/export
+----------------------------------------*/
+.smk_sbg_main_block .sbg_textarea{
+	width: 100%;
+	height: 200px;
+}
+
 /* Metabox styles
 ----------------------------------------*/
 .smk_sbg_img_align{

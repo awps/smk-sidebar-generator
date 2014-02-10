@@ -3,7 +3,7 @@ Contributors: _smartik_
 Tags: sidebar, widget, generator, custom, unlimited
 Requires at least: 3.2
 Tested up to: 3.8
-Stable tag: 2.2
+Stable tag: 2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,16 +85,8 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 
 **Display a sidebar using built-in shortcode:**
 <pre>
-[smk_sidebar id="18"]
+[smk_sidebar id="sidebarID"]
 </pre>
-*18 is an example, this is the sidebar number, it is created automatically when a new sidebar is generated*
-
-##TO DO:
-* Multilanguage support
-* Create demo theme
-
-##Releases and Changelog 
-https://github.com/Smartik89/Wordpress-Sidebar-Generator/releases
 
 == Installation ==
 1. Upload the `smk-sidebar-generator` folder to the `/wp-content/plugins/` directory
@@ -106,6 +98,11 @@ https://github.com/Smartik89/Wordpress-Sidebar-Generator/releases
 
 
 == Changelog ==
+= 2.3 =
+* **Added import/export functions.**
+* Changes to `smk_sidebar` shortcode. Previously to get a sidebar required only an integer number, now you can get any sidebar using the shortcode just giving the id, even if the sidebar is not generated using Sidebar Generator plugin.
+* Added plugin version to enqueued scripts and style.
+
 = 2.2 =
 * Confirm sidebar remove.
 * Bug fix: Sidebars could not be added when all previous sidebars were removed.
