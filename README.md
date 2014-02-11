@@ -3,7 +3,6 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 
 **Demo video:** http://youtu.be/fluNdMnSCKA
 
-* Current version : **2.3**
 * Author : Smartik - http://smartik.ws/
 * License : GPLv2
  
