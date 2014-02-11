@@ -310,25 +310,25 @@ class SMK_Sidebar_Generator {
 			//Import form
 			echo '<h2>' . __('How to use?','smk_sbg') .'</h2>';
 			echo '<h3>' . __('Shortcode:','smk_sbg') .'</h3>';
-			echo '<p>' . __('Paste the shortcode anywhere you want, in posts, pages etc. If the input accept shortcodes, then the sidebar will be displayied.','smk_sbg') .'</p>';
+			echo '<p>' . __('Paste the shortcode anywhere you want, in posts, pages etc. If the input accept shortcodes, then the sidebar will be displayed.','smk_sbg') .'</p>';
 			echo '<pre>[smk_sidebar id="SIDEBAR_ID"]</pre>';
 			echo '<h3>' . __('Function:','smk_sbg') .'</h3>';
-			echo '<p>' . __('You can use the built-in function, but for this you should modify theme files and make sure to check if function exists before use.','smk_sbg') .'</p>';
+			echo '<p>' . __('You can use the built-in function, but for this you should modify theme files and make sure to check if the function exists before use it.','smk_sbg') .'</p>';
 			echo '<pre>
 if(function_exists("smk_sidebar"){
  	smk_sidebar("SIDEBAR_ID");
 }
 			</pre>';
 			echo '<h3>' . __('WP Native function:','smk_sbg') .'</h3>';
-			echo '<p>' . __('You can use the built-in function <em>smk_sidebar</em>, but anyways I recomend using WP native function to avoid conflicts.','smk_sbg') .'</p>';
+			echo '<p>' . __('You can use the built-in function <em>smk_sidebar</em>, but anyways I recommend using WP native function to avoid conflicts.','smk_sbg') .'</p>';
 			echo "<pre>
 if(function_exists('dynamic_sidebar') && dynamic_sidebar('SIDEBAR_ID')) : 
 endif;
 			</pre>";
 
-			echo '<h3>' . __('For more docs visit the following links:','smk_sbg') .'</h3>';
+			echo '<h3>' . __('For more info visit the following links:','smk_sbg') .'</h3>';
 			echo '<div class="sbg_docs_links">';
-				echo '<a href="http://wordpress.org/plugins/smk-sidebar-generator/" target="_blank">Plugin Official Page</a>';
+				echo '<a href="http://wordpress.org/plugins/smk-sidebar-generator/" target="_blank">Official Plugin Page</a>';
 				echo '<a href="https://github.com/Smartik89/Wordpress-Sidebar-Generator" target="_blank">Github Repository</a>';
 			echo '</div>';
 
