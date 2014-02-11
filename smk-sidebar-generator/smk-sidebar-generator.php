@@ -4,7 +4,7 @@ Plugin Name: SMK Sidebar Generator
 Plugin URI: https://github.com/Smartik89/Wordpress-Sidebar-Generator
 Description: This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 Author: Smartik
-Version: 2.3
+Version: 2.3.1
 Author URI: http://smartik.ws/
 */
 
@@ -12,7 +12,7 @@ Author URI: http://smartik.ws/
 if( ! function_exists('add_action') ) die('Not funny!');
 
 //Some usefull constants
-if(!defined('SMK_SBG_VERSION')) define( 'SMK_SBG_VERSION', '2.3' );
+if(!defined('SMK_SBG_VERSION')) define( 'SMK_SBG_VERSION', '2.3.1' );
 if(!defined('SMK_SBG_PATH')) define( 'SMK_SBG_PATH', plugin_dir_path(__FILE__) );
 if(!defined('SMK_SBG_URI')) define( 'SMK_SBG_URI', plugin_dir_url(__FILE__) );
 
