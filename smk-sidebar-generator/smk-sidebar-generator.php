@@ -4,7 +4,7 @@ Plugin Name: SMK Sidebar Generator
 Plugin URI: https://github.com/Smartik89/Wordpress-Sidebar-Generator
 Description: This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 Author: Smartik
-Version: 2.3
+Version: 2.3.1
 Author URI: http://smartik.ws/
 */
 
@@ -12,7 +12,7 @@ Author URI: http://smartik.ws/
 if( ! function_exists('add_action') ) die('Not funny!');
 
 //Some usefull constants
-if(!defined('SMK_SBG_VERSION')) define( 'SMK_SBG_VERSION', '2.3' );
+if(!defined('SMK_SBG_VERSION')) define( 'SMK_SBG_VERSION', '2.3.1' );
 if(!defined('SMK_SBG_PATH')) define( 'SMK_SBG_PATH', plugin_dir_path(__FILE__) );
 if(!defined('SMK_SBG_URI')) define( 'SMK_SBG_URI', plugin_dir_url(__FILE__) );
 
@@ -196,7 +196,7 @@ class SMK_Sidebar_Generator {
 			__('Add new', 'smk_sbg'),//0
 			__('Save Changes', 'smk_sbg'),//1
 			__('Sidebar Name:', 'smk_sbg'),//2
-			__('Function:', 'smk_sbg'),//3
+			__('ID:', 'smk_sbg'),//3
 			__('Shortcode:', 'smk_sbg'),//4
 			__('Remove', 'smk_sbg'),//5
 			__('Import', 'smk_sbg'),//6
@@ -221,6 +221,7 @@ class SMK_Sidebar_Generator {
 						<span data-id="tab_main_form" class="active">'. __('Sidebars', 'smk_sbg') .'</span>
 						<span data-id="tab_export">'. __('Export', 'smk_sbg') .'</span>
 						<span data-id="tab_import">'. __('Import', 'smk_sbg') .'</span>
+						<span data-id="tab_how_to">'. __('How to use?', 'smk_sbg') .'</span>
 				</div>';
 			echo '</div>';
 		echo '</div>';
@@ -245,7 +246,7 @@ class SMK_Sidebar_Generator {
 			//Columns labels
 			echo '<div class="smk_sbg_hf_block smk_hf_top0 sbg_clearfix">';
 				echo '<span class="smk_sbg_col_title sbg_name">'. $text[2] .'</span>';
-				echo '<span class="smk_sbg_col_title sbg_function">'. $text[3] .'</span>';
+				echo '<span class="smk_sbg_col_title sbg_id">'. $text[3] .'</span>';
 				echo '<span class="smk_sbg_col_title sbg_shortcode">'. $text[4] .'</span>';
 			echo '</div>';
 
@@ -270,8 +271,8 @@ class SMK_Sidebar_Generator {
 									<span class="smk_sbg_handle"></span>
 									<input class="smk_sbg_form_created_id" type="hidden" value="'. $sidebar['id'] .'" name="'. $this->plugin_option .'[sidebars]['. $sidebar['id'] .'][id]" />
 									<input class="smk_sbg_form_created" type="text" value="'. $sidebar['name'] .'" name="'. $this->plugin_option .'[sidebars]['. $sidebar['id'] .'][name]" />
-									<span class="smk_sbg_code"><code>smk_sidebar("smk_sbg_' . $sidebar['id'] . '");</code></span>
-									<span class="smk_sbg_code"><code>[smk_sidebar id="smk_sbg_' . $sidebar['id'] . '"]</code></span>
+									<span class="smk_sbg_code smk_sbg_code_id"><code>smk_sidebar_' . $sidebar['id'] . '</code></span>
+									<span class="smk_sbg_code smk_sbg_code_shortcode"><code>[smk_sidebar id="smk_sidebar_' . $sidebar['id'] . '"]</code></span>
 								<span class="smk_sbg_remove_sidebar">'. $text[5] .'</span></div>';
 
 							}
@@ -302,6 +303,35 @@ class SMK_Sidebar_Generator {
 				echo '<textarea name="exp_data" class="sbg_textarea sbg_textarea_import"></textarea>';
 				echo '<input type="submit" name="submit" id="export_submit" class="button button-primary smk_sbg_import_button" value="'. $text[6] .'">';
 			echo '</form>';
+		echo '</div>';
+
+		//TAB Import
+		echo '<div id="tab_how_to" class="smk_sbg_tab additional">';
+			//Import form
+			echo '<h2>' . __('How to use?','smk_sbg') .'</h2>';
+			echo '<h3>' . __('Shortcode:','smk_sbg') .'</h3>';
+			echo '<p>' . __('Paste the shortcode anywhere you want, in posts, pages etc. If the input accept shortcodes, then the sidebar will be displayied.','smk_sbg') .'</p>';
+			echo '<pre>[smk_sidebar id="SIDEBAR_ID"]</pre>';
+			echo '<h3>' . __('Function:','smk_sbg') .'</h3>';
+			echo '<p>' . __('You can use the built-in function, but for this you should modify theme files and make sure to check if function exists before use.','smk_sbg') .'</p>';
+			echo '<pre>
+if(function_exists("smk_sidebar"){
+ 	smk_sidebar("SIDEBAR_ID");
+}
+			</pre>';
+			echo '<h3>' . __('WP Native function:','smk_sbg') .'</h3>';
+			echo '<p>' . __('You can use the built-in function <em>smk_sidebar</em>, but anyways I recomend using WP native function to avoid conflicts.','smk_sbg') .'</p>';
+			echo "<pre>
+if(function_exists('dynamic_sidebar') && dynamic_sidebar('SIDEBAR_ID')) : 
+endif;
+			</pre>";
+
+			echo '<h3>' . __('For more docs visit the following links:','smk_sbg') .'</h3>';
+			echo '<div class="sbg_docs_links">';
+				echo '<a href="" target="_blank">Plugin Official Page</a>';
+				echo '<a href="" target="_blank">Github Repository</a>';
+			echo '</div>';
+
 		echo '</div>';	
 
 		// smk_ppprint( get_option($this->plugin_option) );

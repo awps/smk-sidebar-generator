@@ -130,6 +130,12 @@
 .smk_sbg_main_block .smk_sbg_col_title.sbg_name{
 	width: 210px;
 }
+.smk_sbg_main_block .smk_sbg_col_title.sbg_id{
+	width: 160px;
+}
+.smk_sbg_main_block .smk_sbg_col_title.sbg_shortcode{
+	width: 290px;
+}
 
 .smk_sbg_main_block .smk_sbg_one_sidebar{
 	position: relative;
@@ -209,8 +215,11 @@
 	display: inline-block;
 	width: 200px;
 }
-.smk_sbg_main_block .smk_sbg_code code{
-	font-size: 11px;
+.smk_sbg_main_block .smk_sbg_code.smk_sbg_code_id{
+	width: 160px;
+}
+.smk_sbg_main_block .smk_sbg_code.smk_sbg_code_shortcode{
+	width: 290px;
 }
 
 .smk_sbg_main_block h2 span.smk_sbg_version{
@@ -316,6 +325,22 @@
 .smk_sbg_main_block .sbg_textarea{
 	width: 100%;
 	height: 200px;
+}
+
+/* How to use
+----------------------------------------*/
+.smk_sbg_main_block .sbg_docs_links a{
+	display: inline-block;
+	padding: 3px 7px;
+	background: #7BB24B;
+	color: #fff;
+	font-weight: 700;
+	text-decoration: none;
+	border-radius: 3px;
+	margin: 0 5px;
+}
+.smk_sbg_main_block .sbg_docs_links a:hover{
+	background: #DE3C26;
 }
 
 /* Metabox styles

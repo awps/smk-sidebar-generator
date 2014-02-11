@@ -3,7 +3,7 @@ Contributors: _smartik_
 Tags: sidebar, widget, generator, custom, unlimited
 Requires at least: 3.2
 Tested up to: 3.8
-Stable tag: 2.3
+Stable tag: 2.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,10 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 
 
 == Changelog ==
+= 2.3.1 =
+* Quick fix for shortcode smk_sidebar ID. Shortcode did not work because the ID was not set correctly.
+* Added new tab "How to use?" and links to docs.
+
 = 2.3 =
 * **Added import/export functions.**
 * Changes to `smk_sidebar` shortcode. Previously to get a sidebar required only an integer number, now you can get any sidebar using the shortcode just giving the id, even if the sidebar is not generated using Sidebar Generator plugin.
