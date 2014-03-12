@@ -3,7 +3,7 @@ Contributors: _smartik_
 Tags: sidebar, widget, generator, custom, unlimited
 Requires at least: 3.2
 Tested up to: 3.8
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,11 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 == Description ==
 This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 
+** Important info: I'm working for version 3.0 which will support custom sidebars without touching a single line of code. If you want to get acces to first beta, click the following link, subscribe and I will send it to you when it's ready: http://eepurl.com/QeMOf **
+
 **Demo video:** http://youtu.be/fluNdMnSCKA
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/fluNdMnSCKA" frameborder="0" allowfullscreen></iframe>)
 
 * Author : Smartik - http://smartik.ws/
 * License : GPLv2
@@ -98,6 +102,10 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 
 
 == Changelog ==
+= 2.3.2 =
+* Quick fix UI. When a new sidebar is created, it display an incorect info and it was fixed only after page refresh.
+* Removed unused files, since version 3.0 is on development `smk_sidebar_metabox.php` was removed, as it was never used and is not required for the next versions.
+
 = 2.3.1 =
 * Quick fix for shortcode smk_sidebar ID. Shortcode did not work because the ID was not set correctly.
 * Added new tab "How to use?" and links to docs.

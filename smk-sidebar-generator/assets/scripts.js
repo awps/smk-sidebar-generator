@@ -54,8 +54,8 @@ jQuery(document).ready(function($){
 								     '	<span class="smk_sbg_handle"></span>' +
 								     '	<input class="smk_sbg_form_created_id" type="hidden" value="'+ the_id +'" name="'+ option +'[sidebars]['+ the_id +'][id]" />' + 
 								     '	<input class="smk_sbg_form_created" type="text" value="'+ new_s +'" name="'+ option +'[sidebars]['+ the_id +'][name]" />' + 
-								     '	<span class="smk_sbg_code"><code>smk_sidebar("smk_sbg_' + the_id + '");</code></span>' +
-									 '	<span class="smk_sbg_code"><code>[smk_sidebar id="smk_sbg_' + the_id + '"]</code></span>' +
+								     '	<span class="smk_sbg_code smk_sbg_code_id"><code>smk_sidebar_' + the_id + '</code></span>' +
+									 '	<span class="smk_sbg_code smk_sbg_code_shortcode"><code>[smk_sidebar id="smk_sidebar_' + the_id + '"]</code></span>' +
 								     '	<span class="smk_sbg_remove_sidebar">'+ smk_sbg_lang.remove +'</span>' + 
 								     '</div>';
 
