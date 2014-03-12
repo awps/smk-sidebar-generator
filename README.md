@@ -1,7 +1,7 @@
 ##SMK Sidebars Generator
 This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 
-** Important info: I'm working for version 3.0 which will support custom sidebars without touching a single line of code. If you want to get acces to first beta, click the following link, subscribe and I will send it to you when it's ready: http://eepurl.com/QeMOf **
+**Important info: I'm working for version 3.0 which will support custom sidebars without touching a single line of code. If you want to get acces to first beta, click the following link, subscribe and I will send it to you when it's ready:** http://eepurl.com/QeMOf
 
 **Demo video:** http://youtu.be/fluNdMnSCKA
 
