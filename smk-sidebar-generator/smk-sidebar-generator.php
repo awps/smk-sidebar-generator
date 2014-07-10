@@ -17,7 +17,7 @@
  *
  * @Date:   2014-07-08 00:49:24
  * @Last Modified by:   Smartik
- * @Last Modified time: 2014-07-08 00:59:15
+ * @Last Modified time: 2014-07-08 14:14:43
  *
  */
 
@@ -25,8 +25,26 @@
 if( ! function_exists('add_action') ) 
 	die();
 
+/**
+ * Plugin version
+ *
+ * Get the current plugin version.
+ * 
+ * @return string 
+ */
+function smk_sidebar_version(){
+	if( is_admin() ){
+		$data = get_file_data( __FILE__, array( 'Version' ) );
+		return empty( $data ) ? '' : $data[0];
+	}
+	else{
+		return false;
+	}
+}
+
 $path = plugin_dir_path( __FILE__ );
 
+require_once $path . 'html.php';
 require_once $path . 'abstract.php';
 require_once $path . 'render.php';
 

@@ -1,0 +1,137 @@
+/* 
+* @Author: Smartik
+* @Date:   2014-03-12 21:17:04
+* @Last Modified by:   Smartik
+* @Last Modified time: 2014-07-10 23:27:29
+*/
+/*
+-------------------------------------------------------------------------------
+General view 
+-------------------------------------------------------------------------------
+*/
+
+#smk-sidebars ul,
+#smk-removed-sidebars ul{
+	min-height: 40px;
+	border: 1px solid #ddd;
+}
+#smk-sidebars ul li:last-of-type,
+#smk-removed-sidebars ul li:last-of-type{
+	border-bottom: 0;
+}
+.smk-sidebars-grid{
+	display: block;
+	float: left;
+	width: 100%;
+	margin: 0;
+	max-width: 1000px;
+}
+.smk-sidebars-grid.removed-sidebars{
+	display: none;
+}
+.sbg-removed-active .smk-sidebars-grid.removed-sidebars{
+	display: block;
+}
+
+/*
+-------------------------------------------------------------------------------
+Head section
+-------------------------------------------------------------------------------
+*/
+.smk-sidebars-list .accordion-section-title{
+	position: relative;
+	padding-right: 150px; 
+}
+.smk-sidebars-list .accordion-section-title .description{
+	font-size: 13px;
+	font-weight: 400;
+	font-style: normal;
+	color: #666;
+	margin-left: 10px;
+}
+
+/* Moderate sidebar
+------------------------------------------------*/
+.smk-sidebars-list .accordion-section-title .moderate-sidebar{
+	position: absolute;
+	font-size: 13px;
+	font-weight: 700;
+	font-style: normal;
+	color: #5F72C0;
+	margin-left: 10px;
+	right: 30px;
+	top: 11px;
+}
+.smk-sidebars-list .accordion-section-title .moderate-sidebar span{
+	padding: 1px 7px;
+	border-radius: 2px;
+	display: inline-block;
+}
+/* Delete
+------------------------------------------------*/
+.smk-sidebars-list .accordion-section-title .moderate-sidebar .smk-delete-sidebar{
+	color: #CF0018;
+}
+.smk-sidebars-list .accordion-section-title .moderate-sidebar .smk-delete-sidebar:hover{
+	color: #fff;
+	background: #CF0018;
+}
+
+/* Restore
+------------------------------------------------*/
+.smk-sidebars-list .accordion-section-title .moderate-sidebar .smk-restore-sidebar{
+	color: #82B82B;
+	display: none;
+}
+.smk-sidebars-list .accordion-section-title .moderate-sidebar .smk-restore-sidebar:hover{
+	color: #fff;
+	background: #82B82B;
+}
+
+/* Removed sidebar styles
+------------------------------------------------*/
+#smk-removed-sidebars .accordion-section-title .description,
+#smk-removed-sidebars .accordion-section-title .moderate-sidebar span{
+	display: none;
+}
+#smk-removed-sidebars .accordion-section-title .moderate-sidebar .smk-restore-sidebar{
+	display: inline-block;
+}
+
+/*
+-------------------------------------------------------------------------------
+Content section
+-------------------------------------------------------------------------------
+*/
+.smk-sidebar-row label{
+	display: block;
+	font-weight: 700;
+	margin: 10px 0 5px;
+}
+.smk-sidebar-row input,
+.smk-sidebar-row textarea,
+.smk-sidebar-row select{
+	margin-bottom: 10px;
+}
+.add-new-sidebar{
+	font-size: 12px;
+	/*color: #666;*/
+	/*background: #ddd;*/
+	padding: 3px 6px;
+	margin: 0 7px;
+	border-radius: 2px;
+	cursor: pointer;
+}
+.add-new-sidebar:hover{
+	/*color: #fff;*/
+	/*background: #FD773E;*/
+}
+
+/*
+-------------------------------------------------------------------------------
+Clear Floated Elements
+-------------------------------------------------------------------------------
+*/
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+.sbg-clearfix:before,.sbg-clearfix:after{content:'.';display:block;overflow:hidden;visibility:hidden;font-size:0;line-height:0;width:0;height:0;}
+.sbg-clearfix:after{clear:both;}

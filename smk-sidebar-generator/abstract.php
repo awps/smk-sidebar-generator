@@ -10,7 +10,7 @@
  *
  * @Date:               2014-03-12 21:17:04
  * @Last Modified by:   Smartik
- * @Last Modified time: 2014-07-08 01:35:57
+ * @Last Modified time: 2014-07-11 00:50:27
  *
  */
 
@@ -35,8 +35,20 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 
 		//------------------------------------//--------------------------------------//
 		
+		/**
+		 * Html helpers
+		 *
+		 * Allows to create different HTML elements
+		 *
+		 * @return string 
+		 */
+		protected $html;
+
+		//------------------------------------//--------------------------------------//
+		
 		public function __construct(){
-			$this->version = $this->version();
+			$this->version = smk_sidebar_version();
+			$this->html = new Smk_Sidebar_Generator_Html;
 		}
 
 		//------------------------------------//--------------------------------------//
@@ -74,6 +86,10 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 			add_action( 'admin_init', array( $this, 'registerSetting' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ), 99 );
+			add_action( 'widgets_init', array( $this, 'registerGeneratedSidebars' ) );
+
+			// update from v2
+			$this->updateSidebarsFromV2();
 		}
 
 		//------------------------------------//--------------------------------------//
@@ -169,6 +185,87 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		//------------------------------------//--------------------------------------//
 		
 		/**
+		 * All generated sidebars
+		 *
+		 * Get all generated sidebars.
+		 *
+		 * @return array
+		 */
+		public function allGeneratedSidebars(){
+			$all = get_option( $this->pluginSettings('option_name'), array() );
+			if( !empty( $all['sidebars'] ) ){
+				return $all['sidebars'];
+			}
+			else{
+				return array();
+			}
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Register sidebars
+		 *
+		 * Register all generated sidebars
+		 *
+		 * @hook widgets_init
+		 * @return void 
+		 */
+		public function registerGeneratedSidebars() {
+
+			//Catch saved options
+			$sidebars = get_option( $this->pluginSettings('option_name'), array() );
+
+			//Make sure if we have valid sidebars
+			if ( !empty( $sidebars['sidebars'] ) && is_array( $sidebars['sidebars'] ) ){
+
+				//Register each sidebar
+				foreach ($sidebars['sidebars'] as $sidebar) {
+					if( isset($sidebar) && !empty($sidebar) ){
+
+						register_sidebar(
+							array(
+								'name'          => $sidebar['name'],
+								'id'            => $sidebar['id'],
+								'description'   => $sidebar['description'],
+								'before_widget' => '<div id="%1$s" class="widget %2$s">',
+								'after_widget'  => '</div>',
+								'before_title'  => '<h3 class="widget-title">',
+								'after_title'   => '</h3>'
+							)
+						);
+
+					}
+				}
+
+			}
+
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * All static sidebars
+		 *
+		 * Get all static sidebars.
+		 *
+		 * @return array
+		 */
+		public function allStaticSidebars(){
+			$all = $this->allRegisteredSidebars();
+			$generated = $this->allGeneratedSidebars();
+			$static = array();
+			foreach ( $all as $key => $value) {
+				if( ! array_key_exists($key, $generated) ){
+					$static[ $key ] = $value;
+				}
+			}
+			return $static;
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
 		 * Menu
 		 *
 		 * Create a new submenu for this plugin.
@@ -202,10 +299,28 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function enqueue(){
 			if( $this->isPluginPage() ){
-				$depend = array('jquery', 'jquery-ui-core', 'jquery-ui-sortable', 'jquery-ui-slider');
-				wp_register_script( 'smk-sidebar-generator', $this->uri() . 'assets/scripts.js', $depend, $this->version );
+				wp_register_style( 'smk-sidebar-generator', $this->uri() . 'assets/styles.css', '', $this->version );
 
-				wp_enqueue_script('smk-sidebar-generator');
+				$depend = array('jquery', 'jquery-ui-core', 'jquery-ui-sortable', 'jquery-ui-slider');
+				wp_register_script( 'smk-sidebar-generator', $this->uri() . 'assets/scripts.js', $depend, $this->version, true );
+
+				wp_enqueue_style( 'smk-sidebar-generator' );
+				wp_enqueue_script( 'smk-sidebar-generator' );
+		 		wp_localize_script( 'smk-sidebar-generator', 'smk_sidebar_local', array(
+		 				'sidebar_prefix' => $this->prefix(),
+						'remove'        => __('Remove', 'smk_sbg'),
+						'not_saved_msg' => __("You've made changes, don't forget to save.", 'smk_sbg'),
+						'ok'            => __("Changes were saved successfully.", 'smk_sbg'),
+						'fail'          => __("An unexpected error ocurred.", 'smk_sbg'),
+						'created'       => __("The sidebar was successfully created.", 'smk_sbg'),
+						's_exists'      => __("The sidebar already exists. Please change the name.", 'smk_sbg'),
+						'empty'         => __("Please enter a name for this sidebar.", 'smk_sbg'),
+						's_remove'      => __("Are you sure? If you remove this sidebar it can't be restored.", 'smk_sbg'),
+						's_removed'     => __("Sidebar Removed", 'smk_sbg'),
+						'data_imported' => __("Data imported successfully.", 'smk_sbg'),
+						'spin'          => '<span class="smk_sbg_spin"></span>',
+					)
+				);
 			}
 		}
 
@@ -222,26 +337,7 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			$settings = $this->pluginSettings();
 			return isset( $_GET['page'] ) && $_GET['page'] == $settings['slug'] ? true : false;
 		}
-
-		//------------------------------------//--------------------------------------//
-
-		/**
-		 * Plugin version
-		 *
-		 * Get the current plugin version.
-		 * 
-		 * @return string 
-		 */
-		public function version(){
-			if( is_admin() ){
-				$data = get_file_data( __FILE__, array( 'Version' ) );
-				return empty( $data ) ? '' : $data[0];
-			}
-			else{
-				return false;
-			}
-		}
-
+  
 		//------------------------------------//--------------------------------------//
 
 		/**
@@ -266,6 +362,61 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function uri(){
 			return plugin_dir_url( __FILE__ );
+		}
+
+		//------------------------------------//--------------------------------------//
+
+		/**
+		 * The prefix for sidebar ID
+		 *
+		 * Generate the prefix for sidebar ID based on current WP setup
+		 * 
+		 * @return string 
+		 */
+		public function prefix(){
+			$theme             = get_option( 'current_theme', '' );
+			$wordpress_version = get_bloginfo( 'version', '' );
+			// Make the prefix
+			$string = 's' . substr( $theme, 0, 1 ) . $wordpress_version;
+			$string = preg_replace('/[^\w-]/', '', $string);
+			return  strtolower( $string ) . '_';
+		}
+
+		//------------------------------------//--------------------------------------//
+
+		/**
+		 * Sidebars from v2
+		 *
+		 * Get all sidebars generated by Smk Sidebars generator v2, move and convert them
+		 * for v3 and delete old data. Backwards compatibility function.
+		 * 
+		 * @return void 
+		 */
+		public function updateSidebarsFromV2(){
+			if( false === get_transient( 'smk_sidebar_generator_option_v2' ) ){
+				$option_name = $this->pluginSettings('option_name');
+				$old = get_option( 'smk_sidebar_generator_option', array() );
+				$new = get_option( $option_name, array() );
+				$final = $new;
+
+				$v2_sidebars = ! empty( $old['sidebars'] ) ? $old['sidebars'] : array();
+				$v3_sidebars = ! empty( $new['sidebars'] ) ? $new['sidebars'] : array();
+
+				$v2 = array();
+				foreach ($v2_sidebars as $key => $value) {
+					$v2['smk_sidebar_' . $key]['id'] = 'smk_sidebar_' . $value['id'];
+					$v2['smk_sidebar_' . $key]['name'] = $value['name'];
+					$v2['smk_sidebar_' . $key]['description'] = '';
+				}
+
+				$final_sidebars['sidebars'] = wp_parse_args( $v3_sidebars, $v2 );
+
+				$final = wp_parse_args( $final_sidebars, $new );
+
+				update_option( $option_name, $final );
+				delete_option( 'smk_sidebar_generator_option' );
+				set_transient( 'smk_sidebar_generator_option_v2', true );
+			}
 		}
 
 		//------------------------------------//--------------------------------------//
