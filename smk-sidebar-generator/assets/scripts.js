@@ -2,7 +2,7 @@
 * @Author: Smartik
 * @Date:   2014-03-12 21:17:04
 * @Last Modified by:   Smartik
-* @Last Modified time: 2014-07-11 00:51:37
+* @Last Modified time: 2014-07-12 00:09:31
 */
 jQuery.noConflict();
 jQuery(document).ready(function($){
@@ -11,7 +11,7 @@ jQuery(document).ready(function($){
 
 		// Sidebars accordion
 		accordion: function(){
-			jQuery("#smk-sidebars").on("click", "h3", function(){
+			jQuery("#smk-sidebars").on("click", "h3.accordion-section-title", function(){
 				var current = $(this);
 				
 				if( current.parents("li.accordion-section").hasClass("open") ){
@@ -38,7 +38,7 @@ jQuery(document).ready(function($){
 				connectWith: ".connected-sidebars-lists",
 				cancel: '.moderate-sidebar, .accordion-section-content'
 			});
-			blocks.find('h3').disableSelection();
+			blocks.find('h3.accordion-section-title').disableSelection();
 		},
 
 		// Random ID
@@ -86,8 +86,8 @@ jQuery(document).ready(function($){
 				});
 
 				// Index
-				var h3 = template.find('h3 span.name').html().replace( '__index__', counter );
-				template.find('h3 span.name').html( h3 );
+				var h3 = template.find('h3.accordion-section-title span.name').html().replace( '__index__', counter );
+				template.find('h3.accordion-section-title span.name').html( h3 );
 
 				// Template ID
 				var template_id = template.attr('id');
@@ -105,18 +105,18 @@ jQuery(document).ready(function($){
 			var container = jQuery('#smk-sidebars');
 
 			container.on('change', '.smk-sidebar-name', function(){
-				$(this).parents('li').find('h3 span.name').html( $(this).val() );
+				$(this).parents('li').find('h3.accordion-section-title span.name').html( $(this).val() );
 
 			}).on('keyup', '.smk-sidebar-name', function(){
-				$(this).parents('li').find('h3 span.name').html( $(this).val() );
+				$(this).parents('li').find('h3.accordion-section-title span.name').html( $(this).val() );
 
 			});
 
 			container.on('change', '.smk-sidebar-description', function(){
-				$(this).parents('li').find('h3 span.description').html( $(this).val() );
+				$(this).parents('li').find('h3.accordion-section-title span.description').html( $(this).val() );
 
 			}).on('keyup', '.smk-sidebar-description', function(){
-				$(this).parents('li').find('h3 span.description').html( $(this).val() );
+				$(this).parents('li').find('h3.accordion-section-title span.description').html( $(this).val() );
 
 			});
 		},
@@ -143,6 +143,70 @@ jQuery(document).ready(function($){
 				});
 			});
 		},
+
+		targetIfCondition: function(){
+			jQuery("#smk-sidebars").on("change", ".condition-if", function(){
+				var condition_parent = $(this).parents('.condition-parent'),
+				    selected = $(this).val()
+				    to_change = condition_parent.find('.condition-equalto');
+
+				to_change.empty();
+
+				jQuery.ajax({
+					type: "POST",
+					url: ajaxurl,
+					dataType: "json",
+					data: {
+						'action': 'smk_sbg_load_equalto',
+						'data':   { condition_if: selected }
+					},
+					success: function(response){
+
+						$.each(response, function(key, value) {   
+							to_change.prepend($("<option></option>").attr("value",key).text(value)); 
+						});
+					},
+					complete: function(response){
+					}
+				});//ajax
+			});
+		},
+
+		conditionClone: function(){
+			$('#smk-sidebars').on('click', '.condition-clone', function(){
+				var 
+					condition_parent = $(this).parents('.condition-parent'),
+					condition_all    = $(this).parents('.conditions-all'),
+					cloned_elem      = condition_parent.clone(),
+					max_index        = 0;
+
+				condition_all.find('input, select').each(function(){
+				var 
+					name       = $(this).attr('name');
+					this_nr    = name.match(/\[(\d+)\]/),
+					the_number = parseInt( this_nr[1], 10 );
+
+					if( the_number > max_index ){
+						max_index = the_number;
+					}
+				});
+
+				cloned_elem.find('input, select').each(function(){
+					var name  = $(this).attr('name');
+					$(this).attr( 'name', name.replace( /\[\d+\]/g, '['+ (max_index + 1) +']' ) );
+				});
+				cloned_elem.find('.condition-equalto option').each(function(){
+					$(this).removeAttr('selected');
+				});
+				condition_parent.after( cloned_elem );
+			});
+		},
+			
+		conditionRemove: function(){
+			$('#smk-sidebars').on('click', '.condition-remove', function(){
+				$(this).parents('.condition-parent').remove();
+			});
+		},
 			
 		// Init
 		init: function(){
@@ -152,6 +216,9 @@ jQuery(document).ready(function($){
 			smkSidebarGenerator.liveSet();
 			smkSidebarGenerator.deleteSidebar();
 			smkSidebarGenerator.restoreSidebar();
+			smkSidebarGenerator.targetIfCondition();
+			smkSidebarGenerator.conditionClone();
+			smkSidebarGenerator.conditionRemove();
 		},
 
 	};

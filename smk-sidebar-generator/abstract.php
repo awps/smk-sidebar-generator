@@ -10,7 +10,7 @@
  *
  * @Date:               2014-03-12 21:17:04
  * @Last Modified by:   Smartik
- * @Last Modified time: 2014-07-11 00:50:27
+ * @Last Modified time: 2014-07-11 19:11:59
  *
  */
 
@@ -87,10 +87,23 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			add_action( 'admin_init', array( $this, 'registerSetting' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ), 99 );
 			add_action( 'widgets_init', array( $this, 'registerGeneratedSidebars' ) );
+			
+			$this->setup();
 
 			// update from v2
 			$this->updateSidebarsFromV2();
 		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Add to init object
+		 *
+		 * Add to init object.
+		 *
+		 * @return void 
+		 */
+		public function setup(){}
 
 		//------------------------------------//--------------------------------------//
 		
@@ -431,6 +444,7 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function debug($data = array()){
 			array_walk_recursive( $data, array( $this, 'debugFilter' ) );
+
 			echo '<pre>';
 				print_r($data);
 			echo '</pre>';

@@ -10,7 +10,7 @@
  *
  * @Date:   2014-07-08 00:56:11
  * @Last Modified by:   Smartik
- * @Last Modified time: 2014-07-11 01:35:58
+ * @Last Modified time: 2014-07-12 00:23:06
  *
  */
 
@@ -21,6 +21,10 @@ if( ! function_exists('add_action') )
 // Start object
 if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 	class Smk_Sidebar_Generator extends Smk_Sidebar_Generator_Abstract {
+
+		public function setup(){
+			add_action( 'wp_ajax_smk_sbg_load_equalto', array( $this, 'equaltoAjax' ) );
+		}
 
 		//------------------------------------//--------------------------------------//
 		
@@ -82,7 +86,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			submit_button();
 			$this->pageClose();
 
-			$this->debug( $this->allStaticSidebars() );
+			// $this->debug( $this->allStaticSidebars() );
 		}
 
 		//------------------------------------//--------------------------------------//
@@ -157,23 +161,12 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 *
 		 * @param array $sidebar_data Sidebar data
 		 * @param array $settings Sidebar custom settings
-		 * @param bool $sidebars_fields Show or hide sidebars fields. This is required only for gen. sidebars.
 		 * @return string The HTML.
 		 */
-		public function aSingleListItem($sidebar_data, $settings = false, $sidebars_fields = true){
+		public function aSingleListItem($sidebar_data, $settings = false){
 			$settings = ( $settings && is_array( $settings ) ) ? $settings : $this->pluginSettings();
-			$class    = ( !empty( $settings['class'] ) ) ? ' '. $settings['class'] : '';
 			$name     = $settings['option_name'] .'[sidebars]['. $sidebar_data['id'] .']';
 			
-			// To replace
-			$static   = $this->allStaticSidebars();
-			$static_sidebars = '';
-			$replace = !empty( $sidebar_data['replace'] ) ? $sidebar_data['replace'] : array();
-			foreach ($static as $key => $value) {
-				$selected = ( in_array($key, $replace) ) ? ' selected="selected"' : '';
-				$static_sidebars .= '<option value="'. $key .'"'. $selected .'>'. $value['name'] .'</option>';
-			}
-
 			// All pages
 			$all_pages = get_pages();
 			$pages_options = '';
@@ -184,7 +177,61 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			}
 
 			if( !empty($sidebar_data) ) : 
-			$the_sidebar = '
+				$the_sidebar = $this->sidebarAccordion('open', $sidebar_data, $settings, false);
+
+					$the_sidebar .= $this->fieldName($name, $sidebar_data);
+					$the_sidebar .= $this->fieldId($name, $sidebar_data);
+					$the_sidebar .= $this->fieldDescription($name, $sidebar_data);
+					$the_sidebar .= $this->fieldToReplace($name, $sidebar_data);
+					
+					// Conditions
+					$the_sidebar .= '<div class="smk-sidebar-row conditions-all">';
+
+						$the_sidebar .= '<h3>'. __('Conditions:', 'smk_sbg') .'</h3>';
+
+						if( !empty($sidebar_data['conditions']) ){
+							foreach ( (array) $sidebar_data['conditions'] as $index => $condition) {
+								$the_sidebar .= '<div class="condition-parent sbg-clearfix">';
+									$the_sidebar .= $this->fieldConditionMain( $name, $sidebar_data, $index );
+									$the_sidebar .= ' - '. __('is equal to', 'smk_sbg') .' - ';
+									$the_sidebar .= $this->fieldConditionEqualTo($name, $sidebar_data, $index, $condition['if']);
+								$the_sidebar .= ' <span class="condition-clone button"> + </span>';
+								$the_sidebar .= ' <span class="condition-remove"> x </span>';
+								$the_sidebar .= '</div>';
+							}
+						}
+						else{
+								$the_sidebar .= '<div class="condition-parent sbg-clearfix">';
+									$the_sidebar .= $this->fieldConditionMain( $name, $sidebar_data, 0 );
+									$the_sidebar .= ' - '. __('is equal to', 'smk_sbg') .' - ';
+									$the_sidebar .= $this->fieldConditionEqualTo($name, $sidebar_data, 0, 'all');
+								$the_sidebar .= ' <span class="condition-clone button"> + </span>';
+								$the_sidebar .= ' <span class="condition-remove"> x </span>';
+								$the_sidebar .= '</div>';
+						}
+						
+					$the_sidebar .= '</div>';
+
+				$the_sidebar .= $this->sidebarAccordion('close', $sidebar_data, $settings, false);
+			return $the_sidebar;
+			endif;
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Sidebar Accordion
+		 *
+		 * Global parts of a single sidebar accordion
+		 * 
+		 * @param string $part `open` or `close`
+		 * @return string The HTML.
+		 */
+		public function sidebarAccordion($part, $sidebar_data = array(), $settings = array(), $echo = true){
+
+			$class    = ( !empty( $settings['class'] ) ) ? ' '. $settings['class'] : '';
+			if( $part == 'open' ){
+				$the_sidebar = '
 				<li id="'. $sidebar_data['id'] .'" class="control-section accordion-section'. $class .'">
 					<h3 class="accordion-section-title hndle">
 						<span class="name">'. $sidebar_data['name'] .'</span>&nbsp;
@@ -193,87 +240,295 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 							<span class="smk-delete-sidebar">'. __('Delete', 'smk_sbg') .'</span>
 							<span class="smk-restore-sidebar">'. __('Restore', 'smk_sbg') .'</span>
 						</div>
-					</h3>';
+					</h3>
+					<div class="accordion-section-content" style="display: none;">
+						<div class="inside">';
+			}
+			elseif( $part == 'close' ){
+						$the_sidebar = '</div>
+					</div>
+				</li>';
+			}
+			else{
+				$the_sidebar = '';
+			}
+
+			if( $echo ) { echo $the_sidebar; } else { return $the_sidebar; }
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Sidebar field name
+		 *
+		 * Display sidebar name field
+		 *
+		 * @param string $name HTML field name
+		 * @param string $sidebar_data Data for current sidebar
+		 * @return string The HTML
+		 */
+		public function fieldName($name, $sidebar_data){
+			return '<div class="smk-sidebar-row">
+				<label>'. __('Name:', 'smk_sbg') .'</label>'. 
+				$this->html->input(
+					'', // ID
+					$name. '[name]', 
+					$sidebar_data['name'], 
+					array(
+						'type' => 'text',
+						'class' => array( 'smk-sidebar-name' ),
+					)
+				) 
+			.'</div>';
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Sidebar field ID
+		 *
+		 * Display sidebar ID field
+		 *
+		 * @param string $name HTML field name
+		 * @param string $sidebar_data Data for current sidebar
+		 * @return string The HTML
+		 */
+		public function fieldId($name, $sidebar_data){
+			return '<div class="smk-sidebar-row" style="display: none;">
+				<label>'. __('ID:', 'smk_sbg') .'</label>'. 
+				$this->html->input(
+					'', // ID
+					$name. '[id]', 
+					$sidebar_data['id'], 
+					array(
+						'type' => 'text',
+						'class' => array( 'smk-sidebar-id' ),
+					)
+				) 
+			.'</div>';
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Sidebar field description
+		 *
+		 * Display sidebar description field
+		 *
+		 * @param string $name HTML field name
+		 * @param string $sidebar_data Data for current sidebar
+		 * @return string The HTML
+		 */
+		public function fieldDescription($name, $sidebar_data){
+			return '<div class="smk-sidebar-row">
+				<label>'. __('Description:', 'smk_sbg') .'</label>'. 
+				$this->html->input(
+					'', // ID
+					$name. '[description]', 
+					$sidebar_data['description'], 
+					array(
+						'type' => 'text',
+						'class' => array( 'smk-sidebar-description', 'widefat' ),
+					)
+				) 
+			.'</div>';
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Sidebar field To Replace
+		 *
+		 * Display sidebar To Replace field
+		 *
+		 * @param string $name HTML field name
+		 * @param string $sidebar_data Data for current sidebar
+		 * @return string The HTML
+		 */
+		public function fieldToReplace($name, $sidebar_data){
+
+			// To replace
+			$static   = $this->allStaticSidebars();
+			$static_sidebars = '';
+			$replace = !empty( $sidebar_data['replace'] ) ? $sidebar_data['replace'] : array();
+			foreach ($static as $key => $value) {
+				$static_sidebars[ $key ] = $value['name'];
+			}
+
+			return '<div class="smk-sidebar-row">
+				<label>'. __('Sidebars to replace:', 'smk_sbg') .'</label>'. 
+				$this->html->select(
+					'', // ID
+					$name. '[replace][]', 
+					$replace,
+					array(
+						'multiple' => 'multiple',
+						'options' => $static_sidebars,
+					)
+				) 
+			.'</div>';
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Sidebar field Condition main
+		 *
+		 * Display sidebar Condition main field
+		 *
+		 * @param string $name HTML field name
+		 * @param string $sidebar_data Data for current sidebar
+		 * @return string The HTML
+		 */
+		public function fieldConditionMain($name, $sidebar_data, $index = 0){
+
+			$pt_args = array(
+				'public'   => true,
+				'_builtin' => false
+			);
+			$pt = array(
+				'post_type::post' => _x('Post', 'Post type name', 'smk_sbg'),
+				'post_type::page' => _x('Page', 'Post type name', 'smk_sbg'),
+			);
+			$post_types = get_post_types( $pt_args, 'objects' );
+			foreach ($post_types as $post_type) {
+				$pt[ 'post_type::' . $post_type->name ] = $post_type->label;
+			}
+
+			return '<span>'. __('Replace if', 'smk_sbg') .' </span>'.
+				$this->html->select(
+					'', // ID
+					$name. '[conditions]['. absint( $index ) .'][if]', 
+					$sidebar_data['conditions'][ absint( $index ) ]['if'], 
+					array(
+						'options' => array(
+							'all' => __('All', 'smk_sbg'),
+							array(
+								'label' => __('Post types', 'smk_sbg'),
+								'options' => $pt,
+							)
+						),
+						'class' => array('condition-if'),
+					)
+				);
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Sidebar field Condition EqualTo
+		 *
+		 * Display sidebar Condition EqualTo field
+		 *
+		 * @param string $name HTML field name
+		 * @param string $sidebar_data Data for current sidebar
+		 * @return string The HTML
+		 */
+		public function fieldConditionEqualTo($name, $sidebar_data, $index = 0, $type){
+
+			$saved = ! empty( $sidebar_data['conditions'][ absint( $index ) ]['equalto'] ) ? 
+			            $sidebar_data['conditions'][ absint( $index ) ]['equalto'] : '';
+
+			return 
+				$this->html->select(
+					'', // ID
+					$name. '[conditions]['. absint( $index ) .'][equalto]', 
+					$saved, 
+					array(
+						'options' => $this->getEqualToOptions($type),
+						// 'multiple' => 'multiple',
+						// 'size' => 10,
+						'class' => array('condition-equalto'),
+					)
+				);
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Get Equal to Options
+		 *
+		 * @param string $type Example pot_type::page 
+		 * @return array
+		 */
+		public function getEqualToOptions($type){
+
+			$options['all'] = __('All', 'smk_sbg');
+			$the_type       = explode('::', $type);
+
+			if( !empty( $the_type[0] ) && !empty( $the_type[1] ) ){
+				switch ( $the_type[0] ) {
+					case 'post_type':
+						$posts = $this->getAllPostsFor( $the_type[1] );
+						$options =  $options + (array) $posts;
+						break;
 					
-					if( $sidebars_fields ) {
-						$the_sidebar .= '<div class="accordion-section-content" style="display: none;">
-							<div class="inside">
-								
-								<div class="smk-sidebar-row">
-								<label>'. __('Name:', 'smk_sbg') .'</label>'. 
-								$this->html->input(
-									'', // ID
-									$name. '[name]', 
-									$sidebar_data['name'], 
-									array(
-										'type' => 'text',
-										'class' => array( 'smk-sidebar-name' ),
-									)
-								) 
-								.'
-								</div>
+					default:
+						# code...
+						break;
+				}
+				
+			}
 
-								<div class="smk-sidebar-row" style="display: none;">
-								<label>'. __('ID:', 'smk_sbg') .'</label>'. 
-								$this->html->input(
-									'', // ID
-									$name. '[id]', 
-									$sidebar_data['id'], 
-									array(
-										'type' => 'text',
-										'class' => array( 'smk-sidebar-id' ),
-									)
-								) 
-								.'
-								</div>
-								
-								<div class="smk-sidebar-row">
-								<label>'. __('Description:', 'smk_sbg') .'</label>'. 
-								$this->html->input(
-									'', // ID
-									$name. '[description]', 
-									$sidebar_data['description'], 
-									array(
-										'type' => 'text',
-										'class' => array( 'smk-sidebar-description', 'widefat' ),
-									)
-								) 
-								.'
-								</div>
-								
-								<div class="smk-sidebar-row">
-								<label>'. __('Sidebars to replace:', 'smk_sbg') .'</label>
-								<select multiple="multiple" name="'. $name .'[replace][]">'.
-									$static_sidebars
-								.'</select>
-								</div>
-								
-								<h3>'. __('Conditions:', 'smk_sbg') .'</h3>
-								<div class="smk-sidebar-row">
-								<span>'. __('Replace if', 'smk_sbg') .' </span>
-								<select name="'. $name .'[conditions][0][if]">
-									<option value="page">Page</option>
-									<option value="post">Post</option>
-								</select>
-								 - 
-								<select name="'. $name .'[conditions][0][equal]">
-									<option value="is">'. __('is equal to', 'smk_sbg') .'</option>
-									<option value="is not">'. __('is not equal to', 'smk_sbg') .'</option>
-								</select>
-								 - 
-								<select name="'. $name .'[conditions][0][to]">'.
-									$pages_options
-								.'</select>
-								</div>
+			return $options;
+		}
 
-							</div>';
+		public function equaltoAjax(){	
+			$data = $_POST['data'];
+			$type = $data['condition_if'];
+			$opt = $this->getEqualToOptions($type);
 
-						$the_sidebar .= '</div>';
-					}
+			echo json_encode( $opt );
 
-				$the_sidebar .= '</li>';
-			return $the_sidebar;
-			endif;
+			die();
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Get all posts from a post type
+		 *
+		 * @param string $post_type The post type name
+		 * @return array
+		 */
+		public function getAllPostsFor($post_type){
+
+			$all_posts = array();
+
+			$posts = get_posts(array(
+				'post_type'        => $post_type,
+				'post_status'      => 'publish',
+				'posts_per_page'   => -1,
+			));
+
+			foreach ( $posts as $post ) {
+				$id = $post->ID;
+				$all_posts[ $id ] = $post->post_title;
+			}
+			wp_reset_postdata();
+			return $all_posts;
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * All removed sidebars list
+		 *
+		 * All removed sidebars list
+		 *
+		 * @return string The HTML.
+		 */
+		public function allRemovedSidebarsList($echo = true){
+			$list = '<div class="smk-sidebars-grid removed-sidebars">
+				<h3>
+					'. __('Removed', 'smk_sbg') .'
+					<span class="tip dashicons-before dashicons-editor-help" title="'. __('These sidebars will be removed on the next page refresh.', 'smk_sbg') .'"></span>
+				</h3>
+				<div id="smk-removed-sidebars" class="accordion-container smk-sidebars-list">
+					<ul class="connected-sidebars-lists"></ul>
+				</div>
+			</div>';
+			if( $echo ) { echo $list; } else { return $list; }
 		}
 
 		//------------------------------------//--------------------------------------//
@@ -299,30 +554,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			$item = $this->aSingleListItem( $sidebar_data, $settings );
 			if( $echo ) { echo $item; } else { return $item; }
 		}
-
-		//------------------------------------//--------------------------------------//
-		
-		/**
-		 * All removed sidebars list
-		 *
-		 * All removed sidebars list
-		 *
-		 * @return string The HTML.
-		 */
-		public function allRemovedSidebarsList($echo = true){
-			$list = '<div class="smk-sidebars-grid removed-sidebars">
-				<h3>
-					'. __('Removed', 'smk_sbg') .'
-					<span class="tip dashicons-before dashicons-editor-help" title="'. __('These sidebars will be removed on the next page refresh.', 'smk_sbg') .'"></span>
-				</h3>
-				<div id="smk-removed-sidebars" class="accordion-container smk-sidebars-list">
-					<ul class="connected-sidebars-lists"></ul>
-				</div>
-			</div>';
-			if( $echo ) { echo $list; } else { return $list; }
-		}
-
-
 
 	}
 }

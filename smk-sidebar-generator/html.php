@@ -12,7 +12,7 @@
  *
  * @Date:   2014-07-08 14:13:52
  * @Last Modified by:   Smartik
- * @Last Modified time: 2014-07-08 14:14:23
+ * @Last Modified time: 2014-07-11 15:46:05
  *
  */
 if( ! class_exists('Smk_Sidebar_Generator_Html') ){
@@ -28,6 +28,41 @@ if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 
 			return '<input'. $this->mergeAttributes($all_args) .' />';
 		}
+
+		public function select( $id = '', $name = '', $value = '', $atts = array() ){
+			$main = array(
+				'id' => $id,
+				'name' => $name,
+				'value' => $value,
+			);
+			$all_args = wp_parse_args($atts, $main);
+
+			$field = '<select'. $this->mergeAttributes($all_args) .'>';
+				if( !empty( $atts['options'] ) && is_array( $atts['options'] ) ){
+					foreach ( $atts['options'] as $key => $option ) {
+						if( !is_array($option) ){
+							$selected = ( in_array($key, (array) $value) ) ? ' selected="selected"' : '';
+							$field .= '<option value="'. $key .'"'. $selected .'>'. $option .'</option>';
+						}
+						else{
+							$optg_label = !empty($option['label']) ? $option['label'] : '';
+							if( !empty( $option['options']) ){
+								$field .= '<optgroup label="'. $optg_label .'">';
+									foreach ( (array) $option['options'] as $gokey => $govalue) {
+										$selected = ( in_array($gokey, (array) $value) ) ? ' selected="selected"' : '';
+										$field .= '<option value="'. $gokey .'"'. $selected .'>'. $govalue .'</option>';
+									}
+								$field .= '</optgroup>';
+							}
+						}
+					}
+				}
+			$field .= '</select>';
+
+			return $field;
+		}
+
+
 
 		protected function mergeAttributes($atts = array(), $exclude = array()){
 
@@ -47,6 +82,10 @@ if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 					switch ($att) {
 						case 'class':
 							$return[] = $this->makeAttribute($att, $this->getHtmlClass($val) );
+							break;
+						
+						case 'options':
+							continue;
 							break;
 						
 						default:
@@ -80,7 +119,7 @@ if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 
 		protected function makeAttribute($attribute, $value = ''){
 			if( !empty($value) )
-				return ( ! is_bool($value) ) ? $attribute .'="'. esc_attr( $value ) .'"' : $attribute;
+				return ( ! is_bool($value) && !is_array($value) ) ? $attribute .'="'. esc_attr( $value ) .'"' : $attribute;
 		}
 
 	}

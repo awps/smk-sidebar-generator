@@ -2,7 +2,7 @@
 * @Author: Smartik
 * @Date:   2014-03-12 21:17:04
 * @Last Modified by:   Smartik
-* @Last Modified time: 2014-07-10 23:27:29
+* @Last Modified time: 2014-07-12 00:22:29
 */
 /*
 -------------------------------------------------------------------------------
@@ -115,16 +115,43 @@ Content section
 }
 .add-new-sidebar{
 	font-size: 12px;
-	/*color: #666;*/
-	/*background: #ddd;*/
 	padding: 3px 6px;
 	margin: 0 7px;
 	border-radius: 2px;
 	cursor: pointer;
 }
-.add-new-sidebar:hover{
-	/*color: #fff;*/
-	/*background: #FD773E;*/
+.add-new-sidebar:hover{}
+
+/*
+-------------------------------------------------------------------------------
+Conditions
+-------------------------------------------------------------------------------
+*/
+.smk-sidebar-row .condition-parent:nth-child(odd){
+	background: #fafafa;
+	border: 1px solid #eee;
+	border-left: 0;
+	border-right: 0;
+}
+.smk-sidebar-row .condition-parent select,
+.smk-sidebar-row .condition-parent span{
+	margin: 7px;
+}
+.smk-sidebar-row .condition-equalto{
+	max-width: 300px;
+}
+.smk-sidebar-row span.condition-remove{
+	display: inline-block;
+	padding: 1px 7px;
+	margin: 10px;
+	border-radius: 2px;
+	color: #CF0018;
+	cursor: pointer;
+	float: right;
+}
+.smk-sidebar-row .condition-remove:hover{
+	color: #fff;
+	background: #CF0018;
 }
 
 /*
