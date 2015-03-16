@@ -10,10 +10,6 @@
  * @Copyright: (c) 2014 Smartik. All rights reserved
  * -------------------------------------------------------------------------------------
  *
- * @Date:   2014-07-08 14:13:52
- * @Last Modified by:   Smartik
- * @Last Modified time: 2014-07-11 15:46:05
- *
  */
 if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 	class Smk_Sidebar_Generator_Html{
@@ -33,11 +29,10 @@ if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 			$main = array(
 				'id' => $id,
 				'name' => $name,
-				'value' => $value,
 			);
 			$all_args = wp_parse_args($atts, $main);
 
-			$field = '<select'. $this->mergeAttributes($all_args) .'>';
+			$field = '<select'. $this->mergeAttributes($all_args, array('value') ) .'>';
 				if( !empty( $atts['options'] ) && is_array( $atts['options'] ) ){
 					foreach ( $atts['options'] as $key => $option ) {
 						if( !is_array($option) ){
@@ -68,7 +63,7 @@ if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 
 			// Dissalow certain attributes.
 			if( !empty($exclude) && is_array($exclude) ){
-				foreach ($exclude as $ex) {
+				foreach ( (array) $exclude as $ex) {
 					unset( $atts[$ex] );
 				}
 			}

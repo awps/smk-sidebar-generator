@@ -2,227 +2,303 @@
 * @Author: Smartik
 * @Date:   2014-03-12 21:17:04
 * @Last Modified by:   Smartik
-* @Last Modified time: 2014-07-12 00:09:31
+* @Last Modified time: 2014-07-16 21:09:21
 */
-jQuery.noConflict();
-jQuery(document).ready(function($){
 
-	var smkSidebarGenerator = {
+;(function( $ ) {
+	"use strict";
 
-		// Sidebars accordion
-		accordion: function(){
-			jQuery("#smk-sidebars").on("click", "h3.accordion-section-title", function(){
-				var current = $(this);
-				
-				if( current.parents("li.accordion-section").hasClass("open") ){
-					$(this).parents("li.accordion-section").removeClass("open");
-					$("#smk-sidebars .accordion-section-content").slideUp("fast");
+	$(document).ready(function(){
+
+		var smkSidebarGenerator = {
+
+			// Sidebars accordion
+			accordion: function(){
+				jQuery("#smk-sidebars").on("click", "h3.accordion-section-title", function(){
+					var current = $(this);
+					
+					if( current.parents("li.accordion-section").hasClass("open") ){
+						$(this).parents("li.accordion-section").removeClass("open");
+						$("#smk-sidebars .accordion-section-content").slideUp("fast");
+					}
+					else{
+						$("#smk-sidebars .accordion-section-content").slideUp("fast");
+						$(this).next().slideDown("fast");
+
+						$("#smk-sidebars li.accordion-section").removeClass("open");
+						$(this).parents("li.accordion-section").addClass("open");
+					}
+				});
+			},
+
+			// Close all accordion sections
+			closeAllAccordionSections: function(){
+				$("#smk-sidebars li.accordion-section").removeClass("open");
+				$("#smk-sidebars .accordion-section-content").slideUp("fast");
+			},
+
+			// Make accordion sections sortable
+			sortableAccordionSections: function(){
+				var blocks = jQuery("#smk-sidebars ul.connected-sidebars-lists, #smk-removed-sidebars ul");
+				blocks.sortable({
+					items: "> li",
+					axis: "y",
+					tolerance: "pointer",
+					connectWith: ".connected-sidebars-lists",
+					handle: ".smk-sidebar-section-icon",
+					// cancel: '.moderate-sidebar, .accordion-section-content',
+					start: function( event, ui ) {
+						smkSidebarGenerator.closeAllAccordionSections();
+					}
+				});
+				blocks.find('h3.accordion-section-title').disableSelection();
+			},
+
+			// Random ID
+			randomID: function(_nr, mode){
+				var text = "",
+					nb = "0123456789",
+					lt = "abcdefghijklmnopqrstuvwxyz",
+					possible;
+					if( mode == 'l' ){
+						possible = lt;
+					}
+					else if( mode == 'n' ){
+						possible = nb;
+					}
+					else{
+						possible = nb + lt;
+					}
+
+				for( var i=0; i < _nr; i++ ){
+					text += possible.charAt(Math.floor(Math.random() * possible.length));
 				}
-				else{
-					$("#smk-sidebars .accordion-section-content").slideUp("fast");
-					$(this).next().slideDown("fast");
 
-					$("#smk-sidebars li.accordion-section").removeClass("open");
-					$(this).parents("li.accordion-section").addClass("open");
-				}
-			});
-		},
+				return text;
+			},
 
-		// Make items sortable
-		sortable: function(){
-			var blocks = jQuery("#smk-sidebars ul, #smk-removed-sidebars ul");
-			blocks.sortable({
-				items: "> li",
-				axis: "y",
-				tolerance: "pointer",
-				connectWith: ".connected-sidebars-lists",
-				cancel: '.moderate-sidebar, .accordion-section-content'
-			});
-			blocks.find('h3.accordion-section-title').disableSelection();
-		},
+			// Add new sidebar
+			addNew: function(){
 
-		// Random ID
-		randomID: function(_nr, mode){
-			var text = "",
-				nb = "0123456789",
-				lt = "abcdefghijklmnopqrstuvwxyz",
-				possible;
-				if( mode == 'l' ){
-					possible = lt;
-				}
-				else if( mode == 'n' ){
-					possible = nb;
-				}
-				else{
-					possible = nb + lt;
-				}
+				var counter = $('#smk-sidebar-generator-counter').val();
+				counter = ( counter ) ? parseInt( counter, 10 ) : 0;
 
-			for( var i=0; i < _nr; i++ ){
-				text += possible.charAt(Math.floor(Math.random() * possible.length));
-			}
+				jQuery(".add-new-sidebar").on("click", function(event){
+					counter = counter + 1;
+					var template = $('.sidebar-template').clone(),
+					    id       = smk_sidebar_local.sidebar_prefix + counter + smkSidebarGenerator.randomID(2, 'n') + smkSidebarGenerator.randomID(3, 'l'); 
+					
+					template.removeClass('sidebar-template');
 
-			return text;
-		},
+					// Inputs
+					template.find('input, select').each(function(){
+						var name  = $(this).attr('name');
+						var value = $(this).attr('value');
+						$(this).attr( 'name', name.replace( '__id__', id ) );
+						if( $(this).attr( 'value' ) ){
+							$(this).attr( 'value', value.replace( '__id__', id ).replace( '__index__', counter ) );
+						}
+					});
 
-		// Add new sidebar
-		addNew: function(){
+					// Index
+					var h3 = template.find('h3.accordion-section-title span.name').html().replace( '__index__', counter );
+					template.find('h3.accordion-section-title span.name').html( h3 );
 
-			var counter = $('#smk-sidebar-generator-counter').val();
-			counter = ( counter ) ? parseInt( counter, 10 ) : 0;
+					// Template ID
+					var template_id = template.attr('id');
+					template.attr('id', template_id.replace( '__id__', id ))
 
-			jQuery(".add-new-sidebar").on("click", function(event){
-				counter = counter + 1;
-				var template = $('.sidebar-template').clone(),
-				    id       = smk_sidebar_local.sidebar_prefix + counter + smkSidebarGenerator.randomID(2, 'n') + smkSidebarGenerator.randomID(3, 'l'); 
-				
-				template.removeClass('sidebar-template');
+					// Close other accordion sections
+					smkSidebarGenerator.closeAllAccordionSections();
 
-				// Inputs
-				template.find('input, select').each(function(){
-					var name  = $(this).attr('name');
-					var value = $(this).attr('value');
-					$(this).attr( 'name', name.replace( '__id__', id ) );
-					$(this).attr( 'value', value.replace( '__id__', id ).replace( '__index__', counter ) );
+					// Append the new sidebar as a new accordion section and slide down it
+					template.appendTo('#smk-sidebars ul.connected-sidebars-lists').addClass("open").hide();
+					template.find(".accordion-section-content").show();
+					template.slideDown('fast');
+
+					$('#smk-sidebar-generator-counter').val( counter );
+
+					event.stopImmediatePropagation();
+				}).disableSelection();
+			},
+
+			// Live name and description update
+			liveSet: function(){
+				var container = jQuery('#smk-sidebars');
+
+				container.on('change', '.smk-sidebar-name', function(){
+					$(this).parents('li').find('h3.accordion-section-title span.name').html( $(this).val() );
+
+				}).on('keyup', '.smk-sidebar-name', function(){
+					$(this).parents('li').find('h3.accordion-section-title span.name').html( $(this).val() );
+
 				});
 
-				// Index
-				var h3 = template.find('h3.accordion-section-title span.name').html().replace( '__index__', counter );
-				template.find('h3.accordion-section-title span.name').html( h3 );
+				container.on('change', '.smk-sidebar-description', function(){
+					$(this).parents('li').find('h3.accordion-section-title span.description').html( $(this).val() );
 
-				// Template ID
-				var template_id = template.attr('id');
-				template.attr('id', template_id.replace( '__id__', id ))
+				}).on('keyup', '.smk-sidebar-description', function(){
+					$(this).parents('li').find('h3.accordion-section-title span.description').html( $(this).val() );
 
-				template.appendTo('#smk-sidebars ul').hide().slideDown('fast');
-				
-				$('#smk-sidebar-generator-counter').val( counter );
-				event.stopImmediatePropagation();
-			}).disableSelection();
-		},
-
-		// Live name and description update
-		liveSet: function(){
-			var container = jQuery('#smk-sidebars');
-
-			container.on('change', '.smk-sidebar-name', function(){
-				$(this).parents('li').find('h3.accordion-section-title span.name').html( $(this).val() );
-
-			}).on('keyup', '.smk-sidebar-name', function(){
-				$(this).parents('li').find('h3.accordion-section-title span.name').html( $(this).val() );
-
-			});
-
-			container.on('change', '.smk-sidebar-description', function(){
-				$(this).parents('li').find('h3.accordion-section-title span.description').html( $(this).val() );
-
-			}).on('keyup', '.smk-sidebar-description', function(){
-				$(this).parents('li').find('h3.accordion-section-title span.description').html( $(this).val() );
-
-			});
-		},
-
-		// Delete sidebar
-		deleteSidebar: function(){
-			jQuery("#smk-sidebars").on("click", ".smk-delete-sidebar", function(){
-
-				$('.wrap').addClass('sbg-removed-active');// Show removed sidebars
-
-				$(this).parents('li').slideUp('fast', function() {
-					$(this).find('.accordion-section-content').hide(); 
-					$(this).appendTo('#smk-removed-sidebars ul').slideDown('fast').removeClass('open'); 
 				});
-			});
-		},
+			},
+
+			// Delete sidebar
+			deleteSidebar: function(){
+				jQuery("#smk-sidebars").on("click", ".smk-delete-sidebar", function(){
+
+					$('.wrap').addClass('sbg-removed-active');// Show removed sidebars
+
+					$(this).parents('li').slideUp('fast', function() {
+						$(this).find('.accordion-section-content').hide(); 
+						$(this).appendTo('#smk-removed-sidebars ul').slideDown('fast').removeClass('open'); 
+					});
+				});
+			},
+				
+			// Restore sidebar
+			restoreSidebar: function(){
+				jQuery("#smk-removed-sidebars").on("click", ".smk-restore-sidebar", function(){
+					$(this).parents('li').slideUp('fast', function() { 
+						$(this).find('.accordion-section-content').hide(); 
+						$(this).appendTo('#smk-sidebars ul.connected-sidebars-lists').slideDown('fast').removeClass('open'); 
+					});
+				});
+			},
+
+			// Get specific options for current condition choice via ajax
+			targetIfCondition: function(){
+				jQuery("#smk-sidebars").on("change", ".condition-if", function(){
+					var condition_parent = $(this).parents('.condition-parent'),
+					    selected = $(this).val(),
+					    to_change = condition_parent.find('.condition-equalto');
+
+					to_change.empty();
+
+					jQuery.ajax({
+						type: "POST",
+						url: ajaxurl,
+						dataType: "json",
+						data: {
+							'action': 'smk_sbg_load_equalto',
+							'data':   { condition_if: selected }
+						},
+						success: function(response){
+							$.each(response, function(key, value) { 
+								to_change.prepend($("<option></option>").attr("value",key).text(value)); 
+							});
+
+							$("body").append( $("<script />", {
+								id: 'condition_if_' + selected.replace("::", "_"),
+								html: response
+							}) );
+						},
+						complete: function(response){
+						}
+					});//ajax
+				});
+			},
+
+			// Clone a condition. Mainly used to add new condition. That's a fake clone
+			conditionAdd: function(){
+				$('#smk-sidebars').on('click', '.condition-add', function( event ){
+					event.preventDefault();
+					var condition_all    = $(this).prev('.created-conditions'),
+					    _name_           = $(this).data('name'),
+						cloned_elem      = $('.smk-sidebars-condition-template .condition-parent').clone(),
+						max_index        = 0;
+
+					condition_all.find('select').each(function(){
+					var 
+						name       = $(this).attr('name'),
+						this_nr    = name.match(/\[(\d+)\]/),
+						the_number = parseInt( this_nr[1], 10 );
+
+						if( the_number > max_index ){
+							max_index = the_number;
+						}
+					});
+
+					cloned_elem.find('select').each(function(){
+						var name  = $(this).attr('name');
+						$(this).attr( 'name', name.replace( /\[\d+\]/g, '['+ (max_index + 1) +']' ).replace( /__cond_name__/g, _name_ ) );
+					});
+					cloned_elem.find('select option').each(function(){
+						$(this).removeAttr('selected');
+					});
+
+					cloned_elem.hide(); //Hide new condition
+					condition_all.append( cloned_elem ); //Appent it
+					cloned_elem.slideDown('fast'); //... and finally slide it down
+				});
+			},
 			
-		// Restore sidebar
-		restoreSidebar: function(){
-			jQuery("#smk-removed-sidebars").on("click", ".smk-restore-sidebar", function(){
-				$(this).parents('li').slideUp('fast', function() { 
-					$(this).find('.accordion-section-content').hide(); 
-					$(this).appendTo('#smk-sidebars ul').slideDown('fast').removeClass('open'); 
-				});
-			});
-		},
-
-		targetIfCondition: function(){
-			jQuery("#smk-sidebars").on("change", ".condition-if", function(){
-				var condition_parent = $(this).parents('.condition-parent'),
-				    selected = $(this).val()
-				    to_change = condition_parent.find('.condition-equalto');
-
-				to_change.empty();
-
-				jQuery.ajax({
-					type: "POST",
-					url: ajaxurl,
-					dataType: "json",
-					data: {
-						'action': 'smk_sbg_load_equalto',
-						'data':   { condition_if: selected }
-					},
-					success: function(response){
-
-						$.each(response, function(key, value) {   
-							to_change.prepend($("<option></option>").attr("value",key).text(value)); 
+			// Remove a condition
+			conditionRemove: function(){
+				$('#smk-sidebars').on('click', '.condition-remove', function(){
+					if( $(this).parents('.created-conditions').find('.condition-parent').length > 1 ){
+						$(this).parents('.condition-parent').slideUp( "fast", function() {
+							$(this).remove();
 						});
-					},
-					complete: function(response){
-					}
-				});//ajax
-			});
-		},
-
-		conditionClone: function(){
-			$('#smk-sidebars').on('click', '.condition-clone', function(){
-				var 
-					condition_parent = $(this).parents('.condition-parent'),
-					condition_all    = $(this).parents('.conditions-all'),
-					cloned_elem      = condition_parent.clone(),
-					max_index        = 0;
-
-				condition_all.find('input, select').each(function(){
-				var 
-					name       = $(this).attr('name');
-					this_nr    = name.match(/\[(\d+)\]/),
-					the_number = parseInt( this_nr[1], 10 );
-
-					if( the_number > max_index ){
-						max_index = the_number;
 					}
 				});
+			},
 
-				cloned_elem.find('input, select').each(function(){
-					var name  = $(this).attr('name');
-					$(this).attr( 'name', name.replace( /\[\d+\]/g, '['+ (max_index + 1) +']' ) );
+			// Enable conditions
+			enableConditions: function(){
+				$('#smk-sidebars').on('change', '.smk-sidebar-enable-conditions', function(){
+					var _t = $(this),
+					    _crConditions  = _t.parents('.smk-sidebar-row').children('.created-conditions'),
+					    _conditionsBtn = _t.parents('.smk-sidebar-row').children('.condition-add');
+					if( _t.is( ":checked" ) ){
+						_crConditions.removeClass('disabled-conditions');
+						_conditionsBtn.removeAttr('disabled', 'disabled');
+					}
+					else{
+						_crConditions.addClass('disabled-conditions');
+						_conditionsBtn.attr('disabled', 'disabled');
+					}
 				});
-				cloned_elem.find('.condition-equalto option').each(function(){
-					$(this).removeAttr('selected');
+			},
+
+			// Make conditions sortable
+			sortableconditions: function(){
+				var blocks = jQuery("#smk-sidebars .created-conditions");
+				blocks.sortable({
+					items: "> .condition-parent",
+					axis: "y",
+					tolerance: "pointer",
+					handle: ".smk-sidebar-condition-icon",
+					// cancel: '.condition-clone, .condition-remove'
 				});
-				condition_parent.after( cloned_elem );
-			});
-		},
-			
-		conditionRemove: function(){
-			$('#smk-sidebars').on('click', '.condition-remove', function(){
-				$(this).parents('.condition-parent').remove();
-			});
-		},
-			
-		// Init
-		init: function(){
-			smkSidebarGenerator.accordion();
-			smkSidebarGenerator.sortable();
-			smkSidebarGenerator.addNew();
-			smkSidebarGenerator.liveSet();
-			smkSidebarGenerator.deleteSidebar();
-			smkSidebarGenerator.restoreSidebar();
-			smkSidebarGenerator.targetIfCondition();
-			smkSidebarGenerator.conditionClone();
-			smkSidebarGenerator.conditionRemove();
-		},
+				blocks.find('h3.accordion-section-title').disableSelection();
+			},
 
-	};
+			// multiselectJquery: function( elem ){
+			// 	elem.select2();
+			// },
+				
+			// Init all
+			init: function(){
+				smkSidebarGenerator.accordion();
+				smkSidebarGenerator.sortableAccordionSections();
+				smkSidebarGenerator.addNew();
+				smkSidebarGenerator.liveSet();
+				smkSidebarGenerator.deleteSidebar();
+				smkSidebarGenerator.restoreSidebar();
+				smkSidebarGenerator.targetIfCondition();
+				smkSidebarGenerator.conditionAdd();
+				smkSidebarGenerator.conditionRemove();
+				smkSidebarGenerator.enableConditions();
+				smkSidebarGenerator.sortableconditions();
+				// smkSidebarGenerator.multiselectJquery( $('#smk-sidebars .condition-equalto') );
+			},
 
-	smkSidebarGenerator.init();
+		};
 
-});
+		// Construct the object
+		smkSidebarGenerator.init();
+
+	}); //document ready
+
+})(jQuery);

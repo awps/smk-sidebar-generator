@@ -8,10 +8,6 @@
  * @Copyright: (c) 2014 Smartik. All rights reserved
  * -------------------------------------------------------------------------------------
  *
- * @Date:   2014-07-08 00:56:11
- * @Last Modified by:   Smartik
- * @Last Modified time: 2014-07-12 00:23:06
- *
  */
 
 // Do not allow direct access to this file.
@@ -67,6 +63,9 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			echo '<div class="smk-sidebars-list-template" style="display: none;">';
 				$this->sidebarListTemplate();
 			echo '</div>';
+			echo '<div class="smk-sidebars-condition-template" style="display: none;">';
+				echo $this->aSingleCondition('__cond_name__', '', 0, 'all');
+			echo '</div>';
 			$this->pageOpen();
 				settings_fields( $this->pluginSettings('settings_register_name') );
 
@@ -86,7 +85,10 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			submit_button();
 			$this->pageClose();
 
-			// $this->debug( $this->allStaticSidebars() );
+			$this->debug( $this->allStaticSidebars() );
+			$this->debug( $this->allGeneratedSidebars() );
+			global $sidebars_widgets;
+			$this->debug( $sidebars_widgets );
 		}
 
 		//------------------------------------//--------------------------------------//
@@ -179,38 +181,41 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			if( !empty($sidebar_data) ) : 
 				$the_sidebar = $this->sidebarAccordion('open', $sidebar_data, $settings, false);
 
-					$the_sidebar .= $this->fieldName($name, $sidebar_data);
+					$the_sidebar .= '<div class="sbg-clearfix">';
+						$the_sidebar .= $this->fieldName($name, $sidebar_data);
+						$the_sidebar .= $this->fieldDescription($name, $sidebar_data);
+					$the_sidebar .= '</div>'; //.sbg-clearfix
+
+					$the_sidebar .= '<div class="sbg-clearfix">';
 					$the_sidebar .= $this->fieldId($name, $sidebar_data);
-					$the_sidebar .= $this->fieldDescription($name, $sidebar_data);
 					$the_sidebar .= $this->fieldToReplace($name, $sidebar_data);
 					
 					// Conditions
-					$the_sidebar .= '<div class="smk-sidebar-row conditions-all">';
+					$the_sidebar .= '<div class="smk-sidebar-row conditions-all smk-sidebar-grid-8">';
 
-						$the_sidebar .= '<h3>'. __('Conditions:', 'smk_sbg') .'</h3>';
+						$conditions_checked = isset( $sidebar_data['enable-conditions'] ) ? ' checked="checked"' : '';
+						$the_sidebar .= '<label>
+							<input type="checkbox" name="'. $name. '[enable-conditions]" value="enabled" '. $conditions_checked .' class="smk-sidebar-enable-conditions" />'.  
+							__('Enable conditions:', 'smk_sbg')
+						.'</label>';
 
-						if( !empty($sidebar_data['conditions']) ){
-							foreach ( (array) $sidebar_data['conditions'] as $index => $condition) {
-								$the_sidebar .= '<div class="condition-parent sbg-clearfix">';
-									$the_sidebar .= $this->fieldConditionMain( $name, $sidebar_data, $index );
-									$the_sidebar .= ' - '. __('is equal to', 'smk_sbg') .' - ';
-									$the_sidebar .= $this->fieldConditionEqualTo($name, $sidebar_data, $index, $condition['if']);
-								$the_sidebar .= ' <span class="condition-clone button"> + </span>';
-								$the_sidebar .= ' <span class="condition-remove"> x </span>';
-								$the_sidebar .= '</div>';
+
+						$disbled_conditions = empty($conditions_checked) ? ' disabled-conditions' : '';
+						$the_sidebar .= '<div class="created-conditions'. $disbled_conditions .'">';
+							if( !empty($sidebar_data['conditions']) ){
+								foreach ( (array) $sidebar_data['conditions'] as $index => $condition) {
+									$the_sidebar .= $this->aSingleCondition($name, $sidebar_data, $index, $condition['if']);
+								}
 							}
-						}
-						else{
-								$the_sidebar .= '<div class="condition-parent sbg-clearfix">';
-									$the_sidebar .= $this->fieldConditionMain( $name, $sidebar_data, 0 );
-									$the_sidebar .= ' - '. __('is equal to', 'smk_sbg') .' - ';
-									$the_sidebar .= $this->fieldConditionEqualTo($name, $sidebar_data, 0, 'all');
-								$the_sidebar .= ' <span class="condition-clone button"> + </span>';
-								$the_sidebar .= ' <span class="condition-remove"> x </span>';
-								$the_sidebar .= '</div>';
-						}
-						
-					$the_sidebar .= '</div>';
+							else{
+								$the_sidebar .= $this->aSingleCondition($name, $sidebar_data, 0, 'all');
+							}
+						$the_sidebar .= '</div>'; //.created-conditions
+					
+					$disbled_conditions_btn = empty($conditions_checked) ? ' disabled="disabled"' : '';
+					$the_sidebar .= ' <button class="condition-add button"'. $disbled_conditions_btn .' data-name="'. $name .'">Add condition</button>';
+					$the_sidebar .= '</div>'; //.conditions-all
+					$the_sidebar .= '</div>'; //.sbg-clearfix
 
 				$the_sidebar .= $this->sidebarAccordion('close', $sidebar_data, $settings, false);
 			return $the_sidebar;
@@ -234,6 +239,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 				$the_sidebar = '
 				<li id="'. $sidebar_data['id'] .'" class="control-section accordion-section'. $class .'">
 					<h3 class="accordion-section-title hndle">
+						<span class="smk-sidebar-section-icon dashicons dashicons-editor-justify"></span> 
 						<span class="name">'. $sidebar_data['name'] .'</span>&nbsp;
 						<span class="description">'. $sidebar_data['description'] .'</span>&nbsp;
 						<div class="moderate-sidebar">
@@ -259,6 +265,31 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		//------------------------------------//--------------------------------------//
 		
 		/**
+		 * A single condition
+		 *
+		 * Display a single condition
+		 *
+		 * @param string $name HTML field name
+		 * @param string $sidebar_data Data for current sidebar
+		 * @return string The HTML
+		 */
+		public function aSingleCondition($name, $sidebar_data, $index = 0, $condition_if = 'all'){
+			$the_sidebar = '<div class="condition-parent sbg-clearfix">';
+				$the_sidebar .= '<span class="smk-sidebar-condition-icon dashicons dashicons-menu"></span>';
+				$the_sidebar .= '<div class="conditions-first">';
+					$the_sidebar .= $this->fieldConditionMain( $name, $sidebar_data, $index );
+				$the_sidebar .= '</div>';
+				$the_sidebar .= '<div class="conditions-second">';
+					$the_sidebar .= $this->fieldConditionEqualTo($name, $sidebar_data, $index, $condition_if);
+				$the_sidebar .= '</div>';
+			$the_sidebar .= ' <span class="condition-remove" title="'. __('Remove condition', 'smk_sbg') .'"> <i class="dashicons dashicons-no-alt"></i> </span>';
+			$the_sidebar .= '</div>';
+			return $the_sidebar;
+		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
 		 * Sidebar field name
 		 *
 		 * Display sidebar name field
@@ -268,7 +299,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * @return string The HTML
 		 */
 		public function fieldName($name, $sidebar_data){
-			return '<div class="smk-sidebar-row">
+			return '<div class="smk-sidebar-row smk-sidebar-grid-4">
 				<label>'. __('Name:', 'smk_sbg') .'</label>'. 
 				$this->html->input(
 					'', // ID
@@ -276,7 +307,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 					$sidebar_data['name'], 
 					array(
 						'type' => 'text',
-						'class' => array( 'smk-sidebar-name' ),
+						'class' => array( 'smk-sidebar-name', 'widefat' ),
 					)
 				) 
 			.'</div>';
@@ -320,7 +351,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * @return string The HTML
 		 */
 		public function fieldDescription($name, $sidebar_data){
-			return '<div class="smk-sidebar-row">
+			return '<div class="smk-sidebar-row smk-sidebar-grid-8">
 				<label>'. __('Description:', 'smk_sbg') .'</label>'. 
 				$this->html->input(
 					'', // ID
@@ -350,12 +381,13 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			// To replace
 			$static   = $this->allStaticSidebars();
 			$static_sidebars = '';
-			$replace = !empty( $sidebar_data['replace'] ) ? $sidebar_data['replace'] : array();
 			foreach ($static as $key => $value) {
 				$static_sidebars[ $key ] = $value['name'];
 			}
 
-			return '<div class="smk-sidebar-row">
+			$replace = !empty( $sidebar_data['replace'] ) ? $sidebar_data['replace'] : array();
+
+			return '<div class="smk-sidebar-row smk-sidebar-grid-4">
 				<label>'. __('Sidebars to replace:', 'smk_sbg') .'</label>'. 
 				$this->html->select(
 					'', // ID
@@ -363,7 +395,9 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 					$replace,
 					array(
 						'multiple' => 'multiple',
-						'options' => $static_sidebars,
+						'options'  => $static_sidebars,
+						'size'     => 8,
+						'class'    => array( 'sidebars-to-replace-select' ),
 					)
 				) 
 			.'</div>';
@@ -395,11 +429,14 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 				$pt[ 'post_type::' . $post_type->name ] = $post_type->label;
 			}
 
-			return '<span>'. __('Replace if', 'smk_sbg') .' </span>'.
+			$saved = ! empty( $sidebar_data['conditions'][ absint( $index ) ]['if'] ) ? 
+			            $sidebar_data['conditions'][ absint( $index ) ]['if'] : '';
+
+			return '<span class="condition-label">'. __('Replace if', 'smk_sbg') .' </span>'.
 				$this->html->select(
 					'', // ID
 					$name. '[conditions]['. absint( $index ) .'][if]', 
-					$sidebar_data['conditions'][ absint( $index ) ]['if'], 
+					$saved, 
 					array(
 						'options' => array(
 							'all' => __('All', 'smk_sbg'),
@@ -429,15 +466,15 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			$saved = ! empty( $sidebar_data['conditions'][ absint( $index ) ]['equalto'] ) ? 
 			            $sidebar_data['conditions'][ absint( $index ) ]['equalto'] : '';
 
-			return 
+			return '<span class="condition-label">'. __('is equal to', 'smk_sbg') .'</span>' . 
 				$this->html->select(
 					'', // ID
-					$name. '[conditions]['. absint( $index ) .'][equalto]', 
+					$name. '[conditions]['. absint( $index ) .'][equalto][]', 
 					$saved, 
 					array(
 						'options' => $this->getEqualToOptions($type),
-						// 'multiple' => 'multiple',
-						// 'size' => 10,
+						'multiple' => 'multiple',
+						'size' => 5,
 						'class' => array('condition-equalto'),
 					)
 				);

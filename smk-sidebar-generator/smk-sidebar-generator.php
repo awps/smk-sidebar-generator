@@ -8,17 +8,7 @@
  * Author URI:  http://smartik.ws/
  * Licence:     GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- *
- * -------------------------------------------------------------------------------------
- * @Author: Smartik
- * @Author URI: http://smartik.ws/
- * @Copyright: (c) 2014 Smartik. All rights reserved
- * -------------------------------------------------------------------------------------
- *
- * @Date:   2014-07-08 00:49:24
- * @Last Modified by:   Smartik
- * @Last Modified time: 2014-07-08 14:14:43
- *
+ * Copyright:   (c) 2015 Smartik. All rights reserved
  */
 
 // Do not allow direct access to this file.
@@ -47,6 +37,10 @@ $path = plugin_dir_path( __FILE__ );
 require_once $path . 'html.php';
 require_once $path . 'abstract.php';
 require_once $path . 'render.php';
+require_once $path . 'apply.php';
 
 $smk_sidebar_generator = new Smk_Sidebar_Generator;
 $smk_sidebar_generator->init();
+
+$applySidebars = new Smk_Sidebar_Generator_Apply;
+// $applySidebars->letsDoIt();

@@ -8,10 +8,6 @@
  * @Copyright:  (c) 2014 Smartik. All rights reserved
  * -------------------------------------------------------------------------------------
  *
- * @Date:               2014-03-12 21:17:04
- * @Last Modified by:   Smartik
- * @Last Modified time: 2014-07-11 19:11:59
- *
  */
 
 // Do not allow direct access to this file.
@@ -312,13 +308,13 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function enqueue(){
 			if( $this->isPluginPage() ){
-				wp_register_style( 'smk-sidebar-generator', $this->uri() . 'assets/styles.css', '', $this->version );
-
 				$depend = array('jquery', 'jquery-ui-core', 'jquery-ui-sortable', 'jquery-ui-slider');
+			
+				wp_register_style( 'smk-sidebar-generator', $this->uri() . 'assets/styles.css', '', $this->version );
 				wp_register_script( 'smk-sidebar-generator', $this->uri() . 'assets/scripts.js', $depend, $this->version, true );
-
 				wp_enqueue_style( 'smk-sidebar-generator' );
 				wp_enqueue_script( 'smk-sidebar-generator' );
+				
 		 		wp_localize_script( 'smk-sidebar-generator', 'smk_sidebar_local', array(
 		 				'sidebar_prefix' => $this->prefix(),
 						'remove'        => __('Remove', 'smk_sbg'),
@@ -334,6 +330,7 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 						'spin'          => '<span class="smk_sbg_spin"></span>',
 					)
 				);
+
 			}
 		}
 
