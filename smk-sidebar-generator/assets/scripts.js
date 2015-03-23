@@ -85,8 +85,9 @@
 
 				jQuery(".add-new-sidebar").on("click", function(event){
 					counter = counter + 1;
-					var template = $('.sidebar-template').clone(),
-					    id       = smk_sidebar_local.sidebar_prefix + counter + smkSidebarGenerator.randomID(2, 'n') + smkSidebarGenerator.randomID(3, 'l'); 
+					var template       = $('.sidebar-template').clone(),
+					    sidebar_prefix = $(this).data('sidebars-prefix'),
+					    id             = sidebar_prefix + counter + smkSidebarGenerator.randomID(2, 'n') + smkSidebarGenerator.randomID(3, 'l'); 
 					
 					template.removeClass('sidebar-template');
 
@@ -99,6 +100,11 @@
 							$(this).attr( 'value', value.replace( '__id__', id ).replace( '__index__', counter ) );
 						}
 					});
+
+					// Condition button
+					var new_button_name = template.find('.condition-add').data( 'name' ).replace( '__id__', id );
+					template.find('.condition-add').attr( 'data-name', new_button_name );
+					template.find('.condition-add').attr( 'data-sidebar-id', id );
 
 					// Index
 					var h3 = template.find('h3.accordion-section-title span.name').html().replace( '__index__', counter );
@@ -205,6 +211,7 @@
 					event.preventDefault();
 					var condition_all    = $(this).prev('.created-conditions'),
 					    _name_           = $(this).data('name'),
+					    _sidebar_id_           = $(this).data('sidebar-id'),
 						cloned_elem      = $('.smk-sidebars-condition-template .condition-parent').clone(),
 						max_index        = 0;
 
@@ -219,9 +226,9 @@
 						}
 					});
 
-					cloned_elem.find('select').each(function(){
-						var name  = $(this).attr('name');
-						$(this).attr( 'name', name.replace( /\[\d+\]/g, '['+ (max_index + 1) +']' ).replace( /__cond_name__/g, _name_ ) );
+					cloned_elem.find('select').each(function( index, elem ){
+						var new_name  = $(elem).attr('name');
+						$(elem).attr( 'name', new_name.replace( '__cond_name__', _name_ ).replace( '__id__', _sidebar_id_ ).replace( /\[\d+\]/g, '['+ (max_index + 1) +']' ) );
 					});
 					cloned_elem.find('select option').each(function(){
 						$(this).removeAttr('selected');
@@ -230,6 +237,8 @@
 					cloned_elem.hide(); //Hide new condition
 					condition_all.append( cloned_elem ); //Appent it
 					cloned_elem.slideDown('fast'); //... and finally slide it down
+
+					smkSidebarGenerator.sortableconditions();
 				});
 			},
 			
@@ -271,13 +280,9 @@
 					handle: ".smk-sidebar-condition-icon",
 					// cancel: '.condition-clone, .condition-remove'
 				});
-				blocks.find('h3.accordion-section-title').disableSelection();
+				// blocks.disableSelection();
 			},
 
-			// multiselectJquery: function( elem ){
-			// 	elem.select2();
-			// },
-				
 			// Init all
 			init: function(){
 				smkSidebarGenerator.accordion();
@@ -291,7 +296,6 @@
 				smkSidebarGenerator.conditionRemove();
 				smkSidebarGenerator.enableConditions();
 				smkSidebarGenerator.sortableconditions();
-				// smkSidebarGenerator.multiselectJquery( $('#smk-sidebars .condition-equalto') );
 			},
 
 		};

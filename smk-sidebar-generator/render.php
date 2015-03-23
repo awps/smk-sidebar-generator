@@ -85,10 +85,13 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			submit_button();
 			$this->pageClose();
 
-			$this->debug( $this->allStaticSidebars() );
-			$this->debug( $this->allGeneratedSidebars() );
-			global $sidebars_widgets;
-			$this->debug( $sidebars_widgets );
+
+			// Debug start
+			// $this->debug( $this->allStaticSidebars(), 'All static sidebars' );
+			// $this->debug( $this->allGeneratedSidebars(), 'All generated sidebars' );
+			// global $sidebars_widgets;
+			// $this->debug( $sidebars_widgets, 'All sidebars and their widgets' );
+			// $this->debug( smk_sidebar_conditions_filter(), 'All conditions' );
 		}
 
 		//------------------------------------//--------------------------------------//
@@ -103,7 +106,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		public function pageOpen($echo = true){
 			$html = '<div class="wrap sbg-clearfix">';
 			$html .= '<h2>'. $this->pluginSettings( 'name' ) .'
-				<span class="add-new-h2 add-new-sidebar">'. __('Add new', 'smk_sbg') .'</span>
+				<span class="add-new-h2 add-new-sidebar" data-sidebars-prefix="'. $this->prefix() .'">'. __('Add new', 'smk_sbg') .'</span>
 			</h2>';
 			$html .= '<div class="smk-sidebars-grid">';
 			$html .= '<h3>
@@ -213,7 +216,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 						$the_sidebar .= '</div>'; //.created-conditions
 					
 					$disbled_conditions_btn = empty($conditions_checked) ? ' disabled="disabled"' : '';
-					$the_sidebar .= ' <button class="condition-add button"'. $disbled_conditions_btn .' data-name="'. $name .'">Add condition</button>';
+					$the_sidebar .= ' <button class="condition-add button"'. $disbled_conditions_btn .' data-name="'. $name .'" data-sidebar-id="'. $sidebar_data['id'] .'">Add condition</button>';
 					$the_sidebar .= '</div>'; //.conditions-all
 					$the_sidebar .= '</div>'; //.sbg-clearfix
 
@@ -396,7 +399,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 					array(
 						'multiple' => 'multiple',
 						'options'  => $static_sidebars,
-						'size'     => 8,
+						'size'     => 9,
 						'class'    => array( 'sidebars-to-replace-select' ),
 					)
 				) 
@@ -416,17 +419,18 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function fieldConditionMain($name, $sidebar_data, $index = 0){
 
-			$pt_args = array(
-				'public'   => true,
-				'_builtin' => false
-			);
-			$pt = array(
-				'post_type::post' => _x('Post', 'Post type name', 'smk_sbg'),
-				'post_type::page' => _x('Page', 'Post type name', 'smk_sbg'),
-			);
-			$post_types = get_post_types( $pt_args, 'objects' );
-			foreach ($post_types as $post_type) {
-				$pt[ 'post_type::' . $post_type->name ] = $post_type->label;
+			$options = array( 'none' => __('None', 'smk_sbg') );
+			$all_conditions = smk_sidebar_conditions_filter();
+			if( !empty($all_conditions) && is_array($all_conditions) ){
+				foreach ($all_conditions as $type => $class) {
+					if( class_exists($class) ){
+						$newclass     = new $class;
+						$newoptions   = $newclass->getMainData();
+						if( !empty($newoptions) && is_array($newoptions) ){
+							$options[] = $newoptions;
+						}
+					}
+				}
 			}
 
 			$saved = ! empty( $sidebar_data['conditions'][ absint( $index ) ]['if'] ) ? 
@@ -438,13 +442,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 					$name. '[conditions]['. absint( $index ) .'][if]', 
 					$saved, 
 					array(
-						'options' => array(
-							'all' => __('All', 'smk_sbg'),
-							array(
-								'label' => __('Post types', 'smk_sbg'),
-								'options' => $pt,
-							)
-						),
+						'options' => $options,
 						'class' => array('condition-if'),
 					)
 				);
@@ -463,10 +461,9 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function fieldConditionEqualTo($name, $sidebar_data, $index = 0, $type){
 
-			$saved = ! empty( $sidebar_data['conditions'][ absint( $index ) ]['equalto'] ) ? 
-			            $sidebar_data['conditions'][ absint( $index ) ]['equalto'] : '';
+			$saved = ! empty( $sidebar_data['conditions'][ absint( $index ) ]['equalto'] ) ? $sidebar_data['conditions'][ absint( $index ) ]['equalto'] : '';
 
-			return '<span class="condition-label">'. __('is equal to', 'smk_sbg') .'</span>' . 
+			return '<span class="condition-label">'. __('and is equal to', 'smk_sbg') .'</span>' . 
 				$this->html->select(
 					'', // ID
 					$name. '[conditions]['. absint( $index ) .'][equalto][]', 
@@ -489,22 +486,21 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * @return array
 		 */
 		public function getEqualToOptions($type){
-
-			$options['all'] = __('All', 'smk_sbg');
 			$the_type       = explode('::', $type);
+			$options        = array();
+			$all_conditions = smk_sidebar_conditions_filter();
 
-			if( !empty( $the_type[0] ) && !empty( $the_type[1] ) ){
-				switch ( $the_type[0] ) {
-					case 'post_type':
-						$posts = $this->getAllPostsFor( $the_type[1] );
-						$options =  $options + (array) $posts;
-						break;
-					
-					default:
-						# code...
-						break;
+			if( !empty($all_conditions) && is_array($all_conditions) ){
+				if( array_key_exists($the_type[0], $all_conditions) ){
+					$class = $all_conditions[ $the_type[0] ];
+					if( class_exists($class) ){
+						$newclass     = new $class;
+						$newoptions   = $newclass->getSecondaryData( $type );
+						if( !empty($newoptions) && is_array($newoptions) ){
+							$options = $options + (array) $newoptions;
+						}
+					}
 				}
-				
 			}
 
 			return $options;
@@ -518,32 +514,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			echo json_encode( $opt );
 
 			die();
-		}
-
-		//------------------------------------//--------------------------------------//
-		
-		/**
-		 * Get all posts from a post type
-		 *
-		 * @param string $post_type The post type name
-		 * @return array
-		 */
-		public function getAllPostsFor($post_type){
-
-			$all_posts = array();
-
-			$posts = get_posts(array(
-				'post_type'        => $post_type,
-				'post_status'      => 'publish',
-				'posts_per_page'   => -1,
-			));
-
-			foreach ( $posts as $post ) {
-				$id = $post->ID;
-				$all_posts[ $id ] = $post->post_title;
-			}
-			wp_reset_postdata();
-			return $all_posts;
 		}
 
 		//------------------------------------//--------------------------------------//
@@ -579,7 +549,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function sidebarListTemplate($echo = true){
 			$sidebar_data = array( 
-				'name'        => __('New sidebar __index__', 'smk_sbg'),
+				'name'        => sprintf( __('New sidebar %s', 'smk_sbg'), '__index__' ),
 				'id'          => '__id__',
 				'description' => '',
 			);

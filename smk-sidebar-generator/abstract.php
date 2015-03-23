@@ -113,8 +113,37 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function registerSetting() {
 			$settings = $this->pluginSettings();
-			register_setting( $settings['settings_register_name'], $settings['option_name'] );
+			register_setting( $settings['settings_register_name'], $settings['option_name']/*, array( &$this, 'sanitizeData' )*/ );
 		}
+
+		//------------------------------------//--------------------------------------//
+		
+		/**
+		 * Sanitize data
+		 *
+		 * Sanitize the data sent to the server. Unset all invalid or empty(none) conditions.
+		 *
+		 * @return array The sanitized data 
+		 */
+		// public function sanitizeData( $data ) {
+		// 	if( is_array( $data ) && !empty( $data ) ){
+		// 		$new_data = $data;
+		// 		foreach ($data as $sidebar_id => $sidebar_settings) {
+		// 			if( !empty($sidebar_settings['conditions']) && is_array($sidebar_settings['conditions']) ){
+		// 				foreach ($sidebar_settings['conditions'] as $key => $condition) {
+		// 					if( !empty($condition['if']) && $condition['if'] == 'none' ){
+		// 						unset( $new_data[ $sidebar_id ]['conditions'][ $key ] );
+		// 					}
+		// 					else{
+		// 						continue;
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 		$data = $new_data;
+		// 	}
+		// 	return $data;
+		// }
 
 		//------------------------------------//--------------------------------------//
 		
@@ -314,23 +343,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 				wp_register_script( 'smk-sidebar-generator', $this->uri() . 'assets/scripts.js', $depend, $this->version, true );
 				wp_enqueue_style( 'smk-sidebar-generator' );
 				wp_enqueue_script( 'smk-sidebar-generator' );
-				
-		 		wp_localize_script( 'smk-sidebar-generator', 'smk_sidebar_local', array(
-		 				'sidebar_prefix' => $this->prefix(),
-						'remove'        => __('Remove', 'smk_sbg'),
-						'not_saved_msg' => __("You've made changes, don't forget to save.", 'smk_sbg'),
-						'ok'            => __("Changes were saved successfully.", 'smk_sbg'),
-						'fail'          => __("An unexpected error ocurred.", 'smk_sbg'),
-						'created'       => __("The sidebar was successfully created.", 'smk_sbg'),
-						's_exists'      => __("The sidebar already exists. Please change the name.", 'smk_sbg'),
-						'empty'         => __("Please enter a name for this sidebar.", 'smk_sbg'),
-						's_remove'      => __("Are you sure? If you remove this sidebar it can't be restored.", 'smk_sbg'),
-						's_removed'     => __("Sidebar Removed", 'smk_sbg'),
-						'data_imported' => __("Data imported successfully.", 'smk_sbg'),
-						'spin'          => '<span class="smk_sbg_spin"></span>',
-					)
-				);
-
 			}
 		}
 
@@ -439,9 +451,13 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * @param array $data The data to debug.
 		 * @return string 
 		 */
-		public function debug($data = array()){
-			array_walk_recursive( $data, array( $this, 'debugFilter' ) );
-
+		public function debug($data = array(), $title = ''){
+			if( is_array($data) ){
+				array_walk_recursive( $data, array( $this, 'debugFilter' ) );
+			}
+			if( !empty($title) ){
+				echo '<h3>'. $title .'</h3>';
+			}
 			echo '<pre>';
 				print_r($data);
 			echo '</pre>';

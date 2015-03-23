@@ -32,15 +32,83 @@ function smk_sidebar_version(){
 	}
 }
 
+/**
+ * All conditions
+ *
+ * All condtions will be accessible from this function
+ *
+ * @return array All conditions type => class_name 
+ */
+function smk_sidebar_conditions_filter(){
+	return apply_filters( 'smk_sidebar_conditions_filter', array() );
+}
+
+/**
+ * Register a condition
+ *
+ * Register a condition and inject it in the main array
+ *
+ * @param string $name Condition class name
+ * @return void 
+ */
+class Smk_Sidebar_Generator_Register_Condition{
+	public $name;
+	public $allCond;
+
+	public function __construct( $name ){
+		$this->name = $name;
+		$this->allCond = smk_sidebar_conditions_filter();
+		add_filter( 'smk_sidebar_conditions_filter', array( $this, 'add') );
+	}
+	public function add(){
+		if( class_exists( $this->name ) ){
+			$class = new $this->name;
+			if( ! array_key_exists($class->type, $this->allCond) ){
+				return array( $class->type => $this->name );
+			}
+		}
+	}
+}
+
+/**
+ * Register condition helper
+ *
+ * @param string $name Condition class name
+ * @use Smk_Sidebar_Generator_Register_Condition
+ * @return void 
+ */
+function smk_register_condition( $name ){
+	new Smk_Sidebar_Generator_Register_Condition( $name );
+}
+
+/* Plugin path
+------------------------------------------------*/
 $path = plugin_dir_path( __FILE__ );
 
+/* HTML helper
+------------------------------------------------*/
 require_once $path . 'html.php';
+
+/* Conditions
+------------------------------------------------*/
+require_once $path . 'condition.php';
+require_once $path . 'condition-cpt.php';
+
+/* Init conditions
+------------------------------------------------*/
+smk_register_condition( 'Smk_Sidebar_Generator_Condition_Cpt' );
+
+/* Plugin work
+------------------------------------------------*/
 require_once $path . 'abstract.php';
 require_once $path . 'render.php';
 require_once $path . 'apply.php';
 
+/* Init plugin
+------------------------------------------------*/
 $smk_sidebar_generator = new Smk_Sidebar_Generator;
 $smk_sidebar_generator->init();
 
+/* Apply conditions
+------------------------------------------------*/
 $applySidebars = new Smk_Sidebar_Generator_Apply;
-// $applySidebars->letsDoIt();
