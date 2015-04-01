@@ -4,7 +4,7 @@
  * Plugin URI:  https://github.com/Smartik89/Wordpress-Sidebar-Generator
  * Description: Generate an unlimited number of sidebars and assign them to any page using the conditional options without touching a single line of code. 
  * Author:      Smartik
- * Version:     3.0-beta
+ * Version:     3.0
  * Author URI:  http://smartik.ws/
  * Licence:     GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -80,6 +80,52 @@ class Smk_Sidebar_Generator_Register_Condition{
 function smk_register_condition( $name ){
 	new Smk_Sidebar_Generator_Register_Condition( $name );
 }
+
+/*
+-------------------------------------------------------------------------------
+Smk Sidebar function
+-------------------------------------------------------------------------------
+*/
+function smk_sidebar($id){
+	if(function_exists('dynamic_sidebar') && dynamic_sidebar($id)) : 
+	endif;
+	return true;
+}
+
+/*
+-------------------------------------------------------------------------------
+Smk All Sidebars
+-------------------------------------------------------------------------------
+*/
+if(! function_exists('smk_get_all_sidebars') ) {
+	function smk_get_all_sidebars(){
+		global $wp_registered_sidebars;
+		$all_sidebars = array();
+		if ( $wp_registered_sidebars && ! is_wp_error( $wp_registered_sidebars ) ) {
+			
+			foreach ( $wp_registered_sidebars as $sidebar ) {
+				$all_sidebars[ $sidebar['id'] ] = $sidebar['name'];
+			}
+			
+		}
+		return $all_sidebars;
+	}
+}
+
+/*
+----------------------------------------------------------------------
+Shortcode
+----------------------------------------------------------------------
+*/
+// [smk_sidebar id="X"] //X is the sidebar ID
+function smk_sidebar_shortcode( $atts ) {
+	
+	extract( shortcode_atts( array(
+		'id' => null,
+	), $atts ) );
+	smk_sidebar($id);
+}
+add_shortcode( 'smk_sidebar', 'smk_sidebar_shortcode' );
 
 /* Plugin path
 ------------------------------------------------*/

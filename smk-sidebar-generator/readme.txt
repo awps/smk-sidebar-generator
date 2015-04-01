@@ -3,7 +3,7 @@ Contributors: _smartik_
 Tags: sidebar, widget, generator, custom, unlimited
 Requires at least: 3.2
 Tested up to: 3.8
-Stable tag: 2.3.2
+Stable tag: 3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,68 +12,34 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 == Description ==
 This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 
-**Important info: I'm working for version 3.0 which will support custom sidebars without touching a single line of code. If you want to get acces to first beta, click the following link, subscribe and I will send it to you when it's ready:** http://eepurl.com/QeMOf
+#### Version 3.0 is here!
+The new version 3.x has many advantages compared with the old 2.x. First and the most important is that it remove the need to add some special code to the theme in order to display the generated sidebar. That's because it now can override the default sidebar and apply special conditions for any page on your site.
 
-**Demo video:** http://youtu.be/fluNdMnSCKA
 
-<iframe width="560" height="315" src="//www.youtube.com/embed/fluNdMnSCKA" frameborder="0" allowfullscreen></iframe>
+<!--**Demo video:** http://youtu.be/fluNdMnSCKA-->
+
+<!--iframe width="560" height="315" src="//www.youtube.com/embed/fluNdMnSCKA" frameborder="0" allowfullscreen></iframe-->
 
 * Author : Smartik - http://smartik.ws/
 * License : GPLv2
-* Project page and usage instructions: https://github.com/Smartik89/Wordpress-Sidebar-Generator
+* Development branch: https://github.com/Smartik89/Wordpress-Sidebar-Generator
+* Issue tracker: https://github.com/Smartik89/Wordpress-Sidebar-Generator/issues
 
 ####Features:
-* Full AJAX (add, remove, save, validation, etc.)
+* Unlimited number of sidebars.
+* Replace default theme sidebars using the conditions or globaly just by selecting the sidebar that you want to replace.
+* Show the generated sidebars on any page you wish without touching a single line of code in your theme.
 * Drag to sort sidebar position.
-* Name validation(characters and duplicate).
-* Display sidebars using WP built-in function, a custom function or a shortcode.
-* Get registered sidebars anywhere you need them.(theme options, metaboxes, widgets, etc.)
 
 ####How to install this plugin?
 Like any other Wordpress plugin. <br />
 Drop `smk-sidebar-generator` to `wp-content/plugins/`.<br />
 More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 
-**Get all sidebars in an array:**
-Add this function in your theme `functions.php`:
-<pre>
-if(! function_exists('smk_get_all_sidebars') ) {
-	function smk_get_all_sidebars(){
-		global $wp_registered_sidebars;
-		$all_sidebars = array();
-		if ( $wp_registered_sidebars && ! is_wp_error( $wp_registered_sidebars ) ) {
-			
-			foreach ( $wp_registered_sidebars as $sidebar ) {
-				$all_sidebars[ $sidebar['id'] ] = $sidebar['name'];
-			}
-			
-		}
-		return $all_sidebars;
-	}
-}
-</pre>
-Now using this function you can get all sidebars in an array(`[id] => [name]`):
-<pre>print_r( smk_get_all_sidebars() )</pre>
-*result of the above code(example)*
-<pre>
-array(
-  "sidebarID" => "Default Sidebar",
-  "anotherID" => "Sidebar Name",
-  "smk_sbg_18" => "Sidebar Name 1",
-  "smk_sbg_7" => "Sidebar Name Something"
-)
-</pre>
-*You can output this anywhere in page/post metaboxes, theme options, etc.*
+####Backward compatibility. 
 
-*Example with php `foreach`:*
-<pre>
-echo '&lt;select>';
-  foreach($the_sidebars as $key => $value){
-    echo '&lt;option value="'. $key .'">'. $value .'&lt;/option>';
-  }
-echo '&lt;/select>';
-</pre>
-
+Because you probably still need them, these functions are still here to not break your site.
+**Note:** The following code is for vesion 2.x In the latest version of this plugin they are not required. Do not use them anymore!!!
 
 **Display a sidebar using `smk_sidebar` function:**
 <pre>
@@ -102,6 +68,12 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 
 
 == Changelog ==
+= 3.0 =
+* **Complete rewrite from scratch.** The plugin now allows to create an unlimited number of sidebars without the need to touch a single line of code in your theme.
+* Now you can use conditions to apply the sidebar on any page, post ar CPT you wish. _Soon will be added support for taxonomies, 404 page and other(please suggest)_.
+* The widgets njow use the theme style and tags. That means the newly generated sidebars will look good on any theme, no need for additional styling.
+* Modular code. You can create and register your own conditions. That's mainly not required but can be handy for some developers.
+
 = 2.3.2 =
 * Quick fix UI. When a new sidebar is created, it display an incorect info and it was fixed only after page refresh.
 * Removed unused files, since version 3.0 is on development `smk_sidebar_metabox.php` was removed, as it was never used and is not required for the next versions.
