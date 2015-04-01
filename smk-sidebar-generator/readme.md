@@ -1,15 +1,3 @@
-=== SMK Sidebar Generator ===
-Contributors: _smartik_
-Tags: sidebar, widget, generator, custom, unlimited
-Requires at least: 3.2
-Tested up to: 3.8
-Stable tag: 3.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
-
-== Description ==
 This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 
 #### Version 3.0 is here!
@@ -62,10 +50,6 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 1. Upload the `smk-sidebar-generator` folder to the `/wp-content/plugins/` directory
 2. Activate the SMK Sidebar Generator plugin through the 'Plugins' menu in WordPress
 3. Configure the plugin by going to the SMK Sidebars menu that appears in your admin menu
-
-== Screenshots ==
-1. Admin panel
-
 
 == Changelog ==
 = 3.0 =
