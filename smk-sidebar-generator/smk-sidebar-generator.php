@@ -90,10 +90,10 @@ function smk_register_condition( $name ){
  * Load plugin languages
  *
  */
-// add_action('plugins_loaded', 'smk_sidebar_load_textdomain');
-// function smk_sidebar_load_textdomain() {
+add_action('plugins_loaded', 'smk_sidebar_load_textdomain');
+function smk_sidebar_load_textdomain() {
 	load_plugin_textdomain( 'smk-sidebar-generator', false, dirname( plugin_basename(__FILE__) ) . '/lang/' );
-// }
+}
 
 /*
 -------------------------------------------------------------------------------

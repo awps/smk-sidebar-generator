@@ -59,6 +59,7 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 </pre>
 
 == Installation ==
+
 1. Upload the `smk-sidebar-generator` folder to the `/wp-content/plugins/` directory
 2. Activate the SMK Sidebar Generator plugin through the 'Plugins' menu in WordPress
 3. Configure the plugin by going to the SMK Sidebars menu that appears in your admin menu
@@ -68,6 +69,7 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 
 
 == Changelog ==
+
 = 3.1 =
 * Added localization support(if you want to translate it in your language, create a pull requests on Github).
 * Added shortcode with ID to each sidebar.
