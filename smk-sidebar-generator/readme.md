@@ -52,10 +52,14 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 3. Configure the plugin by going to the SMK Sidebars menu that appears in your admin menu
 
 == Changelog ==
+= 3.1 =
+* Added localization support(if you want to translate it in your language, create a pull requests on Github).
+* Added shortcode with ID to each sidebar.
+
 = 3.0 =
 * **Complete rewrite from scratch.** The plugin now allows to create an unlimited number of sidebars without the need to touch a single line of code in your theme.
 * Now you can use conditions to apply the sidebar on any page, post ar CPT you wish. _Soon will be added support for taxonomies, 404 page and other(please suggest)_.
-* The widgets njow use the theme style and tags. That means the newly generated sidebars will look good on any theme, no need for additional styling.
+* The widgets now use the theme style and tags. That means the newly generated sidebars will look good on any theme, no need for additional styling.
 * Modular code. You can create and register your own conditions. That's mainly not required but can be handy for some developers.
 
 = 2.3.2 =

@@ -3,7 +3,7 @@ class Smk_Sidebar_Generator_Condition_Cpt extends Smk_Sidebar_Generator_Conditio
 	public $type = 'post_type';
 
 	public function __construct(){
-		$this->name = __('Post types', 'smk_sbg');
+		$this->name = __('Post types', 'smk-sidebar-generator');
 	}
 
 	// key => value
@@ -13,8 +13,8 @@ class Smk_Sidebar_Generator_Condition_Cpt extends Smk_Sidebar_Generator_Conditio
 			'_builtin' => false
 		);
 		$pt = array(
-			'post' => _x('Posts', 'Post type name', 'smk_sbg'),
-			'page' => _x('Pages', 'Post type name', 'smk_sbg'),
+			'post' => _x('Posts', 'Post type name', 'smk-sidebar-generator'),
+			'page' => _x('Pages', 'Post type name', 'smk-sidebar-generator'),
 		);
 		$post_types = get_post_types( $pt_args, 'objects' );
 		if( !empty($post_types) ){
@@ -31,14 +31,14 @@ class Smk_Sidebar_Generator_Condition_Cpt extends Smk_Sidebar_Generator_Conditio
 		$all_posts = array();
 
 		if( 'post' == $the_type ){
-			$all_posts['all_single'] = ' - '. __('All single', 'smk_sbg') .' - ';
+			$all_posts['all_single'] = ' - '. __('All single', 'smk-sidebar-generator') .' - ';
 		}
 		elseif( 'page' == $the_type ){
-			$all_posts['all_pages'] = ' - '. __('All pages', 'smk_sbg') .' - ';
+			$all_posts['all_pages'] = ' - '. __('All pages', 'smk-sidebar-generator') .' - ';
 		}
 		else{
-			$all_posts['all_archives_single'] = ' - '. __('Any(archives or single)', 'smk_sbg') .' - ';
-			$all_posts['all_single'] = ' - '. __('All single', 'smk_sbg') .' - ';
+			$all_posts['all_archives_single'] = ' - '. __('Any(archives or single)', 'smk-sidebar-generator') .' - ';
+			$all_posts['all_single'] = ' - '. __('All single', 'smk-sidebar-generator') .' - ';
 		}
 
 		if( !empty($the_type) ){

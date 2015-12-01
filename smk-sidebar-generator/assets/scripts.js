@@ -110,6 +110,10 @@
 					var h3 = template.find('h3.accordion-section-title span.name').html().replace( '__index__', counter );
 					template.find('h3.accordion-section-title span.name').html( h3 );
 
+					// Shortcode
+					var shortcode = template.find('.smk-sidebar-shortcode').html().replace( '__id__', id );
+					template.find('.smk-sidebar-shortcode').html( shortcode );
+
 					// Template ID
 					var template_id = template.attr('id');
 					template.attr('id', template_id.replace( '__id__', id ))
@@ -186,7 +190,7 @@
 						url: ajaxurl,
 						dataType: "json",
 						data: {
-							'action': 'smk_sbg_load_equalto',
+							'action': 'smk-sidebar-generator_load_equalto',
 							'data':   { condition_if: selected }
 						},
 						success: function(response){

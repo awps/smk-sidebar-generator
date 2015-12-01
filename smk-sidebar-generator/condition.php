@@ -14,7 +14,7 @@ abstract class Smk_Sidebar_Generator_Condition{
 
 	// Return key => value options
 	public function prepareSecondaryData( $main_value ){
-		$array = array( 'all' => __('All', 'smk_sbg') );
+		$array = array( 'all' => __('All', 'smk-sidebar-generator') );
 		return $array;
 	}
 

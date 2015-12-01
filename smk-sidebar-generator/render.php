@@ -19,7 +19,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 	class Smk_Sidebar_Generator extends Smk_Sidebar_Generator_Abstract {
 
 		public function setup(){
-			add_action( 'wp_ajax_smk_sbg_load_equalto', array( $this, 'equaltoAjax' ) );
+			add_action( 'wp_ajax_smk-sidebar-generator_load_equalto', array( $this, 'equaltoAjax' ) );
 		}
 
 		//------------------------------------//--------------------------------------//
@@ -33,7 +33,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		protected function pluginSettings( $key = '' ){
 			$settings = array(
-				'name'                   => __('Sidebar Generator', 'smk_sbg'),
+				'name'                   => __('Sidebar Generator', 'smk-sidebar-generator'),
 				'slug'                   => strtolower( __CLASS__ ),
 				'version'                => $this->version,
 				'capability'             => 'manage_options',
@@ -106,14 +106,14 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		public function pageOpen($echo = true){
 			$html = '<div class="wrap sbg-clearfix">';
 			$html .= '<h2>'. $this->pluginSettings( 'name' ) .'
-				<span class="add-new-h2 add-new-sidebar" data-sidebars-prefix="'. $this->prefix() .'">'. __('Add new', 'smk_sbg') .'</span>
+				<span class="add-new-h2 add-new-sidebar" data-sidebars-prefix="'. $this->prefix() .'">'. __('Add new', 'smk-sidebar-generator') .'</span>
 			</h2>';
 			$html .= '<div class="smk-sidebars-grid">';
 			$html .= '<h3>
-					'. __('Sidebars', 'smk_sbg') .'
-					<span class="tip dashicons-before dashicons-editor-help" title="'. __('All available sidebars.', 'smk_sbg') .'"></span>
+					'. __('Sidebars', 'smk-sidebar-generator') .'
+					<span class="tip dashicons-before dashicons-editor-help" title="'. __('All available sidebars.', 'smk-sidebar-generator') .'"></span>
 				</h3>';
-			$html .= '<form method="post" action="options.php" class="smk_sbg_main_form">';
+			$html .= '<form method="post" action="options.php" class="smk-sidebar-generator_main_form">';
 			if( $echo ) { echo $html; } else { return $html; }
 		}
 
@@ -192,14 +192,14 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 					$the_sidebar .= '<div class="sbg-clearfix">';
 					$the_sidebar .= $this->fieldId($name, $sidebar_data);
 					$the_sidebar .= $this->fieldToReplace($name, $sidebar_data);
-					
+				
 					// Conditions
 					$the_sidebar .= '<div class="smk-sidebar-row conditions-all smk-sidebar-grid-8">';
 
 						$conditions_checked = isset( $sidebar_data['enable-conditions'] ) ? ' checked="checked"' : '';
 						$the_sidebar .= '<label>
 							<input type="checkbox" name="'. $name. '[enable-conditions]" value="enabled" '. $conditions_checked .' class="smk-sidebar-enable-conditions" />'.  
-							__('Enable conditions:', 'smk_sbg')
+							__('Enable conditions:', 'smk-sidebar-generator')
 						.'</label>';
 
 
@@ -216,7 +216,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 						$the_sidebar .= '</div>'; //.created-conditions
 					
 					$disbled_conditions_btn = empty($conditions_checked) ? ' disabled="disabled"' : '';
-					$the_sidebar .= ' <button class="condition-add button"'. $disbled_conditions_btn .' data-name="'. $name .'" data-sidebar-id="'. $sidebar_data['id'] .'">Add condition</button>';
+					$the_sidebar .= ' <button class="condition-add button"'. $disbled_conditions_btn .' data-name="'. $name .'" data-sidebar-id="'. $sidebar_data['id'] .'">'. __('Add condition', 'smk-sidebar-generator') .'</button>';
 					$the_sidebar .= '</div>'; //.conditions-all
 					$the_sidebar .= '</div>'; //.sbg-clearfix
 
@@ -246,8 +246,8 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 						<span class="name">'. $sidebar_data['name'] .'</span>&nbsp;
 						<span class="description">'. $sidebar_data['description'] .'</span>&nbsp;
 						<div class="moderate-sidebar">
-							<span class="smk-delete-sidebar">'. __('Delete', 'smk_sbg') .'</span>
-							<span class="smk-restore-sidebar">'. __('Restore', 'smk_sbg') .'</span>
+							<span class="smk-delete-sidebar">'. __('Delete', 'smk-sidebar-generator') .'</span>
+							<span class="smk-restore-sidebar">'. __('Restore', 'smk-sidebar-generator') .'</span>
 						</div>
 					</h3>
 					<div class="accordion-section-content" style="display: none;">
@@ -285,7 +285,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 				$the_sidebar .= '<div class="conditions-second">';
 					$the_sidebar .= $this->fieldConditionEqualTo($name, $sidebar_data, $index, $condition_if);
 				$the_sidebar .= '</div>';
-			$the_sidebar .= ' <span class="condition-remove" title="'. __('Remove condition', 'smk_sbg') .'"> <i class="dashicons dashicons-no-alt"></i> </span>';
+			$the_sidebar .= ' <span class="condition-remove" title="'. __('Remove condition', 'smk-sidebar-generator') .'"> <i class="dashicons dashicons-no-alt"></i> </span>';
 			$the_sidebar .= '</div>';
 			return $the_sidebar;
 		}
@@ -303,7 +303,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function fieldName($name, $sidebar_data){
 			return '<div class="smk-sidebar-row smk-sidebar-grid-4">
-				<label>'. __('Name:', 'smk_sbg') .'</label>'. 
+				<label>'. __('Name:', 'smk-sidebar-generator') .'</label>'. 
 				$this->html->input(
 					'', // ID
 					$name. '[name]', 
@@ -329,7 +329,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function fieldId($name, $sidebar_data){
 			return '<div class="smk-sidebar-row" style="display: none;">
-				<label>'. __('ID:', 'smk_sbg') .'</label>'. 
+				<label>'. __('ID:', 'smk-sidebar-generator') .'</label>'. 
 				$this->html->input(
 					'', // ID
 					$name. '[id]', 
@@ -355,7 +355,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function fieldDescription($name, $sidebar_data){
 			return '<div class="smk-sidebar-row smk-sidebar-grid-8">
-				<label>'. __('Description:', 'smk_sbg') .'</label>'. 
+				<label>'. __('Description:', 'smk-sidebar-generator') .'</label>'. 
 				$this->html->input(
 					'', // ID
 					$name. '[description]', 
@@ -391,7 +391,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			$replace = !empty( $sidebar_data['replace'] ) ? $sidebar_data['replace'] : array();
 
 			return '<div class="smk-sidebar-row smk-sidebar-grid-4">
-				<label>'. __('Sidebars to replace:', 'smk_sbg') .'</label>'. 
+				<label>'. __('Sidebars to replace:', 'smk-sidebar-generator') .'</label>'. 
 				$this->html->select(
 					'', // ID
 					$name. '[replace][]', 
@@ -403,7 +403,11 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 						'class'    => array( 'sidebars-to-replace-select' ),
 					)
 				) 
-			.'</div>';
+			.'
+			<br />
+			<label>'. __('Shortcode:', 'smk-sidebar-generator') .'</label>
+			<code class="smk-sidebar-shortcode">smk_sidebar="'. $sidebar_data['id'] .'"</code>
+			</div>';
 		}
 
 		//------------------------------------//--------------------------------------//
@@ -419,7 +423,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function fieldConditionMain($name, $sidebar_data, $index = 0){
 
-			$options = array( 'none' => __('None', 'smk_sbg') );
+			$options = array( 'none' => __('None', 'smk-sidebar-generator') );
 			$all_conditions = smk_sidebar_conditions_filter();
 			if( !empty($all_conditions) && is_array($all_conditions) ){
 				foreach ($all_conditions as $type => $class) {
@@ -436,7 +440,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			$saved = ! empty( $sidebar_data['conditions'][ absint( $index ) ]['if'] ) ? 
 			            $sidebar_data['conditions'][ absint( $index ) ]['if'] : '';
 
-			return '<span class="condition-label">'. __('Replace if', 'smk_sbg') .' </span>'.
+			return '<span class="condition-label">'. __('Replace if', 'smk-sidebar-generator') .' </span>'.
 				$this->html->select(
 					'', // ID
 					$name. '[conditions]['. absint( $index ) .'][if]', 
@@ -463,7 +467,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 
 			$saved = ! empty( $sidebar_data['conditions'][ absint( $index ) ]['equalto'] ) ? $sidebar_data['conditions'][ absint( $index ) ]['equalto'] : '';
 
-			return '<span class="condition-label">'. __('and is equal to', 'smk_sbg') .'</span>' . 
+			return '<span class="condition-label">'. __('and is equal to', 'smk-sidebar-generator') .'</span>' . 
 				$this->html->select(
 					'', // ID
 					$name. '[conditions]['. absint( $index ) .'][equalto][]', 
@@ -528,8 +532,8 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		public function allRemovedSidebarsList($echo = true){
 			$list = '<div class="smk-sidebars-grid removed-sidebars">
 				<h3>
-					'. __('Removed', 'smk_sbg') .'
-					<span class="tip dashicons-before dashicons-editor-help" title="'. __('These sidebars will be removed on the next page refresh.', 'smk_sbg') .'"></span>
+					'. __('Removed', 'smk-sidebar-generator') .'
+					<span class="tip dashicons-before dashicons-editor-help" title="'. __('These sidebars will be removed on the next page refresh.', 'smk-sidebar-generator') .'"></span>
 				</h3>
 				<div id="smk-removed-sidebars" class="accordion-container smk-sidebars-list">
 					<ul class="connected-sidebars-lists"></ul>
@@ -549,7 +553,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function sidebarListTemplate($echo = true){
 			$sidebar_data = array( 
-				'name'        => sprintf( __('New sidebar %s', 'smk_sbg'), '__index__' ),
+				'name'        => sprintf( __('New sidebar %s', 'smk-sidebar-generator'), '__index__' ),
 				'id'          => '__id__',
 				'description' => '',
 			);
