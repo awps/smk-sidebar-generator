@@ -47,11 +47,17 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 </pre>
 
 == Installation ==
+
 1. Upload the `smk-sidebar-generator` folder to the `/wp-content/plugins/` directory
 2. Activate the SMK Sidebar Generator plugin through the 'Plugins' menu in WordPress
 3. Configure the plugin by going to the SMK Sidebars menu that appears in your admin menu
 
 == Changelog ==
+
+= 3.1 =
+* Added localization support(if you want to translate it in your language, create a pull requests on Github).
+* Added shortcode with ID to each sidebar.
+
 = 3.0 =
 * **Complete rewrite from scratch.** The plugin now allows to create an unlimited number of sidebars without the need to touch a single line of code in your theme.
 * Now you can use conditions to apply the sidebar on any page, post ar CPT you wish. _Soon will be added support for taxonomies, 404 page and other(please suggest)_.
