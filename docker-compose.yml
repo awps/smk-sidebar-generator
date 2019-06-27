@@ -1,0 +1,51 @@
+version: '3'
+services:
+
+  # WordPress MySQL DB
+  wpdb:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - "./server/database:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD:  wordpress
+      MYSQL_DATABASE: app
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  # WordPress App
+  wordpress:
+    image: wordpress:latest
+    depends_on:
+      - wpdb
+    links:
+      - wpdb
+    ports:
+      - 8000:80
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: wpdb:3306
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: app
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        define('FS_METHOD', 'direct');
+    volumes:
+      - "./src/:/var/www/html/wp-content/plugins/current-plugin-development"
+      - "./wordpress/:/var/www/html"
+      - "./server/log/:/var/log"
+
+  # PHP My Admin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - wpdb
+    links:
+      - wpdb:mysql
+    ports:
+      - 8181:80
+    restart: always
+    environment:
+      MYSQL_USERNAME: wordpress
+      MYSQL_ROOT_PASSWORD: wordpress
+      PMA_HOST: mysql

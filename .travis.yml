@@ -1,0 +1,23 @@
+language: php
+php:
+  - "7.0"
+
+sudo: true
+
+script:
+  # Override default Travis script action [phpunit]
+  - php -l ./src/*.php
+
+branches:
+  only:
+    # Enable Travis hook on tags (there is regular expression for semver tag)*
+    - "/\\d\\.\\d\\.\\d/"
+
+# Enable Travis deployment
+deploy:
+  # Use script as a deployment tool
+  provider: script
+  script: sh ./deploy.sh
+  # Restrict deployment only for tags
+  on:
+    tags: true

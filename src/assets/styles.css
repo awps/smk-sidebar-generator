@@ -1,0 +1,272 @@
+/* 
+* @Author: Smartik
+* @Date:   2014-03-12 21:17:04
+* @Last Modified by:   Smartik
+* @Last Modified time: 2014-07-16 21:09:29
+*/
+/*
+-------------------------------------------------------------------------------
+General view 
+-------------------------------------------------------------------------------
+*/
+
+#smk-sidebars > ul,
+#smk-removed-sidebars > ul{
+	min-height: 40px;
+	border: 1px solid #ddd;
+}
+#smk-sidebars > ul > li:last-of-type,
+#smk-removed-sidebars > ul > li:last-of-type{
+	border-bottom: 0;
+}
+.smk-sidebars-grid{
+	display: block;
+	float: left;
+	width: 100%;
+	margin: 0;
+	max-width: 1000px;
+}
+.smk-sidebars-grid.removed-sidebars{
+	display: none;
+}
+.sbg-removed-active .smk-sidebars-grid.removed-sidebars{
+	display: block;
+}
+/*
+-------------------------------------------------------------------------------
+Head section
+-------------------------------------------------------------------------------
+*/
+.smk-sidebars-list .accordion-section-title{
+	position: relative;
+	padding-right: 150px; 
+}
+.smk-sidebars-list .accordion-section-title .description{
+	font-size: 13px;
+	font-weight: 400;
+	font-style: normal;
+	color: #666;
+	margin-left: 10px;
+}
+
+.smk-sidebars-list .accordion-section-title .smk-sidebar-section-icon{
+	padding: 0;
+	color: #aaa;
+	cursor: move;
+	margin-right: 5px;
+}
+.smk-sidebars-list .accordion-section-title .smk-sidebar-section-icon:hover{
+	color: #82B82B;
+}
+
+/* Moderate sidebar
+------------------------------------------------*/
+.smk-sidebars-list .accordion-section-title .moderate-sidebar{
+	position: absolute;
+	font-size: 13px;
+	font-weight: 700;
+	font-style: normal;
+	color: #5F72C0;
+	margin-left: 10px;
+	right: 30px;
+	top: 11px;
+}
+.smk-sidebars-list .accordion-section-title .moderate-sidebar span{
+	padding: 1px 7px;
+	border-radius: 2px;
+	display: inline-block;
+}
+/* Delete
+------------------------------------------------*/
+.smk-sidebars-list .accordion-section-title .moderate-sidebar .smk-delete-sidebar{
+	color: #CF0018;
+}
+.smk-sidebars-list .accordion-section-title .moderate-sidebar .smk-delete-sidebar:hover{
+	color: #fff;
+	background: #CF0018;
+}
+
+/* Restore
+------------------------------------------------*/
+.smk-sidebars-list .accordion-section-title .moderate-sidebar .smk-restore-sidebar{
+	color: #82B82B;
+	display: none;
+}
+.smk-sidebars-list .accordion-section-title .moderate-sidebar .smk-restore-sidebar:hover{
+	color: #fff;
+	background: #82B82B;
+}
+
+/* Removed sidebar styles
+------------------------------------------------*/
+#smk-removed-sidebars .accordion-section-title .description,
+#smk-removed-sidebars .accordion-section-title .moderate-sidebar span{
+	display: none;
+}
+#smk-removed-sidebars .accordion-section-title .moderate-sidebar .smk-restore-sidebar{
+	display: inline-block;
+}
+
+/*
+-------------------------------------------------------------------------------
+Content section
+-------------------------------------------------------------------------------
+*/
+.smk-sidebar-row label{
+	display: block;
+	font-weight: 700;
+	margin: 10px 0 5px;
+}
+.smk-sidebar-row input,
+.smk-sidebar-row textarea,
+.smk-sidebar-row select{
+	margin-bottom: 10px;
+}
+.smk-sidebar-row input[type="checkbox"]{
+	margin: 0 5px 0 0;
+}
+.smk-sidebar-row.smk-sidebar-grid-4{
+	display: inline-block;
+	float: left;
+	width: 29%;
+	margin-right: 1%;
+}
+.smk-sidebar-row.smk-sidebar-grid-8{
+	display: inline-block;
+	float: left;
+	width: 69%;
+	margin-left: 1%;
+}
+.add-new-sidebar{
+	font-size: 12px;
+	padding: 3px 6px;
+	margin: 0 7px;
+	border-radius: 2px;
+	cursor: pointer;
+}
+.add-new-sidebar:hover{}
+
+/*
+-------------------------------------------------------------------------------
+Fields
+-------------------------------------------------------------------------------
+*/
+.smk-sidebar-row .sidebars-to-replace-select{
+	width: 100%;
+	max-width: 278px;
+}
+.smk-sidebar-row .condition-if,
+.smk-sidebar-row .condition-equalto{
+	width: 100%;
+}
+
+/*
+-------------------------------------------------------------------------------
+Conditions
+-------------------------------------------------------------------------------
+*/
+.smk-sidebar-row .created-conditions.disabled-conditions{
+	position: relative;
+}
+.smk-sidebar-row .created-conditions.disabled-conditions,
+.smk-sidebar-row .created-conditions.disabled-conditions input,
+.smk-sidebar-row .created-conditions.disabled-conditions select,
+.smk-sidebar-row .created-conditions.disabled-conditions textarea{
+	color: #aaa;
+	border-color: #ccc;
+}
+.smk-sidebar-row .created-conditions.disabled-conditions:before{
+	content: " ";
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	background: rgba(255, 255, 255, 0.35);
+	z-index: 10;
+}
+.smk-sidebar-row .created-conditions .condition-parent:nth-child(odd){
+	background: #fafafa;
+	border: 1px solid #eee;
+	border-left: 0;
+	border-right: 0;
+}
+.smk-sidebar-row .created-conditions .condition-parent{
+	position: relative;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+.smk-sidebar-row .created-conditions .condition-parent > .conditions-first{
+	display: inline-block;
+	width: 28%;
+	vertical-align: top;
+	padding-right: 2%;
+}
+.smk-sidebar-row .created-conditions .condition-parent > .conditions-second{
+	display: inline-block;
+	width: 68%;
+	vertical-align: top;
+	padding-left: 2%;
+}
+.smk-sidebar-row .created-conditions .condition-parent .condition-label{
+	display: block;
+	margin: 5px 0 2px;
+	padding-left: 0;
+}
+.smk-sidebar-row .created-conditions .condition-parent span.condition-remove{
+	position: absolute;
+	display: block;
+	right: 0;
+	top: 0;
+	padding: 1px 3px;
+	margin: 3px;
+	border-radius: 2px;
+	color: #CF0018;
+	cursor: pointer;
+	float: right;
+}
+.smk-sidebar-row .created-conditions .condition-parent span.condition-remove .dashicons,
+.smk-sidebar-row .created-conditions .condition-parent span.condition-remove .dashicons-before:before{
+	font-size: 14px;
+	line-height: 14px;
+	width: 14px;
+	height: 14px;
+	margin: 2px 0;
+}
+.smk-sidebar-row .created-conditions .condition-parent span.condition-remove .dashicons-before:before{
+	text-align: center;
+	padding: 3px 0;
+}
+.smk-sidebar-row .created-conditions .condition-parent .condition-remove:hover{
+	color: #fff;
+	background: #CF0018;
+}
+.smk-sidebar-row .condition-add{
+	margin: 10px 0;
+}
+.smk-sidebar-row .smk-sidebar-condition-icon{
+	position: absolute;
+	display: block;
+	height: 100%;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	padding: 3px 0;
+	color: #aaa;
+	cursor: move;
+}
+.smk-sidebar-row .smk-sidebar-condition-icon:hover{
+	color: #82B82B;
+}
+
+/*
+-------------------------------------------------------------------------------
+Clear Floated Elements
+-------------------------------------------------------------------------------
+*/
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+.sbg-clearfix:before,.sbg-clearfix:after{content:'.';display:block;overflow:hidden;visibility:hidden;font-size:0;line-height:0;width:0;height:0;}
+.sbg-clearfix:after{clear:both;}

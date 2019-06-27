@@ -1,0 +1,138 @@
+# Loco Gettext template
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SMK Sidebar Generator\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Tue Dec 01 2015 13:14:59 GMT+0200 (Eastern Europe "
+"Standard Time)\n"
+"POT-Revision-Date: Tue Dec 01 2015 13:15:20 GMT+0200 (Eastern Europe "
+"Standard Time)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: /condition-cpt.php:6
+msgid "Post types"
+msgstr ""
+
+#: /condition-cpt.php:16
+msgctxt "Post type name"
+msgid "Posts"
+msgstr ""
+
+#: /condition-cpt.php:17
+msgctxt "Post type name"
+msgid "Pages"
+msgstr ""
+
+#: /condition-cpt.php:34 /condition-cpt.php:41
+msgid "All single"
+msgstr ""
+
+#: /condition-cpt.php:37
+msgid "All pages"
+msgstr ""
+
+#: /condition-cpt.php:40
+msgid "Any(archives or single)"
+msgstr ""
+
+#: /condition.php:17
+msgid "All"
+msgstr ""
+
+#: /render.php:36
+msgid "Sidebar Generator"
+msgstr ""
+
+#: /render.php:109
+msgid "Add new"
+msgstr ""
+
+#: /render.php:113
+msgid "Sidebars"
+msgstr ""
+
+#: /render.php:114
+msgid "All available sidebars."
+msgstr ""
+
+#: /render.php:202
+msgid "Enable conditions:"
+msgstr ""
+
+#: /render.php:219
+msgid "Add condition"
+msgstr ""
+
+#: /render.php:249
+msgid "Delete"
+msgstr ""
+
+#: /render.php:250
+msgid "Restore"
+msgstr ""
+
+#: /render.php:288
+msgid "Remove condition"
+msgstr ""
+
+#: /render.php:306
+msgid "Name:"
+msgstr ""
+
+#: /render.php:332
+msgid "ID:"
+msgstr ""
+
+#: /render.php:358
+msgid "Description:"
+msgstr ""
+
+#: /render.php:394
+msgid "Sidebars to replace:"
+msgstr ""
+
+#: /render.php:408
+msgid "Shortcode:"
+msgstr ""
+
+#: /render.php:426
+msgid "None"
+msgstr ""
+
+#: /render.php:443
+msgid "Replace if"
+msgstr ""
+
+#: /render.php:470
+msgid "and is equal to"
+msgstr ""
+
+#: /render.php:535
+msgid "Removed"
+msgstr ""
+
+#: /render.php:536
+msgid "These sidebars will be removed on the next page refresh."
+msgstr ""
+
+#: /render.php:556
+#, php-format
+msgid "New sidebar %s"
+msgstr ""

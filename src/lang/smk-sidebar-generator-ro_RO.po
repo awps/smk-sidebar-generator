@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SMK Sidebar Generator\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Tue Dec 01 2015 13:14:59 GMT+0200 (Eastern Europe "
+"Standard Time)\n"
+"PO-Revision-Date: Tue Dec 01 2015 13:48:53 GMT+0200 (Eastern Europe Standard "
+"Time)\n"
+"Last-Translator: Andrei <smartik89@gmail.com>\n"
+"Language-Team: \n"
+"Language: Romanian\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 :(((n%100>19)||(( n%100==0)&&(n!"
+"=0)))? 2 : 1))\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Loco-Target-Locale: ro_RO"
+
+#: condition-cpt.php:6
+msgid "Post types"
+msgstr "Tip de posturi"
+
+#: condition-cpt.php:16
+msgctxt "Post type name"
+msgid "Posts"
+msgstr "Posturi"
+
+#: condition-cpt.php:17
+msgctxt "Post type name"
+msgid "Pages"
+msgstr "Pagini"
+
+#: condition-cpt.php:34 /condition-cpt.php:41
+msgid "All single"
+msgstr "Toate individuale"
+
+#: condition-cpt.php:37
+msgid "All pages"
+msgstr "Toate paginile"
+
+#: condition-cpt.php:40
+msgid "Any(archives or single)"
+msgstr "Orice(arhive sau individuale)"
+
+#: condition.php:17
+msgid "All"
+msgstr "Toate"
+
+#: render.php:36
+msgid "Sidebar Generator"
+msgstr "Sidebar Generator"
+
+#: render.php:109
+msgid "Add new"
+msgstr "Adaugă"
+
+#: render.php:113
+msgid "Sidebars"
+msgstr "Sidebaruri"
+
+#: render.php:114
+msgid "All available sidebars."
+msgstr "Toate sidebarurile disponibile"
+
+#: render.php:202
+msgid "Enable conditions:"
+msgstr "Permite condiţii:"
+
+#: render.php:219
+msgid "Add condition"
+msgstr "Adaugă condiţie"
+
+#: render.php:249
+msgid "Delete"
+msgstr "Şterge"
+
+#: render.php:250
+msgid "Restore"
+msgstr "Restabileşte"
+
+#: render.php:288
+msgid "Remove condition"
+msgstr "Şterge condiţia"
+
+#: render.php:306
+msgid "Name:"
+msgstr "Nume:"
+
+#: render.php:332
+msgid "ID:"
+msgstr "ID:"
+
+#: render.php:358
+msgid "Description:"
+msgstr "Descriere:"
+
+#: render.php:394
+msgid "Sidebars to replace:"
+msgstr "Sidebaruri de înlocuit:"
+
+#: render.php:408
+msgid "Shortcode:"
+msgstr "Shortcode:"
+
+#: render.php:426
+msgid "None"
+msgstr "Nimic"
+
+#: render.php:443
+msgid "Replace if"
+msgstr "Înlocuieşte dacă"
+
+#: render.php:470
+msgid "and is equal to"
+msgstr "şi este egal cu"
+
+#: render.php:535
+msgid "Removed"
+msgstr "Şters"
+
+#: render.php:536
+msgid "These sidebars will be removed on the next page refresh."
+msgstr "Aceste sidebaruri vor fi şterse la următoarea reîncărcare a acestei pagini."
+
+#: render.php:556
+#, php-format
+msgid "New sidebar %s"
+msgstr "Sidebar nou %s"

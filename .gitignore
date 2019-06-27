@@ -1,0 +1,17 @@
+/dist/*
+!/dist/.gitkeep
+/node_modules
+/wordpress
+/server
+/export
+/package-lock.json
+/composer.lock
+/.idea
+.DS_Store
+/.env
+/.ENV
+./build
+
+/vendor/
+mix-manifest.json
+mix.js.map
