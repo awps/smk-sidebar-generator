@@ -3,9 +3,9 @@
  * Smk Sidebar Generator Render
  *
  * -------------------------------------------------------------------------------------
- * @Author: Smartik
- * @Author URI: http://smartik.ws/
- * @Copyright: (c) 2014 Smartik. All rights reserved
+ * @Author: Andrew Surdu
+ * @Author URI: https://zerowp.com/
+ * @Copyright: (c) 2014-present Andrew Surdu. All rights reserved
  * -------------------------------------------------------------------------------------
  *
  */
@@ -273,7 +273,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * Display a single condition
 		 *
 		 * @param string $name HTML field name
-		 * @param string $sidebar_data Data for current sidebar
+		 * @param string|array $sidebar_data Data for current sidebar
 		 * @return string The HTML
 		 */
 		public function aSingleCondition($name, $sidebar_data, $index = 0, $condition_if = 'all'){
@@ -298,7 +298,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * Display sidebar name field
 		 *
 		 * @param string $name HTML field name
-		 * @param string $sidebar_data Data for current sidebar
+		 * @param array $sidebar_data Data for current sidebar
 		 * @return string The HTML
 		 */
 		public function fieldName($name, $sidebar_data){
@@ -324,7 +324,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * Display sidebar ID field
 		 *
 		 * @param string $name HTML field name
-		 * @param string $sidebar_data Data for current sidebar
+		 * @param array $sidebar_data Data for current sidebar
 		 * @return string The HTML
 		 */
 		public function fieldId($name, $sidebar_data){
@@ -350,7 +350,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * Display sidebar description field
 		 *
 		 * @param string $name HTML field name
-		 * @param string $sidebar_data Data for current sidebar
+		 * @param array $sidebar_data Data for current sidebar
 		 * @return string The HTML
 		 */
 		public function fieldDescription($name, $sidebar_data){
@@ -376,14 +376,15 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * Display sidebar To Replace field
 		 *
 		 * @param string $name HTML field name
-		 * @param string $sidebar_data Data for current sidebar
+		 * @param array $sidebar_data Data for current sidebar
 		 * @return string The HTML
 		 */
 		public function fieldToReplace($name, $sidebar_data){
 
 			// To replace
 			$static   = $this->allStaticSidebars();
-			$static_sidebars = '';
+			$static_sidebars = [];
+
 			foreach ($static as $key => $value) {
 				$static_sidebars[ $key ] = $value['name'];
 			}
@@ -418,7 +419,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * Display sidebar Condition main field
 		 *
 		 * @param string $name HTML field name
-		 * @param string $sidebar_data Data for current sidebar
+		 * @param array $sidebar_data Data for current sidebar
 		 * @return string The HTML
 		 */
 		public function fieldConditionMain($name, $sidebar_data, $index = 0){

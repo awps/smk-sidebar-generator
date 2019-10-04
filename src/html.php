@@ -5,9 +5,9 @@
  * Description
  *
  * -------------------------------------------------------------------------------------
- * @Author: Smartik
- * @Author URI: http://smartik.ws/
- * @Copyright: (c) 2014 Smartik. All rights reserved
+ * @Author: Andrew Surdu
+ * @Author URI: https://zerowp.com/
+ * @Copyright: (c) 2014-present Andrew Surdu. All rights reserved
  * -------------------------------------------------------------------------------------
  *
  */
@@ -80,7 +80,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 							break;
 						
 						case 'options':
-							continue;
 							break;
 						
 						default:

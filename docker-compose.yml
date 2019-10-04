@@ -15,7 +15,7 @@ services:
 
   # WordPress App
   wordpress:
-    image: wordpress:latest
+    image: wordpress:php7.3
     depends_on:
       - wpdb
     links:

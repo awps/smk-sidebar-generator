@@ -3,9 +3,9 @@
  * SMK Sidebar Generator Abstract
  * 
  * -------------------------------------------------------------------------------------
- * @Author:     Smartik
- * @Author URI: http://smartik.ws/
- * @Copyright:  (c) 2014 Smartik. All rights reserved
+ * @Author:     Andrew Surdu
+ * @Author URI: https://zerowp.com/
+ * @Copyright:  (c) 2014-present Andrew Surdu. All rights reserved
  * -------------------------------------------------------------------------------------
  *
  */

@@ -8,10 +8,10 @@ The new version 3.x has many advantages compared with the old 2.x. First and the
 
 <!--iframe width="560" height="315" src="//www.youtube.com/embed/fluNdMnSCKA" frameborder="0" allowfullscreen></iframe-->
 
-* Author : Smartik - http://smartik.ws/
+* Author : Andrew Surdu - https://zerowp.com/
 * License : GPLv2
-* Development branch: https://github.com/Smartik89/Wordpress-Sidebar-Generator
-* Issue tracker: https://github.com/Smartik89/Wordpress-Sidebar-Generator/issues
+* Development branch: https://github.com/awps/Wordpress-Sidebar-Generator
+* Issue tracker: https://github.com/awps/Wordpress-Sidebar-Generator/issues
 
 ####Features:
 * Unlimited number of sidebars.
