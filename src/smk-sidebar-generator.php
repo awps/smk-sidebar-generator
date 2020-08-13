@@ -1,25 +1,27 @@
 <?php
-/* 
+/*
  * Plugin Name: SMK Sidebar Generator
  * Plugin URI:  https://zerowp.com/sidebar-generator
- * Description: Generate an unlimited number of sidebars and assign them to any page using the conditional options without touching a single line of code. 
+ * Description: Generate an unlimited number of sidebars and assign them to any page using the conditional options without touching a single line of code.
  * Author:      Andrei Surdu
  * Version:     __STABLE_TAG__
  * Author URI:  https://zerowp.com
  * Licence:     GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * Requires PHP: 5.3
+ * Requires at least: 4.0
  */
 
 // Do not allow direct access to this file.
-if( ! function_exists('add_action') ) 
+if( ! function_exists('add_action') )
 	die();
 
 /**
  * Plugin version
  *
  * Get the current plugin version.
- * 
- * @return string 
+ *
+ * @return string
  */
 function smk_sidebar_version(){
 	if( is_admin() ){
@@ -36,7 +38,7 @@ function smk_sidebar_version(){
  *
  * All condtions will be accessible from this function
  *
- * @return array All conditions type => class_name 
+ * @return array All conditions type => class_name
  */
 function smk_sidebar_conditions_filter(){
 	return apply_filters( 'smk_sidebar_conditions_filter', array() );
@@ -48,7 +50,7 @@ function smk_sidebar_conditions_filter(){
  * Register a condition and inject it in the main array
  *
  * @param string $name Condition class name
- * @return void 
+ * @return void
  */
 class Smk_Sidebar_Generator_Register_Condition{
 	public $name;
@@ -74,7 +76,7 @@ class Smk_Sidebar_Generator_Register_Condition{
  *
  * @param string $name Condition class name
  * @use Smk_Sidebar_Generator_Register_Condition
- * @return void 
+ * @return void
  */
 function smk_register_condition( $name ){
 	new Smk_Sidebar_Generator_Register_Condition( $name );
@@ -100,7 +102,7 @@ Smk Sidebar function
 -------------------------------------------------------------------------------
 */
 function smk_sidebar($id){
-	if(function_exists('dynamic_sidebar') && dynamic_sidebar($id)) : 
+	if(function_exists('dynamic_sidebar') && dynamic_sidebar($id)) :
 	endif;
 	return true;
 }
@@ -115,11 +117,11 @@ if(! function_exists('smk_get_all_sidebars') ) {
 		global $wp_registered_sidebars;
 		$all_sidebars = array();
 		if ( $wp_registered_sidebars && ! is_wp_error( $wp_registered_sidebars ) ) {
-			
+
 			foreach ( $wp_registered_sidebars as $sidebar ) {
 				$all_sidebars[ $sidebar['id'] ] = $sidebar['name'];
 			}
-			
+
 		}
 		return $all_sidebars;
 	}
@@ -132,7 +134,7 @@ Shortcode
 */
 // [smk_sidebar id="X"] //X is the sidebar ID
 function smk_sidebar_shortcode( $atts ) {
-	
+
 	extract( shortcode_atts( array(
 		'id' => null,
 	), $atts ) );

@@ -2,7 +2,7 @@
 Contributors: _smartik_
 Tags: sidebar, widget, generator, custom, unlimited
 Requires at least: 4.0
-Tested up to: 5.3
+Tested up to: 5.5
 Stable tag: __STABLE_TAG__
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,9 +12,6 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 == Description ==
 This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 
-#### Version 3.0 is here!
-The new version 3.x has many advantages compared with the old 2.x. First and the most important is that it remove the need to add some special code to the theme in order to display the generated sidebar. That's because it now can override the default sidebar and apply special conditions for any page on your site.
-
 
 <!--**Demo video:** http://youtu.be/fluNdMnSCKA-->
 
@@ -22,7 +19,7 @@ The new version 3.x has many advantages compared with the old 2.x. First and the
 
 ####Features:
 * Unlimited number of sidebars.
-* Replace default theme sidebars using the conditions or globaly just by selecting the sidebar that you want to replace.
+* Replace default theme sidebars using the conditions or globally just by selecting the sidebar that you want to replace.
 * Show the generated sidebars on any page you wish without touching a single line of code in your theme.
 * Drag to sort sidebar position.
 
@@ -31,21 +28,20 @@ Like any other Wordpress plugin. <br />
 Drop `smk-sidebar-generator` to `wp-content/plugins/`.<br />
 More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 
-####Backward compatibility. 
+####Backward compatibility.
 
 Because you probably still need them, these functions are still here to not break your site.
-**Note:** The following code is for vesion 2.x In the latest version of this plugin they are not required. Do not use them anymore!!!
+**Note:** The following code is for version 2.x In the latest version of this plugin they are not required. Do not use them anymore!!!
 
 **Display a sidebar using `smk_sidebar` function:**
 <pre>
 if(function_exists('smk_sidebar'){
- smk_sidebar('sidebarID');
+   smk_sidebar('sidebarID');
 }
 </pre>
 **Display a sidebar using wp native function:**
 <pre>
-if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) : 
-	endif;
+dynamic_sidebar('sidebarID'));
 </pre>
 
 **Display a sidebar using built-in shortcode:**
@@ -65,6 +61,10 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 
 == Changelog ==
 
+= 3.4.0 =
+* Fix" Incorrect conditional replacement.
+* Compatibility with WordPress 5.5
+
 = 3.1 =
 * Added localization support(if you want to translate it in your language, create a pull requests on Github).
 * Added shortcode with ID to each sidebar.
@@ -76,7 +76,7 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 * Modular code. You can create and register your own conditions. That's mainly not required but can be handy for some developers.
 
 = 2.3.2 =
-* Quick fix UI. When a new sidebar is created, it display an incorect info and it was fixed only after page refresh.
+* Quick fix UI. When a new sidebar is created, it display an incorrect info and it was fixed only after page refresh.
 * Removed unused files, since version 3.0 is on development `smk_sidebar_metabox.php` was removed, as it was never used and is not required for the next versions.
 
 = 2.3.1 =
@@ -100,5 +100,5 @@ if(function_exists('dynamic_sidebar') && dynamic_sidebar('sidebarID')) :
 = 2.1 =
 * `smk_get_all_sidebars()` function is included in plugin. Anyways, you must include it in your theme `functions.php`, because if you'll deactivate the plugin it will return a fatal error.
 
-= 2.0 = 
+= 2.0 =
 * Initial release
