@@ -3,7 +3,7 @@
  * Plugin Name: SMK Sidebar Generator
  * Plugin URI:  https://zerowp.com/sidebar-generator
  * Description: Generate an unlimited number of sidebars and assign them to any page using the conditional options without touching a single line of code.
- * Author:      Andrei Surdu
+ * Author:      Andrew Surdu
  * Version:     __STABLE_TAG__
  * Author URI:  https://zerowp.com
  * Licence:     GPLv2

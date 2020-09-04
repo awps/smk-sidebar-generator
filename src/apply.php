@@ -33,7 +33,7 @@ if( ! class_exists('Smk_Sidebar_Generator_Apply')) {
 										$newclass = new $class;
 										$second_condition = ( !empty($condition['equalto']) ) ? $condition['equalto'] : array();
 										$can_replace = $newclass->canReplace( $the_type[1], $second_condition );
-										if( $can_replace ){
+										if( (bool) $can_replace ){
 											foreach ($sidebars_to_replace as $sidebar_to_replace_id) {
 												if( array_key_exists($sidebar_to_replace_id, $sidebars) && isset($sidebars[ $sidebar_id ]) ){
 													$sidebars[ $sidebar_to_replace_id ] = $sidebars[ $sidebar_id ];

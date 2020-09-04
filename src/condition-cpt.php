@@ -113,7 +113,7 @@ class Smk_Sidebar_Generator_Condition_Cpt extends Smk_Sidebar_Generator_Conditio
             ){
                 $can = true;
             }
-            elseif( in_array('all_single', (array) $second_selection) && is_single( $first_selection ) ){
+            elseif( in_array('all_single', (array) $second_selection) && is_singular( $first_selection ) ){
                 $can = true;
             }
             elseif( in_array(get_the_ID(), (array)$second_selection)){

@@ -28,23 +28,22 @@ Like any other Wordpress plugin. <br />
 Drop `smk-sidebar-generator` to `wp-content/plugins/`.<br />
 More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 
-####Backward compatibility.
+####Developer helpers.
+**You actually don't need any of these. The plugin can be managed fully from WP Admin without writing a single line of code.**
 
-Because you probably still need them, these functions are still here to not break your site.
-**Note:** The following code is for version 2.x In the latest version of this plugin they are not required. Do not use them anymore!!!
-
-**Display a sidebar using `smk_sidebar` function:**
+Display a sidebar using `smk_sidebar` function:
 <pre>
 if(function_exists('smk_sidebar'){
    smk_sidebar('sidebarID');
 }
 </pre>
-**Display a sidebar using wp native function:**
+
+Display a sidebar using wp native function:
 <pre>
 dynamic_sidebar('sidebarID'));
 </pre>
 
-**Display a sidebar using built-in shortcode:**
+Display a sidebar using built-in shortcode:
 <pre>
 [smk_sidebar id="sidebarID"]
 </pre>
@@ -57,12 +56,17 @@ dynamic_sidebar('sidebarID'));
 
 == Screenshots ==
 1. Admin panel
+2. Conditions
+3. Removal && time-limited option to restore.
 
 
 == Changelog ==
 
+= 3.4.1 =
+* Bug fix: "All single" -- incorrect conditional
+
 = 3.4.0 =
-* Fix" Incorrect conditional replacement.
+* Fix: Incorrect conditional replacement.
 * Compatibility with WordPress 5.5
 
 = 3.1 =
