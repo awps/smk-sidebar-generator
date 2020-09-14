@@ -11,3 +11,5 @@ https://wordpress.org/plugins/smk-sidebar-generator/
 * Replace default theme sidebars using the conditions or globally just by selecting the sidebar that you want to replace.
 * Show the generated sidebars on any page you wish without touching a single line of code in your theme.
 * Drag to sort the sidebar position.
+
+[![How to create a dynamic WordPress sidebar in 2 easy steps](https://img.youtube.com/vi/VvKjYLDu_W0/0.jpg)](https://www.youtube.com/watch?v=VvKjYLDu_W0)
