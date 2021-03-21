@@ -7,7 +7,7 @@
  * -------------------------------------------------------------------------------------
  * @Author: Andrew Surdu
  * @Author URI: https://zerowp.com/
- * @Copyright: (c) 2014-present Andrew Surdu. All rights reserved
+ * @Copyright: (c) 2014 Andrew Surdu. All rights reserved
  * -------------------------------------------------------------------------------------
  *
  */

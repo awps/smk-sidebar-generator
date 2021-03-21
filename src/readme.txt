@@ -62,8 +62,11 @@ Display a sidebar using built-in shortcode:
 
 == Changelog ==
 
-= 3.4.1 =
-* Bug fix: "All single" -- incorrect conditional
+= 3.4.3 =
+* Bug fix: Individual taxonomy conditional fix
+
+= 3.4.2 =
+* Bug fix: WP 5.7 compatibility
 
 = 3.4.0 =
 * Fix: Incorrect conditional replacement.
