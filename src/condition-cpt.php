@@ -100,7 +100,7 @@ class Smk_Sidebar_Generator_Condition_Cpt extends Smk_Sidebar_Generator_Conditio
         // Custom Post Type
         else{
             if( empty($second_selection) ){
-                if( is_singular( $first_selection ) || is_post_type_archive( $first_selection )  ){
+                if (is_singular($first_selection) || is_post_type_archive($first_selection) || is_tax(get_object_taxonomies($first_selection))) {
                     $can = true;
                 }
             }
@@ -108,7 +108,8 @@ class Smk_Sidebar_Generator_Condition_Cpt extends Smk_Sidebar_Generator_Conditio
                 in_array('all_archives_single', (array) $second_selection) &&
                 (
                     is_singular( $first_selection ) ||
-                    is_post_type_archive( $first_selection )
+                    is_post_type_archive( $first_selection ) ||
+                    is_tax(get_object_taxonomies($first_selection))
                 )
             ){
                 $can = true;
