@@ -464,7 +464,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * @param string $sidebar_data Data for current sidebar
 		 * @return string The HTML
 		 */
-		public function fieldConditionEqualTo($name, $sidebar_data, $index = 0, $type){
+		public function fieldConditionEqualTo($name, $sidebar_data, string $index = null, $type){
 
 			$saved = ! empty( $sidebar_data['conditions'][ absint( $index ) ]['equalto'] ) ? $sidebar_data['conditions'][ absint( $index ) ]['equalto'] : '';
 
