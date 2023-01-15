@@ -1,12 +1,12 @@
 <?php
 /*
  * Plugin Name: SMK Sidebar Generator
- * Plugin URI:  https://zerowp.com/sidebar-generator
+ * Plugin URI: https://zerowp.com/sidebar-generator
  * Description: Generate an unlimited number of sidebars and assign them to any page using the conditional options without touching a single line of code.
- * Author:      Andrei Surdu
- * Version:     3.4.3
- * Author URI:  https://zerowp.com
- * Licence:     GPLv2
+ * Author: Andrei Surdu
+ * Version: 3.5.1
+ * Author URI: https://zerowp.com
+ * Licence: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Requires PHP: 5.3
  * Requires at least: 4.0
