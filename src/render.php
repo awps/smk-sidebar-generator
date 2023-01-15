@@ -3,9 +3,9 @@
  * Smk Sidebar Generator Render
  *
  * -------------------------------------------------------------------------------------
- * @Author: Andrew Surdu
+ * @Author: Andrei Surdu
  * @Author URI: https://zerowp.com/
- * @Copyright: (c) 2014 Andrew Surdu. All rights reserved
+ * @Copyright: (c) 2014 Andrei Surdu. All rights reserved
  * -------------------------------------------------------------------------------------
  *
  */
@@ -22,8 +22,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			add_action( 'wp_ajax_smk-sidebar-generator_load_equalto', array( $this, 'equaltoAjax' ) );
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Plugin Settings
 		 *
@@ -50,8 +48,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			}
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Page
 		 *
@@ -94,8 +90,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			// $this->debug( smk_sidebar_conditions_filter(), 'All conditions' );
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Page Open
 		 *
@@ -117,8 +111,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			if( $echo ) { echo $html; } else { return $html; }
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Page Close
 		 *
@@ -134,8 +126,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			if( $echo ) { echo $html; } else { return $html; }
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * All sidebars list
 		 *
@@ -157,8 +147,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			if( $echo ) { echo $list; } else { return $list; }
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * A single sidebar list
 		 *
@@ -225,8 +213,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			endif;
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Sidebar Accordion
 		 *
@@ -265,8 +251,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			if( $echo ) { echo $the_sidebar; } else { return $the_sidebar; }
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * A single condition
 		 *
@@ -290,8 +274,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			return $the_sidebar;
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Sidebar field name
 		 *
@@ -316,8 +298,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			.'</div>';
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Sidebar field ID
 		 *
@@ -342,8 +322,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			.'</div>';
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Sidebar field description
 		 *
@@ -368,8 +346,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			.'</div>';
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Sidebar field To Replace
 		 *
@@ -411,8 +387,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			</div>';
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Sidebar field Condition main
 		 *
@@ -453,8 +427,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 				);
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Sidebar field Condition EqualTo
 		 *
@@ -482,8 +454,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 				);
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Get Equal to Options
 		 *
@@ -521,8 +491,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			die();
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * All removed sidebars list
 		 *
@@ -543,8 +511,6 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			if( $echo ) { echo $list; } else { return $list; }
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Sidebar Template
 		 *

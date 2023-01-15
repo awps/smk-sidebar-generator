@@ -3,9 +3,9 @@
  * SMK Sidebar Generator Abstract
  * 
  * -------------------------------------------------------------------------------------
- * @Author:     Andrew Surdu
+ * @Author:     Andrei Surdu
  * @Author URI: https://zerowp.com/
- * @Copyright:  (c) 2014 Andrew Surdu. All rights reserved
+ * @Copyright:  (c) 2014 Andrei Surdu. All rights reserved
  * -------------------------------------------------------------------------------------
  *
  */
@@ -18,8 +18,6 @@ if( ! function_exists('add_action') )
 if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 	abstract class Smk_Sidebar_Generator_Abstract {
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Plugin version
 		 *
@@ -29,8 +27,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		protected $version;
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Html helpers
 		 *
@@ -40,15 +36,11 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		protected $html;
 
-		//------------------------------------//--------------------------------------//
-		
 		public function __construct(){
 			$this->version = smk_sidebar_version();
 			$this->html = new Smk_Sidebar_Generator_Html;
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Plugin Settings
 		 *
@@ -58,8 +50,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		abstract protected function pluginSettings();
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Page
 		 *
@@ -69,8 +59,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		abstract public function page();
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Init the object
 		 *
@@ -90,8 +78,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			$this->updateSidebarsFromV2();
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Add to init object
 		 *
@@ -101,8 +87,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function setup(){}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Register setting
 		 *
@@ -116,8 +100,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			register_setting( $settings['settings_register_name'], $settings['option_name']/*, array( &$this, 'sanitizeData' )*/ );
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Sanitize data
 		 *
@@ -145,8 +127,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		// 	return $data;
 		// }
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Sidebar Widgets
 		 *
@@ -158,8 +138,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			return wp_get_sidebars_widgets();
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * All saved widgets types
 		 *
@@ -179,8 +157,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			return $widgets;
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Widgets Options
 		 *
@@ -196,8 +172,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			return $options;
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * All registered sidebars
 		 *
@@ -220,8 +194,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			return $all_sidebars;
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * All generated sidebars
 		 *
@@ -239,8 +211,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			}
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Register sidebars
 		 *
@@ -280,8 +250,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * All static sidebars
 		 *
@@ -301,8 +269,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			return $static;
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Menu
 		 *
@@ -325,8 +291,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			);
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Enqueue
 		 *
@@ -346,8 +310,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 			}
 		}
 
-		//------------------------------------//--------------------------------------//
-		
 		/**
 		 * Is plugin page
 		 *

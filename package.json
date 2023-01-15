@@ -1,0 +1,25 @@
+{
+  "name": "ssg",
+  "version": "3.4.3",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awps/fastdev.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/awps/fastdev/issues"
+  },
+  "homepage": "https://github.com/awps/fastdev#readme",
+  "devDependencies": {
+    "replace-in-file": "^6.3.2"
+  },
+  "dependencies": {
+    "tagy": "^1.8.0"
+  }
+}

@@ -5,9 +5,9 @@
  * Description
  *
  * -------------------------------------------------------------------------------------
- * @Author: Andrew Surdu
+ * @Author: Andrei Surdu
  * @Author URI: https://zerowp.com/
- * @Copyright: (c) 2014 Andrew Surdu. All rights reserved
+ * @Copyright: (c) 2014 Andrei Surdu. All rights reserved
  * -------------------------------------------------------------------------------------
  *
  */

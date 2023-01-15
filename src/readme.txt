@@ -3,7 +3,7 @@ Contributors: _smartik_
 Tags: sidebar, widget, generator, custom, unlimited
 Requires at least: 4.0
 Tested up to: 6.2
-Stable tag: __STABLE_TAG__
+Stable tag: 3.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,10 +12,7 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 == Description ==
 This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 
-
-<!--**Demo video:** http://youtu.be/fluNdMnSCKA-->
-
-<!--iframe width="560" height="315" src="//www.youtube.com/embed/fluNdMnSCKA" frameborder="0" allowfullscreen></iframe-->
+https://www.youtube.com/watch?v=VvKjYLDu_W0
 
 ####Features:
 * Unlimited number of sidebars.
@@ -24,7 +21,7 @@ This plugin generates as many sidebars as you need. Then allows you to place the
 * Drag to sort sidebar position.
 
 ####How to install this plugin?
-Like any other Wordpress plugin. <br />
+Like any other WordPress plugin. <br />
 Drop `smk-sidebar-generator` to `wp-content/plugins/`.<br />
 More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
 
@@ -62,7 +59,7 @@ Display a sidebar using built-in shortcode:
 
 == Changelog ==
 
-= 3.5 =
+= 3.5.0 =
 * PHP 8+ Compatibility
 * Various code improvements
 
