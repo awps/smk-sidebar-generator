@@ -29,7 +29,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 *
 		 * Inner plugin settings.
 		 * 
-		 * @return array 
+		 * @return array | string
 		 */
 		protected function pluginSettings( $key = '' ){
 			$settings = array(
@@ -461,10 +461,10 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 * Display sidebar Condition EqualTo field
 		 *
 		 * @param string $name HTML field name
-		 * @param string $sidebar_data Data for current sidebar
+		 * @param array $sidebar_data Data for current sidebar
 		 * @return string The HTML
 		 */
-		public function fieldConditionEqualTo($name, $sidebar_data, $index = 0, $type){
+		public function fieldConditionEqualTo($name, $sidebar_data, $index = 0, $type = null){
 
 			$saved = ! empty( $sidebar_data['conditions'][ absint( $index ) ]['equalto'] ) ? $sidebar_data['conditions'][ absint( $index ) ]['equalto'] : '';
 
@@ -512,7 +512,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 		}
 
 		public function equaltoAjax(){	
-			$data = $_POST['data'];
+			$data = wp_unslash($_POST['data']);
 			$type = $data['condition_if'];
 			$opt = $this->getEqualToOptions($type);
 

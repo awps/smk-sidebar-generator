@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<ruleset name="Shopify to WP Coding Standards">
+
+	<!-- Only scan PHP files. -->
+	<arg name="extensions" value="php"/>
+
+	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan. -->
+	<arg name="cache"/>
+
+	<!-- Set the memory limit to 256M.
+		 For most standard PHP configurations, this means the memory limit will temporarily be raised.
+		 Ref: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#specifying-phpini-settings
+	-->
+	<ini name="memory_limit" value="256M"/>
+
+	<!-- Check up to 20 files simultaneously. -->
+	<arg name="parallel" value="20"/>
+
+	<!-- Show sniff codes in all reports. -->
+	<arg value="ps"/>
+
+	<file>.</file>
+
+	<!-- Compatibility sniffs -->
+	<rule ref="PHPCompatibilityWP"/>
+
+	<!-- Support older version of WP by supporting PHP 7.1+. -->
+	<config name="testVersion" value="7.1-"/>
+
+	<!-- Style sniffs -->
+	<rule ref="HM-Minimum" />
+	<rule ref="WordPress.Security" />
+
+	<rule ref="HM.Security.EscapeOutput">
+		<properties>
+			<property name="customAutoEscapedFunctions" type="array">
+				<!-- Allow all the built-in URL functions -->
+				<element value="home_url" />
+				<element value="get_home_url" />
+				<element value="site_url" />
+				<element value="get_site_url" />
+				<element value="admin_url" />
+				<element value="get_admin_url" />
+				<element value="includes_url" />
+				<element value="content_url" />
+				<element value="plugins_url" />
+				<element value="network_site_url" />
+				<element value="network_home_url" />
+				<element value="network_admin_url" />
+				<element value="user_admin_url" />
+				<element value="self_admin_url" />
+
+				<!-- Other URL functions -->
+				<element value="get_template_directory_uri" />
+				<element value="get_theme_file_uri" />
+				<element value="get_term_link" />
+				<element value="wp_nonce_url" />
+
+				<!-- Other templating tags. -->
+				<element value="paginate_links" />
+				<element value="get_the_title" />
+				<element value="get_post_gallery" /> <!-- with param 2 set to true, the default -->
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Exclude third party code -->
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/.srv/*</exclude-pattern>
+	<exclude-pattern>*/server/*</exclude-pattern>
+	<exclude-pattern>*/wordpress/*</exclude-pattern>
+	<exclude-pattern>*/wp_org/*</exclude-pattern>
+</ruleset>

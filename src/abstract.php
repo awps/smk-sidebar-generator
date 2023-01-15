@@ -54,7 +54,7 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 *
 		 * Inner plugin settings.
 		 * 
-		 * @return array 
+		 * @return array | string
 		 */
 		abstract protected function pluginSettings();
 
@@ -357,7 +357,7 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function isPluginPage(){
 			$settings = $this->pluginSettings();
-			return isset( $_GET['page'] ) && $_GET['page'] == $settings['slug'] ? true : false;
+			return isset( $_GET['page'] ) && $_GET['page'] == $settings['slug'];
 		}
   
 		//------------------------------------//--------------------------------------//
@@ -440,42 +440,5 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 				set_transient( 'smk_sidebar_generator_option_v2', true );
 			}
 		}
-
-		//------------------------------------//--------------------------------------//
-
-		/**
-		 * Debug
-		 *
-		 * Debud saved data
-		 * 
-		 * @param array $data The data to debug.
-		 * @return string 
-		 */
-		public function debug($data = array(), $title = ''){
-			if( is_array($data) ){
-				array_walk_recursive( $data, array( $this, 'debugFilter' ) );
-			}
-			if( !empty($title) ){
-				echo '<h3>'. $title .'</h3>';
-			}
-			echo '<pre>';
-				print_r($data);
-			echo '</pre>';
-		}
-
-		//------------------------------------//--------------------------------------//
-
-		/**
-		 * Debug filter
-		 *
-		 * Debud filter special characters.
-		 * 
-		 * @param array $data The data to filter.
-		 * @return array 
-		 */
-		public function debugFilter(&$data){
-			$data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
-		}
-
 	} // class
 } // class_exists

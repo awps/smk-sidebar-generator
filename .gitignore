@@ -15,3 +15,5 @@
 /vendor/
 mix-manifest.json
 mix.js.map
+
+/.srv

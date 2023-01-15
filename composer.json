@@ -1,0 +1,18 @@
+{
+  "name": "awps/smk-sidebar-generator",
+  "authors": [],
+  "require": {
+    "ext-json": "*",
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+    "overtrue/phplint": "^5.5",
+    "humanmade/coding-standards": "^1.1",
+    "phpcompatibility/phpcompatibility-wp": "^2.1"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}

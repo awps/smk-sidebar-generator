@@ -1,0 +1,13 @@
+path: ./
+jobs: 10
+no-cache: true
+warning: true
+extensions:
+    - php
+exclude:
+    - vendor
+    - node_modules
+    - server
+    - .srv
+    - wordpress
+    - node_modules

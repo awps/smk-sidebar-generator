@@ -14,3 +14,14 @@ https://wordpress.org/plugins/smk-sidebar-generator/
 
 ### Video presentation:
 [![How to create a dynamic WordPress sidebar in 2 easy steps](https://img.youtube.com/vi/VvKjYLDu_W0/0.jpg)](https://www.youtube.com/watch?v=VvKjYLDu_W0)
+
+
+### Dev notes:
+
+Install development libraries: 
+``````
+
+Run PHP Lint: 
+```
+ ./vendor/bin/phplint --no-cache
+```
