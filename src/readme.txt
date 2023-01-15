@@ -62,6 +62,10 @@ Display a sidebar using built-in shortcode:
 
 == Changelog ==
 
+= 3.5 =
+* PHP 8+ Compatibility
+* Various code improvements
+
 = 3.4.3 =
 * Bug fix: Individual taxonomy conditional fix
 
