@@ -11,9 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 
 == Description ==
-SMK Sidebar Generator is a versatile WordPress plugin designed to empower users with the ability to create and manage
-an unlimited number of sidebars effortlessly. With this intuitive tool, you can dynamically customize your website's
-layout by placing the generated sidebars on any page without the need for extensive coding.
+SMK Sidebar Generator is a versatile WordPress plugin designed to empower users with the ability to create and manage an unlimited number of sidebars effortlessly. With this intuitive tool, you can dynamically customize your website's layout by placing the generated sidebars on any page without the need for extensive coding.
 
 https://www.youtube.com/watch?v=VvKjYLDu_W0
 
