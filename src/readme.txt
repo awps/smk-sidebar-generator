@@ -2,7 +2,8 @@
 Contributors: _smartik_
 Tags: sidebar, widget, generator, custom, unlimited
 Requires at least: 4.0
-Tested up to: 6.2
+Requires PHP: 5.6
+Tested up to: 6.4.1
 Stable tag: 3.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -10,38 +11,46 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
 
 == Description ==
-This plugin generates as many sidebars as you need. Then allows you to place them on any page you wish.
+SMK Sidebar Generator is a versatile WordPress plugin designed to empower users with the ability to create and manage
+an unlimited number of sidebars effortlessly. With this intuitive tool, you can dynamically customize your website's
+layout by placing the generated sidebars on any page without the need for extensive coding.
 
 https://www.youtube.com/watch?v=VvKjYLDu_W0
 
-####Features:
-* Unlimited number of sidebars.
-* Replace default theme sidebars using the conditions or globally just by selecting the sidebar that you want to replace.
-* Show the generated sidebars on any page you wish without touching a single line of code in your theme.
-* Drag to sort sidebar position.
+####Key Features:
+**Unlimited Sidebars:**
+Create and manage as many sidebars as needed for maximum flexibility in organizing content.
+
+**Replace Theme Sidebars:**
+Effortlessly replace existing sidebars created by themes or other plugins for each generated sidebar. The controls allow seamless integration and customization.
+
+**Conditional Sidebar Replacement:**
+Customize the display of sidebars by conditionally replacing them based on post types or specific posts. This feature gives you precise control over the appearance of sidebars on different content.
+
+**Compatibility with Page Builders and Themes:**
+SMK Sidebar Generator is fully compatible with any page builder and theme. Enjoy a seamless integration experience without worrying about conflicts with your chosen design tools.
+
+**Easy-to-Use Controls:**
+The plugin provides an intuitive interface for managing sidebars, with user-friendly controls for replacing, organizing, and displaying content with minimal effort.
+
+**Drag-and-Drop Sorting:**
+Customize sidebar positions effortlessly using a user-friendly drag-and-drop interface.
+
 
 ####How to install this plugin?
-Like any other WordPress plugin. <br />
-Drop `smk-sidebar-generator` to `wp-content/plugins/`.<br />
-More info here: http://codex.wordpress.org/Managing_Plugins#Installing_Plugins
+Follow the standard WordPress plugin installation process by placing the 'smk-sidebar-generator' folder in the 'wp-content/plugins/' directory. For more detailed instructions, refer to: [WordPress Instructions](https://wordpress.org/documentation/article/manage-plugins/#installing-plugins-1)
 
 ####Developer helpers.
-**You actually don't need any of these. The plugin can be managed fully from WP Admin without writing a single line of code.**
+**While SMK Sidebar Generator is designed for seamless use within the WordPress Admin, developers can take advantage of the following optional functions:**
 
-Display a sidebar using `smk_sidebar` function:
 <pre>
-if(function_exists('smk_sidebar'){
-   smk_sidebar('sidebarID');
-}
-</pre>
+// Display sidebar with ID using SMK function:
+function_exists('smk_sidebar') ? smk_sidebar('sidebarID') : '';
 
-Display a sidebar using wp native function:
-<pre>
-dynamic_sidebar('sidebarID'));
-</pre>
+// Display sidebar with ID using WordPress function.
+dynamic_sidebar('sidebarID');
 
-Display a sidebar using built-in shortcode:
-<pre>
+// Display sidebar with ID using shortcode.
 [smk_sidebar id="sidebarID"]
 </pre>
 
@@ -58,6 +67,8 @@ Display a sidebar using built-in shortcode:
 
 
 == Changelog ==
+= 3.5.2 =
+* Compatibility with the latest WordPress version 6.4
 
 = 3.5.0 =
 * PHP 8+ Compatibility
