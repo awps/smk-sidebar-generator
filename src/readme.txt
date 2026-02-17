@@ -1,6 +1,6 @@
 === SMK Sidebar Generator ===
 Contributors: _smartik_
-Tags: sidebar, generator, sidebar, widget, custom sidebar, conditional sidebar
+Tags: sidebar, widget, custom sidebar, sidebar generator, conditional
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 6.9.1
@@ -8,7 +8,7 @@ Stable tag: 3.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Create unlimited custom sidebars and widget areas. Display different sidebars on specific pages, posts, or custom post types with conditional logic. No coding required.
+Create unlimited custom sidebars and conditionally display them on any page, post, or custom post type. No coding required.
 
 == Description ==
 
