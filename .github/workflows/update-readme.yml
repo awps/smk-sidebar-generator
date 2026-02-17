@@ -1,0 +1,60 @@
+name: Update WordPress.org Readme
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "yes" to confirm readme update'
+        required: true
+        default: ''
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'yes'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Subversion
+        run: sudo apt-get update && sudo apt-get install -y subversion
+
+      - name: Update readme on WordPress.org
+        run: |
+          echo "Updating readme on WordPress.org..."
+
+          # Checkout only trunk and assets from SVN
+          svn co --depth immediates "https://plugins.svn.wordpress.org/smk-sidebar-generator" ./svn
+          svn update --set-depth infinity ./svn/trunk
+          svn update --set-depth infinity ./svn/assets
+
+          # Update readme.txt in trunk
+          cp ./src/readme.txt ./svn/trunk/readme.txt
+
+          # Update assets if they exist
+          if [ -d "./wp_org/assets" ]; then
+            cp -R ./wp_org/assets/* ./svn/assets/
+          fi
+
+          # Switch to SVN directory
+          cd ./svn
+
+          # Check for changes
+          if svn status | grep -q .; then
+            echo "Changes detected, committing..."
+            svn add --force trunk
+            svn add --force assets
+
+            # Commit to wordpress.org
+            svn ci --message "Update readme and assets" \
+                   --username "$SVN_USERNAME" \
+                   --password "$SVN_PASSWORD" \
+                   --non-interactive
+
+            echo "Successfully updated readme on WordPress.org"
+          else
+            echo "No changes detected"
+          fi
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}

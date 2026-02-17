@@ -88,7 +88,7 @@ $sidebars = smk_get_all_sidebars();
 1. Go to **Plugins > Add New** in your WordPress admin
 2. Search for "SMK Sidebar Generator"
 3. Click **Install Now**, then **Activate**
-4. Navigate to **Appearance > SMK Sidebars** to create your first sidebar
+4. Navigate to **Appearance > Sidebar Generator** to create your first sidebar
 
 = Manual Installation =
 
@@ -96,20 +96,20 @@ $sidebars = smk_get_all_sidebars();
 2. Go to **Plugins > Add New > Upload Plugin**
 3. Upload the ZIP file and click **Install Now**
 4. Activate the plugin
-5. Navigate to **Appearance > SMK Sidebars** to start creating sidebars
+5. Navigate to **Appearance > Sidebar Generator** to start creating sidebars
 
 = Using FTP =
 
 1. Download and extract the plugin ZIP file
 2. Upload the `smk-sidebar-generator` folder to `/wp-content/plugins/`
 3. Activate through the **Plugins** menu in WordPress
-4. Configure at **Appearance > SMK Sidebars**
+4. Configure at **Appearance > Sidebar Generator**
 
 == Frequently Asked Questions ==
 
 = How do I create a new sidebar? =
 
-1. Go to **Appearance > SMK Sidebars** in your WordPress admin
+1. Go to **Appearance > Sidebar Generator** in your WordPress admin
 2. Click the **"Add New Sidebar"** button
 3. Enter a name and optional description
 4. Save your changes
@@ -117,7 +117,7 @@ $sidebars = smk_get_all_sidebars();
 
 = How do I display a sidebar on a specific page? =
 
-1. Create or edit a sidebar in **Appearance > SMK Sidebars**
+1. Create or edit a sidebar in **Appearance > Sidebar Generator**
 2. Select which theme sidebar to replace in the "Sidebars to replace" dropdown
 3. Check "Enable conditions"
 4. Click "Add condition" and select the page(s) where you want this sidebar to appear
