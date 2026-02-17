@@ -1,6 +1,6 @@
 {
   "name": "smk-sidebar-generator",
-  "version": "3.5.2",
+  "version": "3.6.0",
   "description": "WordPress plugin to generate unlimited sidebars",
   "repository": {
     "type": "git",
@@ -12,8 +12,7 @@
     "url": "https://github.com/awps/smk-sidebar-generator/issues"
   },
   "homepage": "https://github.com/awps/smk-sidebar-generator#readme",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "tagy": {
     "replace": [
       {
