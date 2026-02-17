@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Subversion
+        run: sudo apt-get update && sudo apt-get install -y subversion
+
       - name: Deploy to WordPress.org SVN
         run: chmod +x ./deploy.sh && ./deploy.sh
         env:
