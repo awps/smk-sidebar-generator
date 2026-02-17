@@ -4,9 +4,9 @@
  * Plugin URI: https://zerowp.com/sidebar-generator
  * Description: Generate an unlimited number of sidebars and assign them to any page using the conditional options without touching a single line of code.
  * Author: Andrei Surdu
- * Version: 3.5.2
+ * Version: 3.6.0
  * Author URI: https://zerowp.com
- * Licence: GPLv2
+ * License: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Requires PHP: 5.3
  * Requires at least: 4.0
@@ -38,7 +38,7 @@ function smk_sidebar_version(){
 /**
  * All conditions
  *
- * All condtions will be accessible from this function
+ * All conditions will be accessible from this function
  *
  * @return array All conditions type => class_name
  */

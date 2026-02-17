@@ -4,7 +4,7 @@ Tags: sidebar, widget, generator, custom, unlimited
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 6.9.1
-Stable tag: 3.5.2
+Stable tag: 3.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,17 @@ dynamic_sidebar('sidebarID');
 
 
 == Changelog ==
+= 3.6.0 =
+* New: Complete admin UI redesign with modern CSS (Flexbox, Grid, CSS Variables)
+* New: Responsive layout for mobile and tablet devices
+* New: Accessible form labels with proper for/id attributes
+* Improved: Sidebar list with better spacing, hover states, and empty state messages
+* Improved: Condition rows layout with inline drag handle
+* Fixed: Sidebar deletion not saving properly
+* Fixed: Accordion padding conflicts with WordPress admin styles
+* Dev: Updated GitHub Actions to v4, improved deploy.sh error handling
+* Dev: Moved tagy config to package.json, removed tagy.js
+
 = 3.5.2 =
 * Compatibility with the latest WordPress version 6.4
 

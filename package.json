@@ -1,25 +1,34 @@
 {
-  "name": "ssg",
-  "version": "3.5.2",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "name": "smk-sidebar-generator",
+  "version": "3.6.0",
+  "description": "WordPress plugin to generate unlimited sidebars",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/awps/fastdev.git"
+    "url": "git+https://github.com/awps/smk-sidebar-generator.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Andrei Surdu",
+  "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/awps/fastdev/issues"
+    "url": "https://github.com/awps/smk-sidebar-generator/issues"
   },
-  "homepage": "https://github.com/awps/fastdev#readme",
+  "homepage": "https://github.com/awps/smk-sidebar-generator#readme",
   "devDependencies": {
-    "replace-in-file": "^6.3.2"
+    "tagy": "^1.10.0"
   },
-  "dependencies": {
-    "tagy": "^1.8.0"
+  "tagy": {
+    "replace": [
+      {
+        "files": "src/smk-sidebar-generator.php",
+        "from": "Version: \\d+\\.\\d+\\.\\d+",
+        "to": "Version: __VERSION__",
+        "flags": "g"
+      },
+      {
+        "files": "src/readme.txt",
+        "from": "Stable tag: \\d+\\.\\d+\\.\\d+",
+        "to": "Stable tag: __VERSION__",
+        "flags": "g"
+      }
+    ]
   }
 }

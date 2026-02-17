@@ -1,17 +1,18 @@
-name: CI
+name: Deploy to WordPress.org
 
 on:
   push:
     tags:
       - "*.*.*"
-jobs:
-  build:
 
+jobs:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@master
-      - name: Deploy
+      - uses: actions/checkout@v4
+
+      - name: Deploy to WordPress.org SVN
         run: chmod +x ./deploy.sh && ./deploy.sh
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
