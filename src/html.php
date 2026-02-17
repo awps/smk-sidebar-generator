@@ -1,16 +1,5 @@
 <?php
-/* 
- * Title
- *
- * Description
- *
- * -------------------------------------------------------------------------------------
- * @Author: Andrei Surdu
- * @Author URI: https://zerowp.com/
- * @Copyright: (c) 2014 Andrei Surdu. All rights reserved
- * -------------------------------------------------------------------------------------
- *
- */
+
 if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 	class Smk_Sidebar_Generator_Html{
 
@@ -37,15 +26,15 @@ if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 					foreach ( $atts['options'] as $key => $option ) {
 						if( !is_array($option) ){
 							$selected = ( in_array($key, (array) $value) ) ? ' selected="selected"' : '';
-							$field .= '<option value="'. $key .'"'. $selected .'>'. $option .'</option>';
+							$field .= '<option value="'. esc_attr( $key ) .'"'. $selected .'>'. esc_html( $option ) .'</option>';
 						}
 						else{
 							$optg_label = !empty($option['label']) ? $option['label'] : '';
 							if( !empty( $option['options']) ){
-								$field .= '<optgroup label="'. $optg_label .'">';
+								$field .= '<optgroup label="'. esc_attr( $optg_label ) .'">';
 									foreach ( (array) $option['options'] as $gokey => $govalue) {
 										$selected = ( in_array($gokey, (array) $value) ) ? ' selected="selected"' : '';
-										$field .= '<option value="'. $gokey .'"'. $selected .'>'. $govalue .'</option>';
+										$field .= '<option value="'. esc_attr( $gokey ) .'"'. $selected .'>'. esc_html( $govalue ) .'</option>';
 									}
 								$field .= '</optgroup>';
 							}
@@ -97,6 +86,7 @@ if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 		}
 
 		protected function getHtmlClass($att_val){
+			$classes = array();
 			if( is_array($att_val) ){
 				foreach ($att_val as $class) {
 					$classes[] = sanitize_html_class($class);
@@ -104,9 +94,6 @@ if( ! class_exists('Smk_Sidebar_Generator_Html') ){
 			}
 			elseif( is_string($att_val) ){
 				$classes[] = sanitize_html_class($att_val);
-			}
-			else{
-				$classes[] = array();
 			}
 			return implode( ' ', $classes );
 		}

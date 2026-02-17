@@ -49,27 +49,43 @@ function smk_sidebar_conditions_filter(){
 /**
  * Register a condition
  *
- * Register a condition and inject it in the main array
+ * Register a condition and inject it in the main array.
  *
- * @param string $name Condition class name
- * @return void
+ * @param string $name Condition class name.
  */
-class Smk_Sidebar_Generator_Register_Condition{
-	public $name;
-	public $allCond;
+class Smk_Sidebar_Generator_Register_Condition {
 
-	public function __construct( $name ){
+	/**
+	 * Condition class name.
+	 *
+	 * @var string
+	 */
+	private $name;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param string $name Condition class name.
+	 */
+	public function __construct( $name ) {
 		$this->name = $name;
-		$this->allCond = smk_sidebar_conditions_filter();
-		add_filter( 'smk_sidebar_conditions_filter', array( $this, 'add') );
+		add_filter( 'smk_sidebar_conditions_filter', array( $this, 'add' ) );
 	}
-	public function add(){
-		if( class_exists( $this->name ) ){
-			$class = new $this->name;
-			if( ! array_key_exists($class->type, $this->allCond) ){
-				return array( $class->type => $this->name );
+
+	/**
+	 * Add condition to the conditions array.
+	 *
+	 * @param array $conditions Existing conditions.
+	 * @return array Modified conditions array.
+	 */
+	public function add( $conditions ) {
+		if ( class_exists( $this->name ) ) {
+			$class = new $this->name();
+			if ( ! empty( $class->type ) && ! array_key_exists( $class->type, $conditions ) ) {
+				$conditions[ $class->type ] = $this->name;
 			}
 		}
+		return $conditions;
 	}
 }
 
@@ -136,11 +152,10 @@ Shortcode
 */
 // [smk_sidebar id="X"] //X is the sidebar ID
 function smk_sidebar_shortcode( $atts ) {
-
-	extract( shortcode_atts( array(
-		'id' => null,
-	), $atts ) );
-	smk_sidebar($id);
+	$atts = shortcode_atts( array( 'id' => null ), $atts, 'smk_sidebar' );
+	ob_start();
+	smk_sidebar( $atts['id'] );
+	return ob_get_clean();
 }
 add_shortcode( 'smk_sidebar', 'smk_sidebar_shortcode' );
 

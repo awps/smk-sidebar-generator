@@ -1,14 +1,4 @@
 <?php
-/* 
- * Smk Sidebar Generator Render
- *
- * -------------------------------------------------------------------------------------
- * @Author: Andrei Surdu
- * @Author URI: https://zerowp.com/
- * @Copyright: (c) 2014 Andrei Surdu. All rights reserved
- * -------------------------------------------------------------------------------------
- *
- */
 
 // Do not allow direct access to this file.
 if( ! function_exists('add_action') ) 
@@ -166,8 +156,8 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			$all_pages = get_pages();
 			$pages_options = '';
 			foreach ( $all_pages as $page ) {
-				$pages_options .= '<option value="' . $page->ID . '">';
-				$pages_options .= $page->post_title;
+				$pages_options .= '<option value="' . esc_attr( $page->ID ) . '">';
+				$pages_options .= esc_html( $page->post_title );
 				$pages_options .= '</option>';
 			}
 
@@ -206,7 +196,7 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 						$the_sidebar .= '</div>'; //.created-conditions
 					
 					$disbled_conditions_btn = empty($conditions_checked) ? ' disabled="disabled"' : '';
-					$the_sidebar .= ' <button class="condition-add button"'. $disbled_conditions_btn .' data-name="'. $name .'" data-sidebar-id="'. $sidebar_data['id'] .'">'. __('Add condition', 'smk-sidebar-generator') .'</button>';
+					$the_sidebar .= ' <button class="condition-add button"'. $disbled_conditions_btn .' data-name="'. esc_attr( $name ) .'" data-sidebar-id="'. esc_attr( $sidebar_data['id'] ) .'">'. __('Add condition', 'smk-sidebar-generator') .'</button>';
 					$the_sidebar .= '</div>'; //.conditions-all
 					$the_sidebar .= '</div>';
 
@@ -492,14 +482,22 @@ if( class_exists('Smk_Sidebar_Generator_Abstract')) {
 			return $options;
 		}
 
-		public function equaltoAjax(){	
-			$data = wp_unslash($_POST['data']);
-			$type = $data['condition_if'];
-			$opt = $this->getEqualToOptions($type);
+		public function equaltoAjax(){
+			check_ajax_referer( 'smk_sidebar_nonce', 'nonce' );
 
-			echo json_encode( $opt );
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( -1 );
+			}
 
-			die();
+			if ( ! isset( $_POST['data'] ) || ! is_array( $_POST['data'] ) || ! isset( $_POST['data']['condition_if'] ) ) {
+				wp_send_json_error( 'Invalid data' );
+			}
+
+			$data = wp_unslash( $_POST['data'] );
+			$type = sanitize_text_field( $data['condition_if'] );
+			$opt  = $this->getEqualToOptions( $type );
+
+			wp_send_json( $opt );
 		}
 
 		/**

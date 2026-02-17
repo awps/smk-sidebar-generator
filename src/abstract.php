@@ -1,14 +1,4 @@
 <?php
-/* 
- * SMK Sidebar Generator Abstract
- * 
- * -------------------------------------------------------------------------------------
- * @Author:     Andrei Surdu
- * @Author URI: https://zerowp.com/
- * @Copyright:  (c) 2014 Andrei Surdu. All rights reserved
- * -------------------------------------------------------------------------------------
- *
- */
 
 // Do not allow direct access to this file.
 if( ! function_exists('add_action') ) 
@@ -302,11 +292,15 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		public function enqueue(){
 			if( $this->isPluginPage() ){
 				$depend = array('jquery', 'jquery-ui-core', 'jquery-ui-sortable', 'jquery-ui-slider');
-			
+
 				wp_register_style( 'smk-sidebar-generator', $this->uri() . 'assets/styles.css', '', $this->version );
 				wp_register_script( 'smk-sidebar-generator', $this->uri() . 'assets/scripts.js', $depend, $this->version, true );
 				wp_enqueue_style( 'smk-sidebar-generator' );
 				wp_enqueue_script( 'smk-sidebar-generator' );
+				wp_localize_script( 'smk-sidebar-generator', 'smkSidebarVars', array(
+					'nonce'   => wp_create_nonce( 'smk_sidebar_nonce' ),
+					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				) );
 			}
 		}
 
@@ -319,7 +313,7 @@ if( ! class_exists('Smk_Sidebar_Generator_Abstract')) {
 		 */
 		public function isPluginPage(){
 			$settings = $this->pluginSettings();
-			return isset( $_GET['page'] ) && $_GET['page'] == $settings['slug'];
+			return isset( $_GET['page'] ) && sanitize_key( $_GET['page'] ) === $settings['slug'];
 		}
   
 		//------------------------------------//--------------------------------------//

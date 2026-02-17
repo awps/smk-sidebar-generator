@@ -43,7 +43,7 @@ class Smk_Sidebar_Generator_Condition_Cpt extends Smk_Sidebar_Generator_Conditio
 
         if( !empty($the_type) ){
             $posts = get_posts(array(
-                'post_type'        => $the_type,
+                'post_type'        => sanitize_key( $the_type ),
                 'post_status'      => 'publish',
                 'posts_per_page'   => -1,
             ));
@@ -51,9 +51,9 @@ class Smk_Sidebar_Generator_Condition_Cpt extends Smk_Sidebar_Generator_Conditio
             foreach ( $posts as $post ) {
                 setup_postdata( $post );
                 $id = $post->ID;
-                $all_posts[ $id ] = $post->post_title;
+                $all_posts[ $id ] = esc_html( $post->post_title );
             }
-            // wp_reset_postdata();
+            wp_reset_postdata();
         }
         return $all_posts;
     }

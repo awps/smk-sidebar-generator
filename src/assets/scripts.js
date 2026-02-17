@@ -1,10 +1,3 @@
-/* 
-* @Author: Andrei Surdu
-* @Date:   2014-03-12 21:17:04
-* @Last Modified by:   Andrei Surdu
-* @Last Modified time: 2014-07-16 21:09:21
-*/
-
 ;(function( $ ) {
 	"use strict";
 
@@ -203,10 +196,11 @@
 
 					jQuery.ajax({
 						type: "POST",
-						url: ajaxurl,
+						url: smkSidebarVars.ajaxurl,
 						dataType: "json",
 						data: {
 							'action': 'smk-sidebar-generator_load_equalto',
+							'nonce':  smkSidebarVars.nonce,
 							'data':   { condition_if: selected }
 						},
 						success: function(response){
